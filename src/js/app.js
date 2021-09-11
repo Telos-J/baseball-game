@@ -30,7 +30,7 @@ function handleProgress(loader, resource) {
 loader.load(onAssetsLoaded)
 
 function onAssetsLoaded(loader, resources) {
-  
+    const stadium = new Stadium()
     app.ticker.add(gameLoop)
 }
 
@@ -38,4 +38,13 @@ function gameLoop() {
 
 }
 
-
+class Stadium extends PIXI.Sprite {
+    constructor(){
+        super()
+        this.position.set(app.screen.width / 2, app.screen.height / 2 - 350)
+        this.anchor.set(0.5)
+        this.scale.set(3)
+        this.texture = loader.resources.stadium.texture
+        app.stage.addChild(this)
+    }
+}
