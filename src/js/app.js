@@ -52,17 +52,22 @@ function onAssetsLoaded(loader, resources) {
 }
 
 function gameLoop() {
-    game.y += 5
     game.ball.move()
     game.ball.bound()
     game.bat.swing()
-    // camera.move()
+    game.move()
 }
 
 class Game extends PIXI.Container {
     constructor() {
         super()
         app.stage.addChild(this)
+    }
+    move () {
+        if (this.ball.y < 366) {
+            this.x -= this.ball.vx 
+            this.y -= this.ball.vy 
+        }
     }
 }
 
@@ -99,8 +104,8 @@ class Ball extends PIXI.Sprite {
         if (pitched === true && this.speed === 0 && this.timeoutset === false) {
             setTimeout(() => {
                 this.position.set(app.screen.width / 2, 360)
-                camera.x = 0
-                camera.y = 0
+                game.x = 0
+                game.y = 0
                 pitched = false
             }, 2 * 1000)
             this.timeoutset = true
@@ -117,11 +122,11 @@ class Ball extends PIXI.Sprite {
         } else if (this.y < -900) {
             setTimeout(() => {
                 this.position.set(app.screen.width / 2, 366)
-                camera.y = 0
+                game.y = 0
                 homerun = false
             }, 2 * 1000)
             this.speed = 0
-            camera.vy = 0
+            game.vy = 0
             homerun = true
         }
     }
@@ -147,17 +152,17 @@ class Bat extends PIXI.Sprite {
             this.rotationSpeed = 0
         }
 
-        if (this.rotationSpeed !== 0 && ball.y > 760 && ball.vy > 0 && ball.y < 780 && this.rotation > Math.PI - Math.PI && this.rotation < Math.PI - Math.PI / 1.5) {
-            ball.speed = 6 * Math.random() + 42
-            ball.rotation = Math.PI / (0.4 * Math.random() + 1.3)
+        if (this.rotationSpeed !== 0 && game.ball.y > 760 && game.ball.vy > 0 && game.ball.y < 780 && this.rotation > Math.PI - Math.PI && this.rotation < Math.PI - Math.PI / 1.5) {
+            game.ball.speed = 6 * Math.random() + 42
+            game.ball.rotation = Math.PI / (0.4 * Math.random() + 1.3)
             pointsEarned = 10
-        } else if (this.rotationSpeed !== 0 && ball.y > 745 && ball.vy > 0 && ball.y < 810 && this.rotation > Math.PI - Math.PI && this.rotation < Math.PI - Math.PI / 1.5) {
-            ball.speed = 20 * Math.random() + 15
-            ball.rotation = Math.PI / (0.4 * Math.random() + 1.3)
+        } else if (this.rotationSpeed !== 0 && game.ball.y > 745 && game.ball.vy > 0 && game.ball.y < 810 && this.rotation > Math.PI - Math.PI && this.rotation < Math.PI - Math.PI / 1.5) {
+            game.ball.speed = 20 * Math.random() + 15
+            game.ball.rotation = Math.PI / (0.4 * Math.random() + 1.3)
             pointsEarned = 5
-        } else if (this.rotationSpeed !== 0 && ball.y > 670 && ball.vy > 0 && ball.y < 900 && this.rotation > Math.PI - Math.PI && this.rotation < Math.PI - Math.PI / 1.5) {
-            ball.speed = 10 * Math.random() + 10
-            ball.rotation = Math.PI * (0.4 * Math.random() + 1.3)
+        } else if (this.rotationSpeed !== 0 && game.ball.y > 670 && game.ball.vy > 0 && game.ball.y < 900 && this.rotation > Math.PI - Math.PI && this.rotation < Math.PI - Math.PI / 1.5) {
+            game.ball.speed = 10 * Math.random() + 10
+            game.ball.rotation = Math.PI * (0.4 * Math.random() + 1.3)
             pointsEarned = 100
         }
     }
@@ -172,21 +177,6 @@ class Stadium extends PIXI.Sprite {
         game.addChild(this)
     }
 }
-
-// class Camera {
-//     constructor() {
-//         this.x = 0
-//         this.y = 0
-//         this.vy = 0
-//         this.vx = 0
-//     }
-//     move () {
-//         if (ball.y < 366) {
-//             this.x += ball.vx 
-//             this.y += ball.vy 
-//         }
-//     }
-// }
 
 // class Scoreboard {
 //     contructor(){
@@ -212,9 +202,9 @@ class Stadium extends PIXI.Sprite {
 addEventListener('keydown', e => {
     if (e.code === 'Space') {
         if (inningSituation === true) {
-            ball.vy = 15
+            game.ball.vy = 15
         } else {
-            bat.rotationSpeed = Math.PI / 10
+            game.bat.rotationSpeed = Math.PI / 10
         }
     }
 })
