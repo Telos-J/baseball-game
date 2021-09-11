@@ -24,10 +24,10 @@ let pointsEarned = 0
 loader.add('bunny', 'img/bunny.png')
     .add('baseball', 'img/baseball.png')
     .add('baseballBat', 'img/baseballbat.png')
-    .add('stadium' , 'img/stadium.png')
-    .add('homerunSign' , 'img/homerunSign.png')
+    .add('stadium', 'img/stadium.png')
+    .add('homerunSign', 'img/homerunSign.png')
 
-    loader.onProgress.add(handleProgress)
+loader.onProgress.add(handleProgress)
 
 function handleProgress(loader, resource) {
     console.log(`Progress: ${loader.progress}%`);
@@ -36,49 +36,58 @@ function handleProgress(loader, resource) {
 loader.load(onAssetsLoaded)
 
 function onAssetsLoaded(loader, resources) {
-    stadium = new Stadium()
-    ball = new Ball()
-    bat = new Bat()
+    game.stadium = new Stadium()
+    game.ball = new Ball()
+    game.bat = new Bat()
+
     setInterval(() => {
-        if (inningSituation === false && ball.vy === 0 && pitched === false) {
+        if (inningSituation === false && game.ball.vy === 0 && pitched === false) {
             pitched = true
-            ball.speed = Math.random() + 5
-            ball.timeoutset = false
-            ball.rotation = Math.PI / 2
+            game.ball.speed = Math.random() + 5
+            game.ball.timeoutset = false
+            game.ball.rotation = Math.PI / 2
         }
-    },3*1000)
+    }, 3 * 1000)
     app.ticker.add(gameLoop)
 }
 
-let stadium, ball, bat
-
 function gameLoop() {
-    ball.move()
-    ball.bound()
-    bat.swing()
+    game.y += 5
+    game.ball.move()
+    game.ball.bound()
+    game.bat.swing()
     // camera.move()
 }
 
-class Ball extends PIXI.Sprite{
-    constructor(){
+class Game extends PIXI.Container {
+    constructor() {
+        super()
+        app.stage.addChild(this)
+    }
+}
+
+const game = new Game()
+
+class Ball extends PIXI.Sprite {
+    constructor() {
         super()
         this.position.set(app.screen.width / 2, 366)
         this.speed = 0
         this.anchor.set(0.5)
         this.scale.set(0.01)
-        this.vx = 0 
+        this.vx = 0
         this.vy = 0
         this.rotation = Math.PI / 2
         this.texture = loader.resources.baseball.texture
-        app.stage.addChild(this)
+        game.addChild(this)
         this.timeoutset = false
     }
 
-    move () {
+    move() {
         let windResistance = 0.1
         this.vx = this.speed * Math.cos(this.rotation)
         this.vy = this.speed * Math.sin(this.rotation)
-        this.x += this.vx 
+        this.x += this.vx
         this.y += this.vy
         if (this.vy < 0) {
             this.speed -= windResistance
@@ -93,15 +102,15 @@ class Ball extends PIXI.Sprite{
                 camera.x = 0
                 camera.y = 0
                 pitched = false
-            }, 2*1000)
+            }, 2 * 1000)
             this.timeoutset = true
             score += pointsEarned
             console.log(pointsEarned)
-            
+
         }
     }
 
-    bound () {
+    bound() {
         if (this.y > 851) {
             this.position.set(app.screen.width / 2, 366)
             this.speed = 0
@@ -110,7 +119,7 @@ class Ball extends PIXI.Sprite{
                 this.position.set(app.screen.width / 2, 366)
                 camera.y = 0
                 homerun = false
-            }, 2*1000)
+            }, 2 * 1000)
             this.speed = 0
             camera.vy = 0
             homerun = true
@@ -118,8 +127,8 @@ class Ball extends PIXI.Sprite{
     }
 }
 
-class Bat extends PIXI.Sprite{
-    constructor(){
+class Bat extends PIXI.Sprite {
+    constructor() {
         super()
         this.position.set(750, 800)
         this.scale.set(0.05)
@@ -127,11 +136,11 @@ class Bat extends PIXI.Sprite{
         this.rotationSpeed = 0
         this.anchor.set(0, 1)
         this.texture = loader.resources.baseballBat.texture
-        app.stage.addChild(this)
+        game.addChild(this)
     }
 
 
-    swing () {
+    swing() {
         this.rotation -= this.rotationSpeed
         if (this.rotation < Math.PI - Math.PI * 2) {
             this.rotation = Math.PI
@@ -139,28 +148,28 @@ class Bat extends PIXI.Sprite{
         }
 
         if (this.rotationSpeed !== 0 && ball.y > 760 && ball.vy > 0 && ball.y < 780 && this.rotation > Math.PI - Math.PI && this.rotation < Math.PI - Math.PI / 1.5) {
-            ball.speed = 6*Math.random() + 42
-            ball.rotation = Math.PI / (0.4*Math.random() + 1.3)
+            ball.speed = 6 * Math.random() + 42
+            ball.rotation = Math.PI / (0.4 * Math.random() + 1.3)
             pointsEarned = 10
         } else if (this.rotationSpeed !== 0 && ball.y > 745 && ball.vy > 0 && ball.y < 810 && this.rotation > Math.PI - Math.PI && this.rotation < Math.PI - Math.PI / 1.5) {
-            ball.speed = 20*Math.random() + 15 
-            ball.rotation = Math.PI / (0.4*Math.random() + 1.3)
-            pointsEarned = 5 
+            ball.speed = 20 * Math.random() + 15
+            ball.rotation = Math.PI / (0.4 * Math.random() + 1.3)
+            pointsEarned = 5
         } else if (this.rotationSpeed !== 0 && ball.y > 670 && ball.vy > 0 && ball.y < 900 && this.rotation > Math.PI - Math.PI && this.rotation < Math.PI - Math.PI / 1.5) {
-            ball.speed = 10*Math.random() + 10
-            ball.rotation = Math.PI * (0.4*Math.random() + 1.3)
+            ball.speed = 10 * Math.random() + 10
+            ball.rotation = Math.PI * (0.4 * Math.random() + 1.3)
             pointsEarned = 100
-        } 
+        }
     }
 }
 class Stadium extends PIXI.Sprite {
-    constructor(){
+    constructor() {
         super()
         this.position.set(app.screen.width / 2, app.screen.height / 2 - 350)
         this.anchor.set(0.5)
         this.scale.set(3)
         this.texture = loader.resources.stadium.texture
-        app.stage.addChild(this)
+        game.addChild(this)
     }
 }
 
@@ -201,12 +210,10 @@ class Stadium extends PIXI.Sprite {
 // }
 
 addEventListener('keydown', e => {
-    if (e.code === 'Space'){
-        if (inningSituation === true)
-        {
+    if (e.code === 'Space') {
+        if (inningSituation === true) {
             ball.vy = 15
-        } else
-        {
+        } else {
             bat.rotationSpeed = Math.PI / 10
         }
     }
