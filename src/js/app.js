@@ -63,10 +63,10 @@ class Game extends PIXI.Container {
         super()
         app.stage.addChild(this)
     }
-    move () {
+    move() {
         if (this.ball.y < 366) {
-            this.x -= this.ball.vx 
-            this.y -= this.ball.vy 
+            this.x -= this.ball.vx
+            this.y -= this.ball.vy
         }
     }
 }
@@ -103,15 +103,13 @@ class Ball extends PIXI.Sprite {
 
         if (pitched === true && this.speed === 0 && this.timeoutset === false) {
             setTimeout(() => {
-                this.position.set(app.screen.width / 2, 360)
+                this.position.set(app.screen.width / 2, 366)
                 game.x = 0
                 game.y = 0
                 pitched = false
             }, 2 * 1000)
             this.timeoutset = true
-            game.scoreboard.score.text += parseInt(game.scoreboard.score.text) + pointsEarned
-            console.log(pointsEarned)
-
+            game.scoreboard.score.text = parseInt(game.scoreboard.score.text) + pointsEarned
         }
     }
 
@@ -178,8 +176,8 @@ class Stadium extends PIXI.Sprite {
     }
 }
 
-class Scoreboard extends PIXI.Graphics{
-    constructor(){
+class Scoreboard extends PIXI.Graphics {
+    constructor() {
         super()
         this.points = 0
         this.strikes = 0
@@ -189,7 +187,7 @@ class Scoreboard extends PIXI.Graphics{
         this.drawRect(10, 10, 200, 300)
         this.beginFill(0x991e23)
         this.drawRect(10, 160, 200, 150)
-        let text = new PIXI.Text('Score',{fontFamily : 'serif', fontSize: 50, fill : 0xffffff, align : 'center'});
+        let text = new PIXI.Text('Score', { fontFamily: 'serif', fontSize: 50, fill: 0xffffff, align: 'center' });
         text.anchor.set(0.5)
         this.addChild(text)
         text.position.set(110, 45)
