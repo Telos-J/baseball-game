@@ -16,7 +16,6 @@ document.body.appendChild(app.view)
 const loader = PIXI.Loader.shared
 
 let homerun = false
-let score = 0
 let inningSituation = false
 let pitched = false
 let pointsEarned = 0
@@ -39,6 +38,7 @@ function onAssetsLoaded(loader, resources) {
     game.stadium = new Stadium()
     game.ball = new Ball()
     game.bat = new Bat()
+    game.scoreboard = new Scoreboard()
 
     setInterval(() => {
         if (inningSituation === false && game.ball.vy === 0 && pitched === false) {
@@ -109,7 +109,7 @@ class Ball extends PIXI.Sprite {
                 pitched = false
             }, 2 * 1000)
             this.timeoutset = true
-            score += pointsEarned
+            game.scoreboard.score.text += parseInt(game.scoreboard.score.text) + pointsEarned
             console.log(pointsEarned)
 
         }
@@ -178,26 +178,44 @@ class Stadium extends PIXI.Sprite {
     }
 }
 
-// class Scoreboard {
-//     contructor(){
-//         this.points = 0
-//         this.strikes = 0
-//         this.outs = 0
-//     }
+class Scoreboard extends PIXI.Graphics{
+    constructor(){
+        super()
+        this.points = 0
+        this.strikes = 0
+        this.outs = 0
+        app.stage.addChild(this)
+        this.beginFill(0x9d373a)
+        this.drawRect(10, 10, 200, 300)
+        this.beginFill(0x991e23)
+        this.drawRect(10, 160, 200, 150)
+        let text = new PIXI.Text('Score',{fontFamily : 'serif', fontSize: 50, fill : 0xffffff, align : 'center'});
+        text.anchor.set(0.5)
+        this.addChild(text)
+        text.position.set(110, 45)
+        text = new PIXI.Text('Outs', { fontFamily: 'serif', fontSize: 50, fill: 0xffffff, align: 'center' });
+        text.anchor.set(0.5)
+        this.addChild(text)
+        text.position.set(110, 200)
+        this.score = new PIXI.Text(parseInt('0'), { fontFamily: 'serif', fontSize: 50, fill: 0xffffff, align: 'center' });
+        this.score.anchor.set(0.5)
+        this.addChild(this.score)
+        this.score.position.set(110, 105)
+    }
 
-//     draw() {
-//         context.fillStyle = '#9d373a'
-//         context.fillRect(10, 10, 200, 300)
-//         context.fillStyle = '#991e23'
-//         context.fillRect(10, 160, 200, 150)
-//         context.font = '50px serif'
-//         context.fillStyle = 'White'
-//         context.fillText('Score', 50, 70)
-//         context.font = '50px serif'
-//         context.fillStyle = 'White'
-//         context.fillText(`${score}`, 90, 130)
-//     }
-// }
+    draw() {
+        context.fillStyle = '#9d373a'
+        context.fillRect(10, 10, 200, 300)
+        context.fillStyle = '#991e23'
+        context.fillRect(10, 160, 200, 150)
+        context.font = '50px serif'
+        context.fillStyle = 'White'
+        context.fillText('Score', 50, 70)
+        context.font = '50px serif'
+        context.fillStyle = 'White'
+        context.fillText(`${score}`, 90, 130)
+    }
+}
 
 addEventListener('keydown', e => {
     if (e.code === 'Space') {
