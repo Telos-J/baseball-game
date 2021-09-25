@@ -40,7 +40,7 @@ function onAssetsLoaded(loader, resources) {
     setInterval(() => {
         if (game.inningSituation === false && game.ball.vy === 0 && game.pitched === false) {
             game.pitched = true
-            game.ball.speed = Math.random() + 5
+            game.ball.speed = 10*Math.random() + 5
             game.ball.timeoutset = false
             game.ball.rotation = Math.PI / 2
         }
@@ -79,3 +79,4 @@ addEventListener('keydown', e => {
 })
 
 export { app, loader }
+
