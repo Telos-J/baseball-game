@@ -1,6 +1,6 @@
 import '../css/style.scss'
 import * as PIXI from 'pixi.js'
-import { game, Ball, Bat, Stadium, Scoreboard } from './game'
+import { game, Ball, Bat, Stadium, Scoreboard, Bunny } from './game'
 
 const type = PIXI.utils.isWebGLSupported() ? 'WebGL' : 'canvas'
 PIXI.utils.sayHello(type)
@@ -33,9 +33,22 @@ loader.load(onAssetsLoaded)
 function onAssetsLoaded(loader, resources) {
     app.stage.addChild(game)
     game.stadium = new Stadium()
+    game.pitcher = new Bunny()
+    game.pitcher.position.set(app.screen.width / 2 + 15, 365)
+    game.batter = new Bunny()
+    game.batter.position.set(app.screen.width / 2 - 40, 810)
+    game.fielder1 = new Bunny()
+    game.fielder1.position.set(1200, 190)
+    game.fielder2 = new Bunny()
+    game.fielder2.position.set(960, 60)
+    game.fielder3 = new Bunny()
+    game.fielder3.position.set(400, 190)
+    game.fielder4 = new Bunny()
+    game.fielder4.position.set(650, 60)
     game.ball = new Ball()
     game.bat = new Bat()
     game.scoreboard = new Scoreboard()
+    
 
     setInterval(() => {
         if (game.inningSituation === false && game.ball.vy === 0 && game.pitched === false) {

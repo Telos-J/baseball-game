@@ -23,7 +23,7 @@ const game = new Game()
 class Ball extends PIXI.Sprite {
     constructor() {
         super()
-        this.position.set(app.screen.width / 2, 366) 
+        this.position.set(app.screen.width / 2 - 15, 366) 
         this.speed = 0
         this.anchor.set(0.5)
         this.scale.set(0.01)
@@ -164,4 +164,18 @@ class Scoreboard extends PIXI.Graphics {
     }
 }
 
-export { game, Ball, Bat, Stadium, Scoreboard }
+class Bunny extends PIXI.Sprite {
+    constructor() {
+        super()
+        this.speed = 0
+        this.anchor.set(0.5)
+        this.scale.set(2)
+        this.vx = 0
+        this.vy = 0
+        this.texture = loader.resources.bunny.texture
+        game.addChild(this)
+    }
+}
+
+
+export { game, Ball, Bat, Stadium, Scoreboard, Bunny }
