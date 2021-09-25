@@ -1,7 +1,7 @@
 import * as PIXI from 'pixi.js'
-import { app, loader} from './app'
-class Game extends PIXI.Container
-{
+import { app, loader } from './app'
+
+class Game extends PIXI.Container {
     constructor() {
         super()
         this.inningSituation = false
@@ -9,6 +9,7 @@ class Game extends PIXI.Container
         this.homerun = false
         this.pointsEarned = 0
     }
+
     move() {
         if (this.ball.y < 366) {
             this.x -= this.ball.vx
@@ -56,6 +57,7 @@ class Ball extends PIXI.Sprite {
             }, 2 * 1000)
             this.timeoutset = true
             game.scoreboard.score.text = parseInt(game.scoreboard.score.text) + game.pointsEarned
+            game.pointsEarned = 0
         }
     }
 
@@ -111,6 +113,7 @@ class Bat extends PIXI.Sprite {
         }
     }
 }
+
 class Stadium extends PIXI.Sprite {
     constructor() {
         super()
@@ -129,28 +132,33 @@ class Scoreboard extends PIXI.Graphics {
         this.strikes = 0
         this.outs = 0
         app.stage.addChild(this)
+
         this.beginFill(0x9d373a)
         this.drawRect(10, 10, 200, 300)
         this.beginFill(0x991e23)
         this.drawRect(10, 160, 200, 150)
         this.beginFill(0x9d373a)
         this.drawRect(10, 310, 200, 150)
-        let text = new PIXI.Text('Score', { fontFamily: 'serif', fontSize: 50, fill: 0xffffff});
+
+        let text = new PIXI.Text('Score', { fontFamily: 'serif', fontSize: 50, fill: 0xffffff });
         text.anchor.set(0.5)
         this.addChild(text)
         text.position.set(110, 45)
-        text = new PIXI.Text('Outs', { fontFamily: 'serif', fontSize: 50, fill: 0xffffff});
+
+        text = new PIXI.Text('Outs', { fontFamily: 'serif', fontSize: 50, fill: 0xffffff });
         text.anchor.set(0.5)
         this.addChild(text)
         text.position.set(110, 200)
-        this.score = new PIXI.Text(parseInt('0'), { fontFamily: 'serif', fontSize: 50, fill: 0xffffff});
+        this.score = new PIXI.Text(parseInt('0'), { fontFamily: 'serif', fontSize: 50, fill: 0xffffff });
         this.score.anchor.set(0.5)
         this.addChild(this.score)
         this.score.position.set(110, 105)
-        text = new PIXI.Text('Strikes', { fontFamily: 'serif', fontSize: 50, fill: 0xffffff});
+
+        text = new PIXI.Text('Strikes', { fontFamily: 'serif', fontSize: 50, fill: 0xffffff });
         text.anchor.set(0.5)
         text.position.set(110, 350)
         this.addChild(text)
     }
 }
+
 export { game, Ball, Bat, Stadium, Scoreboard }

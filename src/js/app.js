@@ -1,6 +1,6 @@
 import '../css/style.scss'
 import * as PIXI from 'pixi.js'
-import {game, Ball, Bat, Stadium, Scoreboard} from './game'
+import { game, Ball, Bat, Stadium, Scoreboard } from './game'
 
 const type = PIXI.utils.isWebGLSupported() ? 'WebGL' : 'canvas'
 PIXI.utils.sayHello(type)
@@ -15,7 +15,6 @@ const app = new PIXI.Application({
 document.body.appendChild(app.view)
 
 const loader = PIXI.Loader.shared
-
 
 loader.add('bunny', 'img/bunny.png')
     .add('baseball', 'img/baseball.png')
@@ -60,6 +59,7 @@ class Game extends PIXI.Container {
     constructor() {
         super()
     }
+
     move() {
         if (this.ball.y < 366) {
             this.x -= this.ball.vx
@@ -67,10 +67,6 @@ class Game extends PIXI.Container {
         }
     }
 }
-
-
-
-
 
 addEventListener('keydown', e => {
     if (e.code === 'Space') {
@@ -82,4 +78,4 @@ addEventListener('keydown', e => {
     }
 })
 
-export {app, loader}
+export { app, loader }
