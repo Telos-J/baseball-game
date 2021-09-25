@@ -50,7 +50,7 @@ class Ball extends PIXI.Sprite {
 
         if (game.pitched === true && this.speed === 0 && this.timeoutset === false) {
             setTimeout(() => {
-                this.position.set(app.screen.width / 2, 366)
+                this.position.set(app.screen.width / 2, 366) 
                 game.x = 0
                 game.y = 0
                 game.pitched = false
@@ -65,7 +65,7 @@ class Ball extends PIXI.Sprite {
         if (this.y > 850) {
             this.position.set(app.screen.width / 2, 366)
             this.speed = 0
-        } else if (this.y < -900) {
+        } else if ((this.x - app.screen.width/2)**2 + (this.y - 800)**2 > 1900**2) {
             setTimeout(() => {
                 this.position.set(app.screen.width / 2, 366)
                 game.y = 0
