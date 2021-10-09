@@ -111,17 +111,17 @@ class Bat extends PIXI.Sprite {
         if (this.rotationSpeed !== 0 && game.ball.y > 780 && game.ball.vy > 0 && game.ball.y < 800 && this.rotation > Math.PI - Math.PI && this.rotation < Math.PI - Math.PI / 1.5) {
             game.ball.speed = 30
             game.ball.vz = 7
-            game.ball.rotation = Math.PI * 1.3 //Math.PI * (0.4 * Math.random() + 1.3)
+            game.ball.rotation = Math.PI * (0.4 * Math.random() + 1.3)
             game.pointsEarned = 100
         } else if (this.rotationSpeed !== 0 && game.ball.y > 760 && game.ball.vy > 0 && game.ball.y < 820 && this.rotation > Math.PI - Math.PI && this.rotation < Math.PI - Math.PI / 1.5) {
             game.ball.speed = 5 * Math.random() + 10
             game.ball.vz = 10
-            game.ball.rotation = Math.PI * 1.3 //Math.PI * (0.4 * Math.random() + 1.3)
+            game.ball.rotation = Math.PI * (0.4 * Math.random() + 1.3)
             game.pointsEarned = 20
         } else if (this.rotationSpeed !== 0 && game.ball.y > 730 && game.ball.vy > 0 && game.ball.y < 840 && this.rotation > Math.PI - Math.PI && this.rotation < Math.PI - Math.PI / 1.5) {
             game.ball.speed = 5 * Math.random() + 5
             game.ball.vz = 10
-            game.ball.rotation = Math.PI * 1.3 //Math.PI * (0.4 * Math.random() + 1.3)
+            game.ball.rotation = Math.PI * (0.4 * Math.random() + 1.3)
             game.pointsEarned = 5
         }
     }
@@ -175,8 +175,9 @@ class Scoreboard extends PIXI.Graphics {
 }
 
 class Bunny extends PIXI.Sprite {
-    constructor() {
+    constructor(name) {
         super()
+        this.name = name
         this.speed = 0
         this.anchor.set(0.5)
         this.scale.set(2)
@@ -191,10 +192,27 @@ class Bunny extends PIXI.Sprite {
         this.texture = loader.resources.bunny.texture
         game.addChild(this)
     }
-    move(){
+
+    drawRange() {
         const angle = Math.atan2(this.y - 780, this.x - app.screen.width / 2)
+        const line = new PIXI.Graphics()
+        line.beginFill(0x000)
+        line.drawRect(0, 0, 1000, 2)
+        line.position.set(app.screen.width / 2, 780)
+        line.rotation = angle + Math.PI * 0.05
+        game.addChild(line)
+        const line2 = new PIXI.Graphics()
+        line2.beginFill(0x000)
+        line2.drawRect(0, 0, 1000, 2)
+        line2.position.set(app.screen.width / 2, 780)
+        line2.rotation = angle - Math.PI * 0.05
+        game.addChild(line2)
+    }
+
+    move() {
+        const angle = Math.atan2(this.y - 780, this.x - app.screen.width / 2) + Math.PI * 2
         if (angle - Math.PI * 0.05 < game.ball.rotation && angle + Math.PI * 0.05 > game.ball.rotation) {
-            console.log('detected')
+            console.log(`${this.name} detected the ball!!`)
         }
     }
 }
