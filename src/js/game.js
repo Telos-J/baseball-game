@@ -111,17 +111,17 @@ class Bat extends PIXI.Sprite {
         if (this.rotationSpeed !== 0 && game.ball.y > 780 && game.ball.vy > 0 && game.ball.y < 800 && this.rotation > Math.PI - Math.PI && this.rotation < Math.PI - Math.PI / 1.5) {
             game.ball.speed = 30
             game.ball.vz = 7
-            game.ball.rotation = Math.PI * (0.4 * Math.random() + 1.3)
+            game.ball.rotation = Math.PI * 1.3 //Math.PI * (0.4 * Math.random() + 1.3)
             game.pointsEarned = 100
         } else if (this.rotationSpeed !== 0 && game.ball.y > 760 && game.ball.vy > 0 && game.ball.y < 820 && this.rotation > Math.PI - Math.PI && this.rotation < Math.PI - Math.PI / 1.5) {
             game.ball.speed = 5 * Math.random() + 10
             game.ball.vz = 10
-            game.ball.rotation = Math.PI * (0.4 * Math.random() + 1.3)
+            game.ball.rotation = Math.PI * 1.3 //Math.PI * (0.4 * Math.random() + 1.3)
             game.pointsEarned = 20
         } else if (this.rotationSpeed !== 0 && game.ball.y > 730 && game.ball.vy > 0 && game.ball.y < 840 && this.rotation > Math.PI - Math.PI && this.rotation < Math.PI - Math.PI / 1.5) {
             game.ball.speed = 5 * Math.random() + 5
             game.ball.vz = 10
-            game.ball.rotation = Math.PI * (0.4 * Math.random() + 1.3)
+            game.ball.rotation = Math.PI * 1.3 //Math.PI * (0.4 * Math.random() + 1.3)
             game.pointsEarned = 5
         }
     }
@@ -182,10 +182,21 @@ class Bunny extends PIXI.Sprite {
         this.scale.set(2)
         this.vx = 0
         this.vy = 0
+        this.range = 50
+        this.rangeGraphic = new PIXI.Graphics()
+        this.rangeGraphic.beginFill(0xffffff)
+        this.rangeGraphic.arc(0, 9, this.range, 0, Math.PI * 2)
+        this.addChild(this.rangeGraphic)
+        this.rangeGraphic.alpha = 0.2
         this.texture = loader.resources.bunny.texture
         game.addChild(this)
     }
+    move(){
+        const angle = Math.atan2(this.y - 780, this.x - app.screen.width / 2)
+        if (angle - Math.PI * 0.05 < game.ball.rotation && angle + Math.PI * 0.05 > game.ball.rotation) {
+            console.log('detected')
+        }
+    }
 }
-
 
 export { game, Ball, Bat, Stadium, Scoreboard, Bunny }

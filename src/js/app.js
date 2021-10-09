@@ -37,23 +37,37 @@ function onAssetsLoaded(loader, resources) {
     game.pitcher.position.set(app.screen.width / 2 + 15, 365)
     game.batter = new Bunny()
     game.batter.position.set(app.screen.width / 2 - 40, 810)
-    game.fielder1 = new Bunny()
-    game.fielder1.position.set(1200, 190)
-    game.fielder2 = new Bunny()
-    game.fielder2.position.set(960, 60)
-    game.fielder3 = new Bunny()
-    game.fielder3.position.set(400, 190)
-    game.fielder4 = new Bunny()
-    game.fielder4.position.set(650, 60)
+    game.fielder1B = new Bunny()
+    game.fielder1B.position.set(1200, 190)
+    game.fielder2B = new Bunny()
+    game.fielder2B.position.set(960, 60)
+    game.fielderSS = new Bunny()
+    game.fielderSS.position.set(650, 60)
+    game.fielder3B = new Bunny()
+    game.fielder3B.position.set(400, 190)
     game.ball = new Ball()
     game.bat = new Bat()
     game.scoreboard = new Scoreboard()
+    
+const angle = Math.atan2(game.fielder2B.y - 780, game.fielder2B.x - app.screen.width / 2)
 
-
+    const line = new PIXI.Graphics()
+    line.beginFill(0x000)
+    line.drawRect(0, 0, 1000, 2)
+    line.position.set(app.screen.width / 2, 780)
+    line.rotation = angle + Math.PI * 0.05
+    game.addChild(line) 
+    const line2 = new PIXI.Graphics()
+    line2.beginFill(0x000)
+    line2.drawRect(0, 0, 1000, 2)
+    line2.position.set(app.screen.width / 2, 780)
+    line2.rotation = angle - Math.PI * 0.05
+    game.addChild(line2) 
+    
     setInterval(() => {
-        if (game.inningSituation === false && !game.ball.speed && game.pitched === false) {
+        if (game.inningSituation === false && game.ball.vy === 0 && game.pitched === false) {
             game.pitched = true
-            game.ball.speed = 1 * Math.random() + 5
+            game.ball.speed = 1*Math.random() + 5
             game.ball.timeoutset = false
             game.ball.rotation = Math.PI / 2
         }
@@ -66,6 +80,7 @@ function gameLoop() {
     game.ball.bound()
     game.bat.swing()
     game.move()
+    game.fielder3B.move()
 }
 
 class Game extends PIXI.Container {
@@ -85,7 +100,6 @@ addEventListener('keydown', e => {
     if (e.code === 'Space') {
         if (game.inningSituation === true) {
             game.ball.vy = 15
-            game.ball.z = 0
         } else {
             game.bat.rotationSpeed = Math.PI / 10
         }
