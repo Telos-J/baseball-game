@@ -48,12 +48,12 @@ function onAssetsLoaded(loader, resources) {
     game.ball = new Ball()
     game.bat = new Bat()
     game.scoreboard = new Scoreboard()
-    
+
 
     setInterval(() => {
-        if (game.inningSituation === false && game.ball.vy === 0 && game.pitched === false) {
+        if (game.inningSituation === false && !game.ball.speed && game.pitched === false) {
             game.pitched = true
-            game.ball.speed = 1*Math.random() + 5
+            game.ball.speed = 1 * Math.random() + 5
             game.ball.timeoutset = false
             game.ball.rotation = Math.PI / 2
         }
@@ -85,6 +85,7 @@ addEventListener('keydown', e => {
     if (e.code === 'Space') {
         if (game.inningSituation === true) {
             game.ball.vy = 15
+            game.ball.z = 0
         } else {
             game.bat.rotationSpeed = Math.PI / 10
         }

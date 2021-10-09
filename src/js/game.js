@@ -23,7 +23,8 @@ const game = new Game()
 class Ball extends PIXI.Sprite {
     constructor() {
         super()
-        this.position.set(app.screen.width / 2 - 15, 366) 
+        this.position.set(app.screen.width / 2 - 15, 366)
+        this.z = 0
         this.speed = 0
         this.anchor.set(0.5)
         this.scale.set(0.01)
@@ -41,16 +42,25 @@ class Ball extends PIXI.Sprite {
         this.vy = this.speed * Math.sin(this.rotation)
         this.x += this.vx
         this.y += this.vy
+        this.z += this.vz
         if (this.vy < 0) {
             this.speed -= windResistance
             if (this.speed < 0) {
                 this.speed = 0
             }
         }
+        if (this.z > 0) {
+            this.vz -= 0.2
+        } else {
+            this.vz = 0
+            this.z = 0
+        }
+
+        this.scale.set(this.z / 20000 + 0.01)
 
         if (game.pitched === true && this.speed === 0 && this.timeoutset === false) {
             setTimeout(() => {
-                this.position.set(app.screen.width / 2, 366) 
+                this.position.set(app.screen.width / 2, 366)
                 game.x = 0
                 game.y = 0
                 game.pitched = false
@@ -65,7 +75,7 @@ class Ball extends PIXI.Sprite {
         if (this.y > 850) {
             this.position.set(app.screen.width / 2, 366)
             this.speed = 0
-        } else if ((this.x - app.screen.width/2)**2 + (this.y - 800)**2 > 1900**2) {
+        } else if ((this.x - app.screen.width / 2) ** 2 + (this.y - 800) ** 2 > 1900 ** 2) {
             setTimeout(() => {
                 this.position.set(app.screen.width / 2, 366)
                 game.y = 0
@@ -99,20 +109,20 @@ class Bat extends PIXI.Sprite {
         }
 
         if (this.rotationSpeed !== 0 && game.ball.y > 780 && game.ball.vy > 0 && game.ball.y < 800 && this.rotation > Math.PI - Math.PI && this.rotation < Math.PI - Math.PI / 1.5) {
-            game.ball.speed = 6 * Math.random() + 30
+            game.ball.speed = 30
+            game.ball.vz = 7
             game.ball.rotation = Math.PI * (0.4 * Math.random() + 1.3)
             game.pointsEarned = 100
-            console.log(game.pointsEarned, game.ball.speed)
         } else if (this.rotationSpeed !== 0 && game.ball.y > 760 && game.ball.vy > 0 && game.ball.y < 820 && this.rotation > Math.PI - Math.PI && this.rotation < Math.PI - Math.PI / 1.5) {
             game.ball.speed = 5 * Math.random() + 10
+            game.ball.vz = 10
             game.ball.rotation = Math.PI * (0.4 * Math.random() + 1.3)
             game.pointsEarned = 20
-            console.log(game.pointsEarned, game.ball.speed)
         } else if (this.rotationSpeed !== 0 && game.ball.y > 730 && game.ball.vy > 0 && game.ball.y < 840 && this.rotation > Math.PI - Math.PI && this.rotation < Math.PI - Math.PI / 1.5) {
             game.ball.speed = 5 * Math.random() + 5
+            game.ball.vz = 10
             game.ball.rotation = Math.PI * (0.4 * Math.random() + 1.3)
             game.pointsEarned = 5
-            console.log(game.pointsEarned, game.ball.speed)
         }
     }
 }
