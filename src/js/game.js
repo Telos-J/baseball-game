@@ -37,14 +37,14 @@ class Ball extends PIXI.Sprite {
     }
 
     move() {
-        let windResistance = 0.1
+        let airResistance = 0.1
         this.vx = this.speed * Math.cos(this.rotation)
         this.vy = this.speed * Math.sin(this.rotation)
         this.x += this.vx
         this.y += this.vy
         this.z += this.vz
         if (this.vy < 0) {
-            this.speed -= windResistance
+            this.speed -= airResistance
             if (this.speed < 0) {
                 this.speed = 0
             }
@@ -64,6 +64,10 @@ class Ball extends PIXI.Sprite {
                 game.x = 0
                 game.y = 0
                 game.pitched = false
+                game.fielder1B.position.set(game.fielder1B.initialPosition[0], game.fielder1B.initialPosition[1])
+                game.fielder2B.position.set(game.fielder2B.initialPosition[0], game.fielder2B.initialPosition[1])
+                game.fielderSS.position.set(game.fielderSS.initialPosition[0], game.fielderSS.initialPosition[1])
+                game.fielder3B.position.set(game.fielder3B.initialPosition[0], game.fielder3B.initialPosition[1])
             }, 2 * 1000)
             this.timeoutset = true
             game.scoreboard.score.text = parseInt(game.scoreboard.score.text) + game.pointsEarned
@@ -114,7 +118,7 @@ class Bat extends PIXI.Sprite {
             game.ball.rotation = Math.PI * (0.4 * Math.random() + 1.3)
             game.pointsEarned = 100
         } else if (this.rotationSpeed !== 0 && game.ball.y > 760 && game.ball.vy > 0 && game.ball.y < 820 && this.rotation > Math.PI - Math.PI && this.rotation < Math.PI - Math.PI / 1.5) {
-            game.ball.speed = 5 * Math.random() + 10
+            game.ball.speed = 5 * Math.random() + 10 
             game.ball.vz = 10
             game.ball.rotation = Math.PI * (0.4 * Math.random() + 1.3)
             game.pointsEarned = 20
@@ -175,7 +179,7 @@ class Scoreboard extends PIXI.Graphics {
 }
 
 class Bunny extends PIXI.Sprite {
-    constructor(name) {
+    constructor(name, x, y) {
         super()
         this.name = name
         this.speed = 0
@@ -183,6 +187,10 @@ class Bunny extends PIXI.Sprite {
         this.scale.set(2)
         this.vx = 0
         this.vy = 0
+        this.position.x = x
+        this.position.y = y
+        this.initialPosition = [this.position.x, this.position.y]
+        // this.initialPosition.set(this.position.x, this.position.y)
         this.range = 50
         this.rangeGraphic = new PIXI.Graphics()
         this.rangeGraphic.beginFill(0xffffff)
@@ -209,10 +217,12 @@ class Bunny extends PIXI.Sprite {
         game.addChild(line2)
     }
 
-    move() {
+    move(){
         const angle = Math.atan2(this.y - 780, this.x - app.screen.width / 2) + Math.PI * 2
-        if (angle - Math.PI * 0.05 < game.ball.rotation && angle + Math.PI * 0.05 > game.ball.rotation) {
-            console.log(`${this.name} detected the ball!!`)
+        if (angle - Math.PI * 0.05 < game.ball.rotation && angle + Math.PI * 0.05 > game.ball.rotation && game.pitched)
+        {
+            console.log(`${ this.name } detected the ball!!`)
+            this.position.set(this.x + (game.ball.x - this.x) / 10, this.y + (game.ball.y - this.y) / 10)
         }
     }
 }
