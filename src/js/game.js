@@ -222,7 +222,12 @@ class Bunny extends PIXI.Sprite {
         if (angle - Math.PI * 0.05 < game.ball.rotation && angle + Math.PI * 0.05 > game.ball.rotation && game.pitched)
         {
             console.log(`${ this.name } detected the ball!!`)
-            this.position.set(this.x + (game.ball.x - this.x) / 10, this.y + (game.ball.y - this.y) / 10)
+            const diff = [game.ball.x - this.x, game.ball.y - this.y]
+            const distance = Math.hypot(diff[0], diff[1])
+            const speed = 5
+            if (distance < speed) return
+            const velocity = [diff[0] / distance * speed, diff[1] / distance * speed]
+            this.position.set(this.x + velocity[0], this.y + velocity[1])
         }
     }
 }
