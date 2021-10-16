@@ -8,6 +8,7 @@ class Game extends PIXI.Container {
         this.pitched = false
         this.homerun = false
         this.pointsEarned = 0
+        this.fielders = []
     }
 
     move() {
@@ -64,10 +65,9 @@ class Ball extends PIXI.Sprite {
                 game.x = 0
                 game.y = 0
                 game.pitched = false
-                game.fielder1B.position.set(game.fielder1B.initialPosition[0], game.fielder1B.initialPosition[1])
-                game.fielder2B.position.set(game.fielder2B.initialPosition[0], game.fielder2B.initialPosition[1])
-                game.fielderSS.position.set(game.fielderSS.initialPosition[0], game.fielderSS.initialPosition[1])
-                game.fielder3B.position.set(game.fielder3B.initialPosition[0], game.fielder3B.initialPosition[1])
+                for (const fielder of game.fielders){
+                    fielder.position.set(fielder.initialPosition[0], fielder.initialPosition[1])
+                }
             }, 2 * 1000)
             this.timeoutset = true
             game.scoreboard.score.text = parseInt(game.scoreboard.score.text) + game.pointsEarned
@@ -182,7 +182,8 @@ class Bunny extends PIXI.Sprite {
     constructor(name, x, y) {
         super()
         this.name = name
-        this.speed = 0
+        if (this.name.includes('fielder')) game.fielders.push(this)
+        this.speed = 3
         this.anchor.set(0.5)
         this.scale.set(2)
         this.vx = 0
@@ -190,7 +191,6 @@ class Bunny extends PIXI.Sprite {
         this.position.x = x
         this.position.y = y
         this.initialPosition = [this.position.x, this.position.y]
-        // this.initialPosition.set(this.position.x, this.position.y)
         this.range = 50
         this.rangeGraphic = new PIXI.Graphics()
         this.rangeGraphic.beginFill(0xffffff)
@@ -224,9 +224,8 @@ class Bunny extends PIXI.Sprite {
             console.log(`${ this.name } detected the ball!!`)
             const diff = [game.ball.x - this.x, game.ball.y - this.y]
             const distance = Math.hypot(diff[0], diff[1])
-            const speed = 5
-            if (distance < speed) return
-            const velocity = [diff[0] / distance * speed, diff[1] / distance * speed]
+            if (distance < this.speed) return
+            const velocity = [diff[0] / distance * this.speed, diff[1] / distance * this.speed]
             this.position.set(this.x + velocity[0], this.y + velocity[1])
         }
     }
