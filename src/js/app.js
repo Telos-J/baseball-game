@@ -59,8 +59,8 @@ function onAssetsLoaded(loader, resources) {
     app.ticker.add(gameLoop)
 }
 
-function gameLoop() {
-    game.ball.move()
+function gameLoop(deltaTime) {
+    game.ball.move(deltaTime)
     game.ball.bound()
     game.bat.swing()
     game.move()
