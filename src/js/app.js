@@ -1,6 +1,11 @@
 import '../css/style.scss'
 import * as PIXI from 'pixi.js'
-import { game, Ball, Bat, Stadium, Scoreboard, Bunny } from './game'
+import game from './game'
+import Ball from './ball'
+import Bat from './bat'
+import Stadium from './stadium'
+import Bunny from './bunny'
+import Scoreboard from './scoreboard'
 
 const type = PIXI.utils.isWebGLSupported() ? 'WebGL' : 'canvas'
 PIXI.utils.sayHello(type)
@@ -48,48 +53,13 @@ function onAssetsLoaded(loader, resources) {
     //game.fielder3B.drawRange()
     //game.fielderSS.drawRange()
 
-    setInterval(() => {
-        if (game.inningSituation === false && game.ball.vy === 0 && game.pitched === false) {
-            game.pitched = true
-            game.ball.speed = 1 * Math.random() + 5
-            game.ball.timeoutset = false
-            game.ball.rotation = Math.PI / 2
-        }
-    }, 3 * 1000)
-    app.ticker.add(gameLoop)
-}
-
-function gameLoop() {
-    game.ball.move()
-    game.ball.bound()
-    game.bat.swing()
-    game.move()
-    game.fielder1B.move()
-    game.fielder2B.move()
-    game.fielder3B.move()
-    game.fielderSS.move()
-}
-
-class Game extends PIXI.Container {
-    constructor() {
-        super()
-    }
-
-    move() {
-        if (this.ball.y < 366) {
-            this.x -= this.ball.vx
-            this.y -= this.ball.vy
-        }
-    }
+    game.start()
+    app.ticker.add(() => game.loop())
 }
 
 addEventListener('keydown', e => {
     if (e.code === 'Space') {
-        if (game.inningSituation === true) {
-            game.ball.vy = 15
-        } else {
-            game.bat.rotationSpeed = Math.PI / 10
-        }
+        game.bat.rotationSpeed = Math.PI / 10
     }
 })
 
