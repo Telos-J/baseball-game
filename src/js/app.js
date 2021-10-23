@@ -54,7 +54,7 @@ function onAssetsLoaded(loader, resources) {
     //game.fielderSS.drawRange()
 
     game.start()
-    app.ticker.add(() => game.loop())
+    app.ticker.add(deltaTime => game.loop(deltaTime))
 }
 
 addEventListener('keydown', e => {

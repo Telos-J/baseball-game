@@ -33,8 +33,8 @@ class Game extends PIXI.Container {
         }
     }
 
-    loop() {
-        this.ball.move()
+    loop(deltaTime) {
+        this.ball.move(deltaTime)
         this.ball.bound()
         this.bat.swing()
         this.move()

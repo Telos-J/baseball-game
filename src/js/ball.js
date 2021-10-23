@@ -12,8 +12,8 @@ export default class Ball extends PIXI.Sprite {
         this.speed = 0
         this.vx = 0
         this.vy = 0
-        this.zy = 0
-        this.theta = 0
+        this.vz = 0
+        this.theta = 0 //phi
         this.rotation = Math.PI / 2
         this.anchor.set(0.5)
         this.scale.set(0.01)
@@ -21,25 +21,33 @@ export default class Ball extends PIXI.Sprite {
         this.timeoutset = false
     }
 
-    move() {
+    move(deltaTime) {
         let airResistance = 0.1
-        this.vx = this.speed * Math.cos(this.rotation)
-        this.vy = this.speed * Math.sin(this.rotation)
-        this.x += this.vx
-        this.y += this.vy
-        this.z += this.vz
-        if (this.vy < 0) {
-            this.speed -= airResistance
-            if (this.speed < 0) {
-                this.speed = 0
-            }
-        }
-        if (this.z > 0) {
-            this.vz -= 0.2
-        } else {
-            this.vz = 0
-            this.z = 0
-        }
+        let g = 2
+        this.vx = this.speed * Math.cos(this.theta) * Math.cos(this.rotation)
+        this.vy = this.speed * Math.cos(this.theta) * Math.sin(this.rotation)
+        if (this.vy < 0) this.vz = this.speed * Math.sin(this.theta) - g * deltaTime
+
+        this.speed = Math.hypot(this.vx, this.vy,this.vz)
+        this.theta = Math.atan2(this.vz, Math.hypot(this.vy, this.vx))
+        
+        this.x += this.vx * deltaTime
+        this.y += this.vy * deltaTime
+        if (this.vy < 0) this.z += this.vz * deltaTime - 0.5 * g * deltaTime ** 2
+
+        if (this.z < 0) this.speed = 0
+        // if (this.vy < 0) {
+        //     this.speed -= airResistance
+        //     if (this.speed < 0) {
+        //         this.speed = 0
+        //     }
+        // }
+        // if (this.z > 0) {
+        //     this.vz -= 0.2
+        // } else {
+        //     this.vz = 0
+        //     this.z = 0
+        // }
 
         this.scale.set(this.z / 20000 + 0.01)
 
@@ -52,6 +60,8 @@ export default class Ball extends PIXI.Sprite {
             game.scoreboard.score.text = parseInt(game.scoreboard.score.text) + game.pointsEarned
             game.pointsEarned = 0
         }
+
+        console.log(this.x, this.y, this.z)
     }
 
     pitch() {
