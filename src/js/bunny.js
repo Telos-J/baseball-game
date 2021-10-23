@@ -15,35 +15,48 @@ export default class Bunny extends PIXI.Sprite {
         this.position.x = x
         this.position.y = y
         this.initialPosition = [this.position.x, this.position.y]
-        this.range = 50
-        this.rangeGraphic = new PIXI.Graphics()
-        this.rangeGraphic.beginFill(0xffffff)
-        this.rangeGraphic.arc(0, 9, this.range, 0, Math.PI * 2)
-        this.addChild(this.rangeGraphic)
-        this.rangeGraphic.alpha = 0.2
+        this.range = 80
         this.texture = loader.resources.bunny.texture
-        this.prediction= []
+        this.prediction = new PIXI.Point()
         game.addChild(this)
     }
 
     drawRange() {
-        const angle = Math.atan2(this.y - 780, this.x - app.screen.width / 2)
-        const line = new PIXI.Graphics()
-        line.beginFill(0x000)
-        line.drawRect(0, 0, 1000, 2)
-        line.position.set(app.screen.width / 2, 780)
-        line.rotation = angle + Math.PI * 0.05
-        game.addChild(line)
-        const line2 = new PIXI.Graphics()
-        line2.beginFill(0x000)
-        line2.drawRect(0, 0, 1000, 2)
-        line2.position.set(app.screen.width / 2, 780)
-        line2.rotation = angle - Math.PI * 0.05
-        game.addChild(line2)
+        this.rangeGraphic = new PIXI.Graphics()
+        this.rangeGraphic.beginFill(0xffffff)
+        this.rangeGraphic.alpha = 0.2
+        this.rangeGraphic.arc(0, 0, this.range, 0, Math.PI * 2)
+        this.addChild(this.rangeGraphic)
     }
 
-    predict()
-    {
+    drawSpotlight() {
+        const angle = Math.atan2(this.y - 810, this.x - app.screen.width / 2)
+        const d = Math.hypot(this.y - 810, this.x - app.screen.width / 2)
+        const theta = Math.asin(this.range / d) * 2
+        this.spotlight = new PIXI.Graphics()
+        this.spotlight.beginFill(0xffffff)
+        this.spotlight.alpha = 0.2
+        this.spotlight.moveTo(0, 0)
+        this.spotlight.arc(0, 0, 5000, -theta, theta)
+        this.spotlight.position.set(app.screen.width / 2, 810)
+        this.spotlight.rotation = angle
+        game.addChild(this.spotlight)
+    }
+
+    updateSpotlight() {
+        const angle = Math.atan2(this.y - 810, this.x - app.screen.width / 2)
+        const d = Math.hypot(this.y - 810, this.x - app.screen.width / 2)
+        const theta = Math.asin(this.range / d) * 2
+        this.spotlight.clear()
+        this.spotlight.beginFill(0xffffff)
+        this.spotlight.alpha = 0.2
+        this.spotlight.moveTo(0, 0)
+        this.spotlight.arc(0, 0, 5000, -theta, theta)
+        this.spotlight.position.set(app.screen.width / 2, 810)
+        this.spotlight.rotation = angle
+    }
+
+    predict() {
         let airResistance = 0.01
         let g = 1
         let speed = game.ball.speed
@@ -52,41 +65,42 @@ export default class Bunny extends PIXI.Sprite {
         let x = game.ball.x
         let y = game.ball.y
         let z = game.ball.z
-        let vx, vy, vz 
+        let vx, vy, vz
 
-        do
-        {
+        do {
             vx = speed * Math.cos(theta) * Math.cos(rotation)
             vy = speed * Math.cos(theta) * Math.sin(rotation)
-            speed * Math.sin(theta) - g * 1
+            vz = speed * Math.sin(theta) - g
 
             speed = Math.hypot(vx, vy, vz)
             theta = Math.atan2(vz, Math.hypot(vy, vx))
 
             x += vx
             y += vy
-            z += vz - 0.5 * g
+            z += vz - g
 
             speed -= speed * airResistance
-        } while (z < 0)
+        } while (z > 0)
 
-        this.prediction = [x, y]
-        console.log(this.position.x, this.position.y)
+        this.prediction.set(x, y)
     }
-    
-    move(){
-        const angle = Math.atan2(this.y - 780, this.x - app.screen.width / 2) + Math.PI * 2
-        if (angle - Math.PI * 0.05 < game.ball.rotation && angle + Math.PI * 0.05 > game.ball.rotation && game.pitched)
-        {
-            console.log(`${ this.name } detected the ball!!`)
 
-            if (!this.prediction.length) this.predict()
+    move() {
+        const angle = Math.atan2(this.y - 810, this.x - app.screen.width / 2) + Math.PI * 2
+        const d = Math.hypot(this.y - 810, this.x - app.screen.width / 2)
+        const theta = Math.asin(this.range / d) * 2
+        if (angle - theta < game.ball.rotation && angle + theta > game.ball.rotation && game.pitched) {
+            console.log(`${this.name} detected the ball!!`)
 
-            const diff = [game.ball.x - this.x, game.ball.y - this.y]
-            const distance = Math.hypot(diff[0], diff[1])
-            if (distance < this.speed) return
-            const velocity = [diff[0] / distance * this.speed, diff[1] / distance * this.speed]
-            this.position.set(this.x + velocity[0], this.y + velocity[1])
+            if (!Math.hypot(this.prediction.x, this.prediction.y)) this.predict()
+            else {
+                const diff = [this.prediction.x - this.x, this.prediction.y - this.y]
+                const distance = Math.hypot(diff[0], diff[1])
+                if (distance < this.speed) return
+                const velocity = [diff[0] / distance * this.speed, diff[1] / distance * this.speed]
+                this.position.set(this.x + velocity[0], this.y + velocity[1])
+                this.updateSpotlight()
+            }
         }
     }
 }

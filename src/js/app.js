@@ -48,10 +48,14 @@ function onAssetsLoaded(loader, resources) {
     game.bat = new Bat()
     game.scoreboard = new Scoreboard()
 
-    //game.fielder1B.drawRange()
-    //game.fielder.drawRange()
-    //game.fielder3B.drawRange()
-    //game.fielderSS.drawRange()
+    game.fielder1B.drawRange()
+    game.fielder2B.drawRange()
+    game.fielder3B.drawRange()
+    game.fielderSS.drawRange()
+    game.fielder1B.drawSpotlight()
+    game.fielder2B.drawSpotlight()
+    game.fielder3B.drawSpotlight()
+    game.fielderSS.drawSpotlight()
 
     game.start()
     app.ticker.add(deltaTime => game.loop(deltaTime))

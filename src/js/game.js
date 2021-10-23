@@ -30,6 +30,8 @@ class Game extends PIXI.Container {
         this.pitched = false
         for (const fielder of this.fielders) {
             fielder.position.set(fielder.initialPosition[0], fielder.initialPosition[1])
+            fielder.prediction.set(0, 0)
+            fielder.updateSpotlight()
         }
     }
 

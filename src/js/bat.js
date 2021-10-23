@@ -35,7 +35,7 @@ export default class Bat extends PIXI.Sprite {
         //}
         if (this.rotationSpeed !== 0 && game.ball.y > 730 && game.ball.vy > 0 && game.ball.y < 840 && this.rotation > Math.PI - Math.PI && this.rotation < Math.PI - Math.PI / 1.5) {
             game.ball.speed = 47
-            game.ball.theta = Math.PI/4
+            game.ball.theta = Math.PI / 6//2.4
             game.ball.rotation = Math.PI * (0.4 * Math.random() + 1.3)
             game.pointsEarned = 5
         }
