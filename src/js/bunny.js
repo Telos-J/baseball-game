@@ -22,6 +22,7 @@ export default class Bunny extends PIXI.Sprite {
         this.addChild(this.rangeGraphic)
         this.rangeGraphic.alpha = 0.2
         this.texture = loader.resources.bunny.texture
+        this.prediction= []
         game.addChild(this)
     }
 
@@ -41,11 +42,46 @@ export default class Bunny extends PIXI.Sprite {
         game.addChild(line2)
     }
 
+    predict()
+    {
+        let airResistance = 0.01
+        let g = 1
+        let speed = game.ball.speed
+        let theta = game.ball.theta
+        let rotation = game.ball.rotation
+        let x = game.ball.x
+        let y = game.ball.y
+        let z = game.ball.z
+        let vx, vy, vz 
+
+        do
+        {
+            vx = speed * Math.cos(theta) * Math.cos(rotation)
+            vy = speed * Math.cos(theta) * Math.sin(rotation)
+            speed * Math.sin(theta) - g * 1
+
+            speed = Math.hypot(vx, vy, vz)
+            theta = Math.atan2(vz, Math.hypot(vy, vx))
+
+            x += vx
+            y += vy
+            z += vz - 0.5 * g
+
+            speed -= speed * airResistance
+        } while (z < 0)
+
+        this.prediction = [x, y]
+        console.log(this.position.x, this.position.y)
+    }
+    
     move(){
         const angle = Math.atan2(this.y - 780, this.x - app.screen.width / 2) + Math.PI * 2
         if (angle - Math.PI * 0.05 < game.ball.rotation && angle + Math.PI * 0.05 > game.ball.rotation && game.pitched)
         {
             console.log(`${ this.name } detected the ball!!`)
+
+            if (!this.prediction.length) this.predict()
+
             const diff = [game.ball.x - this.x, game.ball.y - this.y]
             const distance = Math.hypot(diff[0], diff[1])
             if (distance < this.speed) return

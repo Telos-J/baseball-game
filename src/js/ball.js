@@ -20,22 +20,30 @@ export default class Ball extends PIXI.Sprite {
         this.texture = loader.resources.baseball.texture
         this.timeoutset = false
     }
+    
+    
 
     move(deltaTime) {
-        let airResistance = 0.1
-        let g = 2
+        let airResistance = 0.01
+        let g = 1
         this.vx = this.speed * Math.cos(this.theta) * Math.cos(this.rotation)
         this.vy = this.speed * Math.cos(this.theta) * Math.sin(this.rotation)
         if (this.vy < 0) this.vz = this.speed * Math.sin(this.theta) - g * deltaTime
 
         this.speed = Math.hypot(this.vx, this.vy,this.vz)
         this.theta = Math.atan2(this.vz, Math.hypot(this.vy, this.vx))
-        
+
         this.x += this.vx * deltaTime
         this.y += this.vy * deltaTime
         if (this.vy < 0) this.z += this.vz * deltaTime - 0.5 * g * deltaTime ** 2
 
-        if (this.z < 0) this.speed = 0
+        if (this.vy < 0) this.speed -= this.speed * airResistance
+        if (this.z < 0){
+            this.speed = 0
+            this.vz = 0
+            this.z = 0
+        }
+
         // if (this.vy < 0) {
         //     this.speed -= airResistance
         //     if (this.speed < 0) {
@@ -59,9 +67,8 @@ export default class Ball extends PIXI.Sprite {
             this.timeoutset = true
             game.scoreboard.score.text = parseInt(game.scoreboard.score.text) + game.pointsEarned
             game.pointsEarned = 0
+            console.log(this.position.x, this.position.y)
         }
-
-        console.log(this.x, this.y, this.z)
     }
 
     pitch() {
