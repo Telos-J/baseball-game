@@ -9,6 +9,10 @@ class Game extends PIXI.Container {
         this.homerun = false
         this.pointsEarned = 0
         this.fielders = []
+        this.prediction = {
+            x: null,
+            y: null
+        }
     }
 
     move() {
@@ -40,9 +44,36 @@ class Ball extends PIXI.Sprite {
         this.timeoutset = false
     }
 
+    calcPosition() {
+        let speed = this.speed
+        let theta = this.theta
+        let rotation = this.rotation
+        let x = this.x
+        let y = this.y
+        let z = 0
+        let vx, vy, vz
+        const airResistance = 0.01
+        const g = 1
+
+        do {
+            vx = speed * Math.cos(theta) * Math.cos(rotation)
+            vy = speed * Math.cos(theta) * Math.sin(rotation)
+            vz = speed * Math.sin(theta) - g
+
+            speed = Math.hypot(vx, vy, vz) - airResistance * speed
+            theta = Math.atan2(vz, Math.hypot(vx, vy))
+            x += vx
+            y += vy
+            z += vz - g
+        } while (z > 0)
+
+        game.prediction.x = x
+        game.prediction.y = y
+    }
+
     move(deltaTime) {
-        let airResistance = 0.01
-        let g = 1
+        const airResistance = 0.01
+        const g = 1
         this.vx = this.speed * Math.cos(this.theta) * Math.cos(this.rotation)
         this.vy = this.speed * Math.cos(this.theta) * Math.sin(this.rotation)
         if (this.vy < 0) this.vz = this.speed * Math.sin(this.theta) - g ** deltaTime
@@ -134,10 +165,11 @@ class Bat extends PIXI.Sprite {
         //    game.pointsEarned = 5
         //}
         if (this.rotationSpeed !== 0 && game.ball.y > 730 && game.ball.vy > 0 && game.ball.y < 840 && this.rotation > Math.PI - Math.PI && this.rotation < Math.PI - Math.PI / 1.5) {
-            game.ball.speed = 40//55
-            game.ball.theta = Math.PI / 6
+            game.ball.speed = 55
+            game.ball.theta = Math.PI / 2.3
             game.ball.rotation = Math.PI * (0.4 * Math.random() + 1.3)
             game.pointsEarned = 5
+            game.ball.calcPosition()
         }
     }
 }
@@ -232,7 +264,7 @@ class Bunny extends PIXI.Sprite {
         const angle = Math.atan2(this.y - 780, this.x - app.screen.width / 2) + Math.PI * 2
         if (angle - Math.PI * 0.05 < game.ball.rotation && angle + Math.PI * 0.05 > game.ball.rotation && game.pitched) {
             console.log(`${this.name} detected the ball!!`)
-            const diff = [game.ball.x - this.x, game.ball.y - this.y]
+            const diff = [game.prediction.x - this.x, game.prediction.y - this.y]
             const distance = Math.hypot(diff[0], diff[1])
             if (distance < this.speed) return
             const velocity = [diff[0] / distance * this.speed, diff[1] / distance * this.speed]
