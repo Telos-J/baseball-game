@@ -21,25 +21,23 @@ export default class Ball extends PIXI.Sprite {
         this.timeoutset = false
     }
 
-    move(deltaTime) {
+    move(deltaTime = 1) {
         let airResistance = 0.01
         let g = 1
         this.vx = this.speed * Math.cos(this.theta) * Math.cos(this.rotation)
         this.vy = this.speed * Math.cos(this.theta) * Math.sin(this.rotation)
-        if (this.vy < 0) this.vz = this.speed * Math.sin(this.theta) - g * deltaTime
+        if (!this.physicsOff()) this.vz = this.speed * Math.sin(this.theta) - g * deltaTime
 
         this.speed = Math.hypot(this.vx, this.vy, this.vz)
         this.theta = Math.atan2(this.vz, Math.hypot(this.vy, this.vx))
 
         this.x += this.vx * deltaTime
         this.y += this.vy * deltaTime
-        if (this.vy < 0) this.z += this.vz * deltaTime - g * deltaTime ** 2
+        if (!this.physicsOff()) this.z += this.vz * deltaTime - g * deltaTime ** 2
 
-        if (this.vy < 0) this.speed -= this.speed * airResistance
+        if (!this.physicsOff()) this.speed -= this.speed * airResistance
         if (this.z < 0) {
-            this.speed = 0
-            this.vz = 0
-            this.z = 0
+            this.stop()
         }
 
         this.scale.set(this.z / 20000 + 0.01)
@@ -48,20 +46,23 @@ export default class Ball extends PIXI.Sprite {
             game.state = 'landing'
             dispatchEvent(new Event('landing'))
         }
+    }
 
-        if (game.state === 'throwBall') {
-            const diff = [1200 - this.x, 365 - this.y]
-            const distance = Math.hypot(diff[0], diff[1])
-            if (distance < this.speed) {
-                game.state = 'out'
-                this.speed = 0
-            }
-        }
+    stop() {
+        this.speed = 0
+        this.vx = 0
+        this.vy = 0
+        this.vz = 0
+        this.z = 0
+    }
+
+    physicsOff() {
+        return ['beforePitch', 'pitch', 'throwBall', 'safe'].includes(game.state)
     }
 
     pitch() {
         game.state = 'pitch'
-        this.speed = 1 * Math.random() + 5
+        this.speed = 2 * Math.random() + 5
         this.rotation = Math.PI / 2
     }
 
@@ -78,8 +79,12 @@ export default class Ball extends PIXI.Sprite {
         return game.state !== 'homerun' && Math.hypot(this.x - app.screen.width / 2, this.y - 810) > 1900
     }
 
+    shouldMove() {
+        return ['pitch', 'hit', 'throwBall', 'safe'].includes(game.state)
+    }
+
     update(deltaTime) {
-        this.move(deltaTime)
+        if (this.shouldMove()) this.move(deltaTime)
         if (this.isStrike()) {
             game.state = 'strike'
             dispatchEvent(new Event('strike'))

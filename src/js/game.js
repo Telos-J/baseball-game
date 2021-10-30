@@ -17,7 +17,7 @@ class Game extends PIXI.Container {
     set state(state) {
         if (state === this._state) return
         this._state = state
-        console.log(`Game state: ${this._state}`)
+        console.log(`${new Date().toLocaleTimeString()}\nGame state: ${this._state}`)
     }
 
     moveCamera() {
@@ -38,7 +38,7 @@ class Game extends PIXI.Container {
         this.y = 0
         this.state = 'beforePitch'
         this.ball.reset()
-        for (const fielder of this.fielders) fielder.reset(t)
+        for (const fielder of this.fielders) fielder.reset()
         for (const batter of this.batters) batter.reset()
         this.scoreboard.update()
         this.start()
@@ -48,7 +48,7 @@ class Game extends PIXI.Container {
         this.ball.update(deltaTime)
         this.bat.update()
         for (const fielder of this.fielders) fielder.update()
-        for (const batter of this.batters) batter.move()
+        for (const batter of this.batters) batter.update()
         this.moveCamera()
     }
 }

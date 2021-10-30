@@ -12,6 +12,14 @@ export default class Fielder extends Bunny {
         this.drawRange()
         this.drawSpotlight()
         this.showRange = showRange
+        this.hasBall = false
+    }
+
+    reset() {
+        this.position.set(this.initialPosition[0], this.initialPosition[1])
+        this.prediction.set(0, 0)
+        this.updateSpotlight()
+        this.hasBall = false
     }
 
     drawRange() {
@@ -102,21 +110,14 @@ export default class Fielder extends Bunny {
         }
     }
 
-    caughtBall() {
-        const distance = Math.hypot(game.ball.x - this.x, game.ball.y - this.y)
-        return distance < this.speed
-    }
-
     shouldMove() {
         return ['hit', 'landing'].includes(game.state)
     }
 
     move() {
         if (this.shouldMoveToPrediction()) this.moveToPrediction()
-        if (this.caughtBall()) {
-            console.log(`${this.name} caught the ball`)
-            game.state = 'caughtBall'
-        }
+        if (this.shouldMoveToBase()) this.moveToBase()
+        this.updateSpotlight()
     }
 
     shouldMoveToPrediction() {
@@ -126,37 +127,78 @@ export default class Fielder extends Bunny {
     moveToPrediction() {
         const diff = [this.prediction.x - this.x, this.prediction.y - this.y]
         const distance = Math.hypot(diff[0], diff[1])
+        if (distance < this.speed) return
         const velocity = [diff[0] / distance * this.speed, diff[1] / distance * this.speed]
         this.position.set(this.x + velocity[0], this.y + velocity[1])
-        this.updateSpotlight()
+    }
+
+    caughtBall() {
+        const distance = Math.hypot(game.ball.x - this.x, game.ball.y - this.y, game.ball.z)
+        return distance < Math.max(this.speed, game.ball.speed)
+    }
+
+    shouldCatch() {
+        return !['out'].includes(game.state) && !this.hasBall
     }
 
     catchBall() {
-        this.prediction.set(0, 0)
+        if (this.caughtBall()) {
+            console.log(`${this.name} caught the ball`)
+            this.hasBall = true
+            game.ball.stop()
+            game.ball.position.set(this.x, this.y)
+            this.prediction.set(0, 0)
+        }
     }
 
-    reset() {
-        this.position.set(this.initialPosition[0], this.initialPosition[1])
-        this.prediction.set(0, 0)
-        this.updateSpotlight()
+    shouldThrow() {
+        return this.caughtBall() &&
+            this.name !== 'fielder1B'
+    }
+
+    throwBall() {
+        const firstBase = [1200, 365]
+        game.ball.speed = 20
+        game.ball.theta = 0
+        game.ball.rotation = Math.atan2(firstBase[1] - this.y, firstBase[0] - this.x)
+        game.state = 'throwBall'
+        this.hasBall = false
+        game.ball.move()
+    }
+
+    shouldMoveToBase() {
+        return (this.caughtBall() && this.name === 'fielder1B') ||
+            (!this.ballInRange() && this.name === 'fielder1B')
+    }
+
+    moveToBase() {
+        const firstBase = [1200, 365]
+        const caughtBall = this.caughtBall()
+        const diff = [firstBase[0] - this.x, firstBase[1] - this.y]
+        const distance = Math.hypot(diff[0], diff[1])
+        if (distance < this.speed) {
+            if (this.caughtBall()) {
+                game.state = 'out'
+                dispatchEvent(new Event('out'))
+            }
+            return
+        }
+        const velocity = [diff[0] / distance * this.speed, diff[1] / distance * this.speed]
+        this.position.set(this.x + velocity[0], this.y + velocity[1])
+        if (caughtBall) game.ball.position.set(this.x, this.y)
     }
 
     update() {
         if (this.shouldDetect()) this.detect()
         if (this.shouldMove()) this.move()
-        this.throw()
-    }
-
-    throw() {
-        if (game.state === 'caughtBall') {
-            game.ball.theta = Math.PI / 18
-            game.ball.rotation = Math.atan2(365 - this.y, 1200 - this.x)
-            game.ball.speed = 8
-            game.state = 'throwBall'
-            setTimeout(() => {
-                game.reset()
-            }, 2000)
-        }
+        if (this.shouldCatch()) this.catchBall()
+        if (this.shouldThrow()) this.throwBall()
     }
 }
+
+addEventListener('out', () => {
+    setTimeout(() => {
+        game.reset()
+    }, 2000)
+})
 
