@@ -48,6 +48,15 @@ export default class Ball extends PIXI.Sprite {
             game.state = 'landing'
             dispatchEvent(new Event('landing'))
         }
+
+        if (game.state === 'throwBall') {
+            const diff = [1200 - this.x, 365 - this.y]
+            const distance = Math.hypot(diff[0], diff[1])
+            if (distance < this.speed) {
+                game.state = 'out'
+                this.speed = 0
+            }
+        }
     }
 
     pitch() {
@@ -88,9 +97,6 @@ addEventListener('strike', () => {
 })
 
 addEventListener('landing', () => {
-    setTimeout(() => {
-        game.reset()
-    }, 2000)
 })
 
 addEventListener('homerun', () => {

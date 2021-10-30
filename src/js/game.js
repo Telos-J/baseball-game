@@ -38,7 +38,7 @@ class Game extends PIXI.Container {
         this.y = 0
         this.state = 'beforePitch'
         this.ball.reset()
-        for (const fielder of this.fielders) fielder.reset()
+        for (const fielder of this.fielders) fielder.reset(t)
         for (const batter of this.batters) batter.reset()
         this.scoreboard.update()
         this.start()
