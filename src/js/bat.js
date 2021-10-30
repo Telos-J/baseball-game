@@ -1,4 +1,5 @@
 import * as PIXI from 'pixi.js'
+import { gsap } from 'gsap'
 import { loader } from './app'
 import game from './game'
 
@@ -45,11 +46,17 @@ export default class Bat extends PIXI.Sprite {
     canSwing() {
         return game.state === 'pitch'
     }
+
+    shake() {
+        if (gsap.isTweening(this)) return
+        gsap.to(this, { y: "-=2", yoyo: true, repeat: 5, duration: 0.1 })
+    }
 }
 
 addEventListener('keydown', e => {
     if (e.code === 'Space') {
         if (game.bat.canSwing()) game.bat.rotationSpeed = Math.PI / 10
+        else game.bat.shake()
     }
 })
 

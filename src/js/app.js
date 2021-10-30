@@ -4,6 +4,7 @@ import game from './game'
 import Ball from './ball'
 import Bat from './bat'
 import Stadium from './stadium'
+import Fielder from './fielder'
 import Bunny from './bunny'
 import Scoreboard from './scoreboard'
 
@@ -40,10 +41,10 @@ function onAssetsLoaded(loader, resources) {
     game.stadium = new Stadium()
     game.pitcher = new Bunny('pitcher', app.screen.width / 2 + 25, 365)
     game.batter = new Bunny('batter', app.screen.width / 2 - 28, 805)
-    game.fielder1B = new Bunny('fielder1B', 1200, 190)
-    game.fielder2B = new Bunny('fielder2B', 960, 60)
-    game.fielderSS = new Bunny('fielderSS', 650, 60)
-    game.fielder3B = new Bunny('fielder3B', 400, 190)
+    game.fielder1B = new Fielder('fielder1B', 1200, 190)
+    game.fielder2B = new Fielder('fielder2B', 960, 60)
+    game.fielderSS = new Fielder('fielderSS', 650, 60)
+    game.fielder3B = new Fielder('fielder3B', 400, 190)
     game.ball = new Ball()
     game.bat = new Bat()
     game.scoreboard = new Scoreboard()
