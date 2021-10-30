@@ -7,6 +7,7 @@ class Game extends PIXI.Container {
         this.pointsEarned = 0
         this.fielders = []
         this._state = 'beforePitch'
+        this.batters = []
     }
 
     get state() {
@@ -38,6 +39,7 @@ class Game extends PIXI.Container {
         this.state = 'beforePitch'
         this.ball.reset()
         for (const fielder of this.fielders) fielder.reset()
+        for (const batter of this.batters) batter.reset()
         this.scoreboard.update()
         this.start()
     }
@@ -46,6 +48,7 @@ class Game extends PIXI.Container {
         this.ball.update(deltaTime)
         this.bat.update()
         for (const fielder of this.fielders) fielder.update()
+        for (const batter of this.batters) batter.move()
         this.moveCamera()
     }
 }

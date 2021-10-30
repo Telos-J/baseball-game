@@ -7,6 +7,7 @@ import Stadium from './stadium'
 import Fielder from './fielder'
 import Bunny from './bunny'
 import Scoreboard from './scoreboard'
+import Batter from './batter'
 
 const type = PIXI.utils.isWebGLSupported() ? 'WebGL' : 'canvas'
 PIXI.utils.sayHello(type)
@@ -40,7 +41,7 @@ function onAssetsLoaded(loader, resources) {
     app.stage.addChild(game)
     game.stadium = new Stadium()
     game.pitcher = new Bunny('pitcher', app.screen.width / 2 + 25, 365)
-    game.batter = new Bunny('batter', app.screen.width / 2 - 28, 805)
+    game.batter = new Batter('batter', app.screen.width / 2 - 28, 805)
     game.fielder1B = new Fielder('fielder1B', 1200, 190)
     game.fielder2B = new Fielder('fielder2B', 960, 60)
     game.fielderSS = new Fielder('fielderSS', 650, 60)
