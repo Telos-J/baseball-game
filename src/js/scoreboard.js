@@ -5,10 +5,10 @@ import game from './game'
 export default class Scoreboard extends PIXI.Graphics {
     constructor() {
         super()
+        app.stage.addChild(this)
         this.points = 0
         this.strikes = 0
         this.outs = 0
-        app.stage.addChild(this)
 
         this.beginFill(0x9d373a)
         this.drawRect(10, 10, 200, 300)

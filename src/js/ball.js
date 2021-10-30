@@ -19,7 +19,6 @@ export default class Ball extends PIXI.Sprite {
         this.scale.set(0.01)
         this.texture = loader.resources.baseball.texture
         this.timeoutset = false
-        this.pitched = false
     }
 
     move(deltaTime) {
@@ -47,18 +46,12 @@ export default class Ball extends PIXI.Sprite {
 
         if (game.state === 'hit' && this.speed === 0) {
             game.state = 'landing'
-            this.handleLanding()
+            dispatchEvent(new Event('landing'))
         }
     }
 
-    handleLanding() {
-        setTimeout(() => {
-            game.reset()
-        }, 2000)
-    }
-
     pitch() {
-        game.state = 'pitched'
+        game.state = 'pitch'
         this.speed = 1 * Math.random() + 5
         this.rotation = Math.PI / 2
     }
@@ -68,18 +61,40 @@ export default class Ball extends PIXI.Sprite {
         this.speed = 0
     }
 
-    bound() {
-        if (this.y > 850) {
-            game.reset()
-        } else if (Math.hypot(this.x - app.screen.width / 2, this.y - 810) > 1900) {
-            setTimeout(() => {
-                this.position.set(app.screen.width / 2, 366)
-                game.y = 0
-                game.homerun = false
-            }, 2 * 1000)
-            this.speed = 0
-            game.vy = 0
-            game.homerun = true
+    isStrike() {
+        return game.state !== 'strike' && this.y > 850
+    }
+
+    isHomeRun() {
+        return game.state !== 'homerun' && Math.hypot(this.x - app.screen.width / 2, this.y - 810) > 1900
+    }
+
+    update(deltaTime) {
+        this.move(deltaTime)
+        if (this.isStrike()) {
+            game.state = 'strike'
+            dispatchEvent(new Event('strike'))
+        } else if (this.isHomeRun()) {
+            game.state = 'homerun'
+            dispatchEvent(new Event('homerun'))
         }
     }
 }
+
+addEventListener('strike', () => {
+    setTimeout(() => {
+        game.reset()
+    }, 1000)
+})
+
+addEventListener('landing', () => {
+    setTimeout(() => {
+        game.reset()
+    }, 2000)
+})
+
+addEventListener('homerun', () => {
+    setTimeout(() => {
+        game.reset()
+    }, 2000)
+})

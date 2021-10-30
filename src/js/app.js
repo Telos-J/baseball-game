@@ -52,11 +52,5 @@ function onAssetsLoaded(loader, resources) {
     app.ticker.add(deltaTime => game.loop(deltaTime))
 }
 
-addEventListener('keydown', e => {
-    if (e.code === 'Space') {
-        game.bat.rotationSpeed = Math.PI / 10
-    }
-})
-
 export { app, loader }
 

@@ -1,21 +1,21 @@
 import * as PIXI from 'pixi.js'
-import { app, loader } from './app'
+import { loader } from './app'
 import game from './game'
 
 export default class Bat extends PIXI.Sprite {
     constructor() {
         super()
+        game.addChild(this)
         this.position.set(750, 800)
         this.scale.set(0.05)
         this.rotation = Math.PI
         this.rotationSpeed = 0
         this.anchor.set(0, 1)
         this.texture = loader.resources.baseballBat.texture
-        game.addChild(this)
     }
 
 
-    swing() {
+    update() {
         this.rotation -= this.rotationSpeed
         if (this.rotation < Math.PI - Math.PI * 2) {
             this.rotation = Math.PI
@@ -41,5 +41,15 @@ export default class Bat extends PIXI.Sprite {
             game.state = 'hit'
         }
     }
+
+    canSwing() {
+        return game.state === 'pitch'
+    }
 }
+
+addEventListener('keydown', e => {
+    if (e.code === 'Space') {
+        if (game.bat.canSwing()) game.bat.rotationSpeed = Math.PI / 10
+    }
+})
 
