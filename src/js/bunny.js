@@ -3,7 +3,7 @@ import { app, loader } from './app'
 import game from './game'
 
 export default class Bunny extends PIXI.Sprite {
-    constructor(name, x, y) {
+    constructor(name, x, y, showRange = false) {
         super()
         this.name = name
         if (this.name.includes('fielder')) game.fielders.push(this)
@@ -19,12 +19,15 @@ export default class Bunny extends PIXI.Sprite {
         this.texture = loader.resources.bunny.texture
         this.prediction = new PIXI.Point()
         game.addChild(this)
+        this.drawRange()
+        this.drawSpotlight()
+        this.showRange = showRange
     }
 
     drawRange() {
         this.rangeGraphic = new PIXI.Graphics()
         this.rangeGraphic.beginFill(0xffffff)
-        this.rangeGraphic.alpha = 0.2
+        this.rangeGraphic.alpha = this.showRange ? 0.2 : 0
         this.rangeGraphic.arc(0, 0, this.range, 0, Math.PI * 2)
         this.addChild(this.rangeGraphic)
     }
@@ -35,7 +38,7 @@ export default class Bunny extends PIXI.Sprite {
         const theta = Math.asin(this.range / d) * 2
         this.spotlight = new PIXI.Graphics()
         this.spotlight.beginFill(0xffffff)
-        this.spotlight.alpha = 0.2
+        this.spotlight.alpha = this.showRange ? 0.2 : 0
         this.spotlight.moveTo(0, 0)
         this.spotlight.arc(0, 0, 5000, -theta, theta)
         this.spotlight.position.set(app.screen.width / 2, 810)
@@ -49,7 +52,7 @@ export default class Bunny extends PIXI.Sprite {
         const theta = Math.asin(this.range / d) * 2
         this.spotlight.clear()
         this.spotlight.beginFill(0xffffff)
-        this.spotlight.alpha = 0.2
+        this.spotlight.alpha = this.showRange ? 0.2 : 0
         this.spotlight.moveTo(0, 0)
         this.spotlight.arc(0, 0, 5000, -theta, theta)
         this.spotlight.position.set(app.screen.width / 2, 810)
@@ -89,7 +92,7 @@ export default class Bunny extends PIXI.Sprite {
         const angle = Math.atan2(this.y - 810, this.x - app.screen.width / 2) + Math.PI * 2
         const d = Math.hypot(this.y - 810, this.x - app.screen.width / 2)
         const theta = Math.asin(this.range / d) * 2
-        if (angle - theta < game.ball.rotation && angle + theta > game.ball.rotation && game.pitched) {
+        if (angle - theta < game.ball.rotation && angle + theta > game.ball.rotation) {
             console.log(`${this.name} detected the ball!!`)
 
             if (!Math.hypot(this.prediction.x, this.prediction.y)) this.predict()

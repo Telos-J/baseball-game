@@ -36,5 +36,10 @@ export default class Scoreboard extends PIXI.Graphics {
         text.position.set(110, 350)
         this.addChild(text)
     }
+
+    update() {
+        this.score.text = parseInt(this.score.text) + game.pointsEarned
+        game.pointsEarned = 0
+    }
 }
 
