@@ -144,5 +144,16 @@ export default class Fielder extends Bunny {
     update() {
         if (this.shouldDetect()) this.detect()
         if (this.shouldMove()) this.move()
+        this.throw()
+    }
+
+    throw() {
+        if (game.state === 'caughtBall'){
+            game.ball.theta = Math.PI / 18
+            game.ball.rotation = Math.atan2(365 - this.y, 1200 - this.x)
+            game.ball.speed = 8
+            game.state = 'throwBall'
+        }
     }
 }
+

@@ -8,7 +8,7 @@ export default class Batter extends Bunny{
         super(name, x, y)
         if (name.includes('batter')) game.batters.push(this)
         this.power = 0.4 * Math.random() + 0.8
-        this.speed = 10
+        this.speed = 4
     }
 
     move() {

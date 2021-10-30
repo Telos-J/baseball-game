@@ -25,7 +25,6 @@ export default class Bat extends PIXI.Sprite {
 
         // if (this.rotationSpeed !== 0 && game.ball.y > 780 && game.ball.vy > 0 && game.ball.y < 800 && this.rotation > Math.PI - Math.PI && this.rotation < Math.PI - Math.PI / 1.5) {
         //     game.ball.speed = 30
-        //     game.ball.vz = 7
         //     game.ball.rotation = Math.PI * (0.4 * Math.random() + 1.3)
         //     game.pointsEarned = 100
         // } else if (this.rotationSpeed !== 0 && game.ball.y > 760 && game.ball.vy > 0 && game.ball.y < 820 && this.rotation > Math.PI - Math.PI && this.rotation < Math.PI - Math.PI / 1.5) {
@@ -36,8 +35,8 @@ export default class Bat extends PIXI.Sprite {
         //}
         if (this.rotationSpeed !== 0 && game.ball.y > 730 && game.ball.vy > 0 && game.ball.y < 840 && this.rotation > Math.PI - Math.PI && this.rotation < Math.PI - Math.PI / 1.5) {
             game.ball.speed = 47
-            game.ball.theta = Math.PI / 3//2.4
-            game.ball.rotation = Math.PI * (0.4 * Math.random() + 1.3)
+            game.ball.theta = Math.PI /2.6
+            game.ball.rotation = Math.PI * 1.7 //(0.4 * Math.random() + 1.3)
             game.pointsEarned = 5
             game.state = 'hit'
         }
