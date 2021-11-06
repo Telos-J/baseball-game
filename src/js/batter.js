@@ -1,5 +1,6 @@
 import Bunny from './bunny'
 import game from './game'
+import { app } from './app'
 
 export default class Batter extends Bunny {
     constructor(name, x, y) {
@@ -14,7 +15,11 @@ export default class Batter extends Bunny {
         if (this.state === 'out') {
             game.removeChild(this)
         }
-        this.position.set(this.initialPosition[0], this.initialPosition[1])
+        if (this.state === 'safe') {
+            
+        } else {
+            this.position.set(this.initialPosition[0], this.initialPosition[1])
+        }
         this.tint = 0xffffff
     }
 
@@ -46,8 +51,9 @@ export default class Batter extends Bunny {
 }
 
 addEventListener('safe', () => {
-    // setTimeout(() => {
-    //     game.reset()
-    // }, 2000)
+    setTimeout(() => {
+        game.reset()
+        game.batter = new Batter('batter', app.screen.width / 2 - 28, 805)
+    }, 2000)
 })
 

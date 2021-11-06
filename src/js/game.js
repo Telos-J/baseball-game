@@ -50,6 +50,7 @@ class Game extends PIXI.Container {
         for (const fielder of this.fielders) fielder.update()
         for (const batter of this.batters) batter.update()
         this.moveCamera()
+        console.log(this.ball.speed)
     }
 }
 
