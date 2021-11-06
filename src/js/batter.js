@@ -10,17 +10,9 @@ export default class Batter extends Bunny {
         this.state = 'safe'
     }
 
-    reset()
-    {
-        if (game.state === 'strike'){
-            return
-        }
-        if (this.state === 'out'){
-            const batter = game.batter
-            game.removeChild(batter)
-            game.batter = new Batter()
-        } else {
-            game.batter = new Batter()
+    reset() {
+        if (this.state === 'out') {
+            game.removeChild(this)
         }
         this.position.set(this.initialPosition[0], this.initialPosition[1])
         this.tint = 0xffffff

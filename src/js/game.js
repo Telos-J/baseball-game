@@ -40,7 +40,6 @@ class Game extends PIXI.Container {
         this.ball.reset()
         for (const fielder of this.fielders) fielder.reset()
         for (const batter of this.batters) batter.reset()
-        game.batter = 
         this.scoreboard.update()
         this.start()
     }

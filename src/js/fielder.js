@@ -2,6 +2,7 @@ import * as PIXI from 'pixi.js'
 import { app } from './app'
 import game from './game'
 import Bunny from './bunny'
+import Batter from './batter'
 
 export default class Fielder extends Bunny {
     constructor(name, x, y, showRange = false) {
@@ -200,6 +201,8 @@ export default class Fielder extends Bunny {
 addEventListener('out', () => {
     setTimeout(() => {
         game.reset()
+        game.batter = new Batter('batter', app.screen.width / 2 - 28, 805)
+
     }, 2000)
 })
 
