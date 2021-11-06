@@ -4,12 +4,24 @@ import game from './game'
 export default class Batter extends Bunny {
     constructor(name, x, y) {
         super(name, x, y)
-        if (name.includes('batter')) game.batters.push(this)
+        game.batters.push(this)
         this.power = 0.4 * Math.random() + 0.8
         this.speed = 4
+        this.state = 'safe'
     }
 
-    reset() {
+    reset()
+    {
+        if (game.state === 'strike'){
+            return
+        }
+        if (this.state === 'out'){
+            const batter = game.batter
+            game.removeChild(batter)
+            game.batter = new Batter()
+        } else {
+            game.batter = new Batter()
+        }
         this.position.set(this.initialPosition[0], this.initialPosition[1])
         this.tint = 0xffffff
     }
@@ -42,8 +54,8 @@ export default class Batter extends Bunny {
 }
 
 addEventListener('safe', () => {
-    setTimeout(() => {
-        game.reset()
-    }, 2000)
+    // setTimeout(() => {
+    //     game.reset()
+    // }, 2000)
 })
 

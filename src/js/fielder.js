@@ -121,7 +121,7 @@ export default class Fielder extends Bunny {
     }
 
     shouldMoveToPrediction() {
-        return this.hasPrediction() && ['hit', 'landing'].includes(game.state)
+        return this.hasPrediction() && ['hit', 'landing'].includes(game.state) && !this.hasBall
     }
 
     moveToPrediction() {
@@ -179,6 +179,7 @@ export default class Fielder extends Bunny {
         if (distance < this.speed) {
             if (this.caughtBall()) {
                 game.state = 'out'
+                game.batter.state = 'out'
                 dispatchEvent(new Event('out'))
             }
             return
