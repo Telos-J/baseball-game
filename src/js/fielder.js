@@ -112,7 +112,7 @@ export default class Fielder extends Bunny {
     }
 
     shouldMove() {
-        return ['hit', 'landing'].includes(game.state)
+        return ['hit', 'landing', 'throwBall'].includes(game.state)
     }
 
     move() {
@@ -174,20 +174,27 @@ export default class Fielder extends Bunny {
 
     moveToBase() {
         const firstBase = [1200, 365]
-        const caughtBall = this.caughtBall()
         const diff = [firstBase[0] - this.x, firstBase[1] - this.y]
         const distance = Math.hypot(diff[0], diff[1])
-        if (distance < this.speed) {
-            if (this.caughtBall()) {
-                game.state = 'out'
-                game.batter.state = 'out'
-                dispatchEvent(new Event('out'))
-            }
-            return
-        }
+        if (distance < this.speed) return
         const velocity = [diff[0] / distance * this.speed, diff[1] / distance * this.speed]
         this.position.set(this.x + velocity[0], this.y + velocity[1])
-        if (caughtBall) game.ball.position.set(this.x, this.y)
+        if (this.hasBall) game.ball.position.set(this.x, this.y)
+    }
+
+    canMakeOut() {
+        const firstBase = [1200, 365]
+        const diff = [firstBase[0] - this.x, firstBase[1] - this.y]
+        const distance = Math.hypot(diff[0], diff[1])
+        return game.batter.state !== 'out' && distance < this.speed && this.hasBall
+    }
+
+    makeOut() {
+        game.batter.state = 'out'
+        if (!game.batters.some(batter => batter.state === null)) {
+            game.state = 'finish'
+            dispatchEvent(new Event('finish'))
+        }
     }
 
     update() {
@@ -195,10 +202,11 @@ export default class Fielder extends Bunny {
         if (this.shouldMove()) this.move()
         if (this.shouldCatch()) this.catchBall()
         if (this.shouldThrow()) this.throwBall()
+        if (this.canMakeOut()) this.makeOut()
     }
 }
 
-addEventListener('out', () => {
+addEventListener('finish', () => {
     setTimeout(() => {
         game.reset()
         game.batter = new Batter('batter', app.screen.width / 2 - 28, 805)

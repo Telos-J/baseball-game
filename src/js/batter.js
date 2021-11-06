@@ -8,52 +8,62 @@ export default class Batter extends Bunny {
         game.batters.push(this)
         this.power = 0.4 * Math.random() + 0.8
         this.speed = 4
-        this.state = 'safe'
+        this.state = null
+        this.nextBase = 1
     }
 
     reset() {
         if (this.state === 'out') {
+            game.batters = game.batters.filter(batter => batter !== this)
             game.removeChild(this)
+        } else if (this.state === 'safe') {
+            this.nextBase++
+            if (this.nextBase === 5) {
+                game.batters = game.batters.filter(batter => batter !== this)
+                game.removeChild(this)
+                game.pointsEarned = 5
+            }
         }
-        if (this.state === 'safe') {
-            
-        } else {
-            this.position.set(this.initialPosition[0], this.initialPosition[1])
-        }
+
+        this.state = null
         this.tint = 0xffffff
     }
 
     shouldMove() {
-        return !['beforePitch', 'pitch', 'strike', 'out'].includes(game.state)
+        return !['beforePitch', 'pitch', 'strike'].includes(game.state) && this.state !== 'out'
     }
 
     move() {
-        const firstBase = [1200, 365]
-        const diff = [firstBase[0] - this.x, firstBase[1] - this.y]
+        const nextBase = game.bases[this.nextBase - 1]
+        const diff = [nextBase[0] - this.x, nextBase[1] - this.y]
         const distance = Math.hypot(diff[0], diff[1])
-        if (distance < this.speed && game.state !== 'safe') {
-            game.state = 'safe'
-            dispatchEvent(new Event('safe'))
-            return
-        }
+        if (distance < this.speed) return
         const velocity = [diff[0] / distance * this.speed, diff[1] / distance * this.speed]
         this.position.set(this.x + velocity[0], this.y + velocity[1])
     }
 
+    canMakeSafe() {
+        const nextBase = game.bases[this.nextBase - 1]
+        const diff = [nextBase[0] - this.x, nextBase[1] - this.y]
+        const distance = Math.hypot(diff[0], diff[1])
+        return this.state !== 'safe' && distance < this.speed && game.state !== 'finish'
+    }
+
+    makeSafe() {
+        this.state = 'safe'
+        if (!game.batters.some(batter => batter.state === null)) {
+            game.state = 'finish'
+            dispatchEvent(new Event('finish'))
+        }
+    }
+
     isOut() {
-        return game.state === 'out'
+        return this.state === 'out'
     }
 
     update() {
         if (this.isOut()) this.tint = 0xff0000
         if (this.shouldMove()) this.move()
+        if (this.canMakeSafe()) this.makeSafe()
     }
 }
-
-addEventListener('safe', () => {
-    setTimeout(() => {
-        game.reset()
-        game.batter = new Batter('batter', app.screen.width / 2 - 28, 805)
-    }, 2000)
-})
-

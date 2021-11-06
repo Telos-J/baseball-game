@@ -19,6 +19,7 @@ export default class Ball extends PIXI.Sprite {
         this.scale.set(0.01)
         this.texture = loader.resources.baseball.texture
         this.timeoutset = false
+        this.zIndex = 10
     }
 
     move(deltaTime = 1) {
@@ -57,7 +58,7 @@ export default class Ball extends PIXI.Sprite {
     }
 
     physicsOff() {
-        return ['beforePitch', 'pitch', 'throwBall', 'safe'].includes(game.state)
+        return ['beforePitch', 'pitch', 'throwBall', 'finish'].includes(game.state)
     }
 
     pitch() {
@@ -67,8 +68,8 @@ export default class Ball extends PIXI.Sprite {
     }
 
     reset() {
+        this.stop()
         this.position.set(app.screen.width / 2, 366)
-        this.speed = 0
     }
 
     isStrike() {
@@ -80,7 +81,7 @@ export default class Ball extends PIXI.Sprite {
     }
 
     shouldMove() {
-        return ['pitch', 'hit', 'throwBall', 'safe'].includes(game.state)
+        return ['pitch', 'hit', 'throwBall', 'finish'].includes(game.state)
     }
 
     update(deltaTime) {

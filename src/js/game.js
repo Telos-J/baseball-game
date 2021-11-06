@@ -7,7 +7,14 @@ class Game extends PIXI.Container {
         this.pointsEarned = 0
         this.fielders = []
         this._state = 'beforePitch'
+        this.sortableChildren = true
         this.batters = []
+        this.bases = [
+            [1200, 365],
+            [800, 40],
+            [400, 365],
+            [800, 805],
+        ]
     }
 
     get state() {
@@ -50,7 +57,6 @@ class Game extends PIXI.Container {
         for (const fielder of this.fielders) fielder.update()
         for (const batter of this.batters) batter.update()
         this.moveCamera()
-        console.log(this.ball.speed)
     }
 }
 
