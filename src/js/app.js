@@ -1,58 +1,66 @@
+import '../favicon.ico'
+import '../image.png'
+import '../icon-192.png'
+import '../icon-512.png'
 import '../css/style.scss'
-import * as PIXI from 'pixi.js'
-import game from './game'
+import * as THREE from 'three'
+import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js'
+import { OBJLoader } from 'three/examples/jsm/loaders/OBJLoader.js'
+import { MTLLoader } from 'three/examples/jsm/loaders/MTLLoader.js'
 import Ball from './ball'
-import Bat from './bat'
-import Stadium from './stadium'
-import Fielder from './fielder'
 import Bunny from './bunny'
-import Scoreboard from './scoreboard'
-import Batter from './batter'
+import camera from './camera'
+import Stadium from './stadium'
+import { setHelpers } from './helpers'
+import { ambientLight, dirLight } from './light'
 
-const type = PIXI.utils.isWebGLSupported() ? 'WebGL' : 'canvas'
-PIXI.utils.sayHello(type)
-
-const app = new PIXI.Application({
-    width: 1600,
-    height: 900,
-    backgroundColor: 0xffc08b,
-    resolution: devicePixelRatio || 1,
-});
-
-document.body.appendChild(app.view)
-
-const loader = PIXI.Loader.shared
-
-loader.add('bunny', 'img/bunny.png')
-    .add('baseball', 'img/baseball.png')
-    .add('baseballBat', 'img/baseballbat.png')
-    .add('stadium', 'img/stadium.png')
-    .add('homerunSign', 'img/homerunSign.png')
-
-loader.onProgress.add(handleProgress)
-
-function handleProgress(loader, resource) {
-    console.log(`Progress: ${loader.progress}%`);
+const worldDimensions = {
+    worldWidth: 10000,
+    worldHeight: 10000,
+    stadiumWidth: 1500,
+    stadiumHeight: 1500,
+    pitcher: 0,
 }
 
-loader.load(onAssetsLoaded)
+const scene = new THREE.Scene()
+scene.background = new THREE.Color(0x87ceeb)
 
-function onAssetsLoaded(loader, resources) {
-    app.stage.addChild(game)
-    game.stadium = new Stadium()
-    game.pitcher = new Bunny('pitcher', app.screen.width / 2 + 25, 365)
-    game.batter = new Batter('batter', app.screen.width / 2 - 28, 805)
-    game.fielder1B = new Fielder('fielder1B', 1200, 190)
-    game.fielder2B = new Fielder('fielder2B', 960, 60)
-    game.fielderSS = new Fielder('fielderSS', 650, 60)
-    game.fielder3B = new Fielder('fielder3B', 400, 190)
-    game.ball = new Ball()
-    game.bat = new Bat()
-    game.scoreboard = new Scoreboard()
+const renderer = new THREE.WebGLRenderer()
+renderer.setSize(window.innerWidth, window.innerHeight)
+document.body.appendChild(renderer.domElement)
 
-    game.start()
-    app.ticker.add(deltaTime => game.loop(deltaTime))
+const controls = new OrbitControls(camera, renderer.domElement)
+
+setHelpers(scene)
+scene.add(ambientLight)
+scene.add(dirLight)
+
+const objLoader = new OBJLoader()
+const mtlLoader = new MTLLoader()
+const imageLoader = new THREE.ImageLoader()
+
+async function setup() {
+    const bunny = new Bunny()
+    bunny.position.z = -worldDimensions.stadiumHeight * 0.19
+    scene.add(bunny)
+
+    const ball = await Ball(objLoader, mtlLoader)
+    ball.position.set(-13 - ball.boxSize.x / 2, 23 - ball.boxSize.y / 2, bunny.position.z)
+    scene.add(ball)
+
+    const stadium = await Stadium(imageLoader, worldDimensions)
+    scene.add(stadium)
 }
 
-export { app, loader }
+function animate() {
+    controls.update()
+    requestAnimationFrame(animate)
+    renderer.render(scene, camera)
+}
 
+function main() {
+    setup()
+    animate()
+}
+
+main()
