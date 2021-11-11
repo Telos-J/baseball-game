@@ -9,6 +9,7 @@ loadingManager.onLoad = () => {
     setTimeout(() => {
         const spinner = document.querySelector('.loader-wrap')
         spinner.classList.add('fadeOut')
+        spinner.addEventListener('transitionend', () => spinner.classList.add('turnOff'))
     }, 1000)
 }
 

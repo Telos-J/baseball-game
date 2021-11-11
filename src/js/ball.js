@@ -1,9 +1,7 @@
 import * as THREE from 'three'
 
 export default async function Ball(gltfLoader) {
-    const gltf = await gltfLoader.loadAsync('models/baseball/scene.gltf', req => {
-        console.log(req)
-    })
+    const gltf = await gltfLoader.loadAsync('models/baseball/scene.gltf')
     const object = gltf.scene
     object.scale.set(0.05, 0.05, 0.05)
 

@@ -8,6 +8,7 @@ import { imageLoader, gltfLoader } from './loaders'
 import { setHelpers } from './helpers'
 import { ambientLight, dirLight } from './light'
 import { worldDimensions } from './world'
+import { setupListeners } from './listeners'
 import camera from './camera'
 import Ball from './ball'
 import Stadium from './stadium'
@@ -26,7 +27,7 @@ const { controls } = setHelpers(scene, renderer)
 scene.add(ambientLight)
 scene.add(dirLight)
 
-async function setup() {
+async function setupGame() {
     const ball = await Ball(gltfLoader)
     const bat = await Bat(gltfLoader)
     const stadium = await Stadium(imageLoader, worldDimensions)
@@ -55,31 +56,9 @@ function animate() {
 }
 
 function main() {
-    setup()
+    setupGame()
+    setupListeners(scene, renderer)
     animate()
 }
-
-addEventListener('keydown', e => {
-    const batter = scene.getObjectByName('batter')
-    const bat = scene.getObjectByName('bat')
-    if (e.code === 'Space') {
-        batter.swingBat(bat)
-    } else if (e.code === 'ArrowRight') {
-        batter.position.x += 1
-        batter.equipBat(bat)
-    } else if (e.code === 'ArrowLeft') {
-        batter.position.x -= 1
-        batter.equipBat(bat)
-    }
-})
-
-addEventListener('keyup', e => {
-    const batter = scene.getObjectByName('batter')
-    const bat = scene.getObjectByName('bat')
-    if (e.code === 'Space') {
-        batter.rotation.set(0, Math.PI / 2, 0)
-        batter.equipBat(bat)
-    }
-})
 
 main()

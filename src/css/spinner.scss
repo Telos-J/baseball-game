@@ -11,6 +11,10 @@
     &.fadeOut {
         opacity: 0;
     }
+
+    &.turnOff {
+        display: none;
+    }
 }
 
 .loader {
