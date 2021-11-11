@@ -1,0 +1,718 @@
+{
+  "accessors": [
+    {
+      "bufferView": 2,
+      "componentType": 5126,
+      "count": 418,
+      "max": [
+        0.030700000002980232,
+        0.03060000017285347,
+        0.80000001192092896
+      ],
+      "min": [
+        -0.030700000002980232,
+        -0.030799901112914085,
+        0
+      ],
+      "type": "VEC3"
+    },
+    {
+      "bufferView": 2,
+      "byteOffset": 5016,
+      "componentType": 5126,
+      "count": 418,
+      "max": [
+        0.99990254640579224,
+        0.99991166591644287,
+        1
+      ],
+      "min": [
+        -0.99991154670715332,
+        -0.99991166591644287,
+        -0.97779881954193115
+      ],
+      "type": "VEC3"
+    },
+    {
+      "bufferView": 3,
+      "componentType": 5126,
+      "count": 418,
+      "max": [
+        1,
+        0.99999779462814331,
+        0.21128343045711517,
+        1
+      ],
+      "min": [
+        -1,
+        -1,
+        -0.2112891674041748,
+        1
+      ],
+      "type": "VEC4"
+    },
+    {
+      "bufferView": 1,
+      "componentType": 5126,
+      "count": 418,
+      "max": [
+        0.93731904029846191,
+        0.9834403395652771
+      ],
+      "min": [
+        0.034324176609516144,
+        0.016809308901429176
+      ],
+      "type": "VEC2"
+    },
+    {
+      "bufferView": 0,
+      "componentType": 5125,
+      "count": 2148,
+      "max": [
+        417
+      ],
+      "min": [
+        0
+      ],
+      "type": "SCALAR"
+    },
+    {
+      "bufferView": 2,
+      "byteOffset": 10032,
+      "componentType": 5126,
+      "count": 418,
+      "max": [
+        0.030700000002980232,
+        0.03060000017285347,
+        0.80000001192092896
+      ],
+      "min": [
+        -0.030700000002980232,
+        -0.030799901112914085,
+        0
+      ],
+      "type": "VEC3"
+    },
+    {
+      "bufferView": 2,
+      "byteOffset": 15048,
+      "componentType": 5126,
+      "count": 418,
+      "max": [
+        0.99990254640579224,
+        0.99991166591644287,
+        1
+      ],
+      "min": [
+        -0.99991154670715332,
+        -0.99991166591644287,
+        -0.97779881954193115
+      ],
+      "type": "VEC3"
+    },
+    {
+      "bufferView": 3,
+      "byteOffset": 6688,
+      "componentType": 5126,
+      "count": 418,
+      "max": [
+        1,
+        0.99999779462814331,
+        0.21128343045711517,
+        1
+      ],
+      "min": [
+        -1,
+        -1,
+        -0.2112891674041748,
+        1
+      ],
+      "type": "VEC4"
+    },
+    {
+      "bufferView": 1,
+      "byteOffset": 3344,
+      "componentType": 5126,
+      "count": 418,
+      "max": [
+        0.93731904029846191,
+        0.9834403395652771
+      ],
+      "min": [
+        0.034324176609516144,
+        0.016809308901429176
+      ],
+      "type": "VEC2"
+    },
+    {
+      "bufferView": 0,
+      "byteOffset": 8592,
+      "componentType": 5125,
+      "count": 2148,
+      "max": [
+        417
+      ],
+      "min": [
+        0
+      ],
+      "type": "SCALAR"
+    },
+    {
+      "bufferView": 2,
+      "byteOffset": 20064,
+      "componentType": 5126,
+      "count": 418,
+      "max": [
+        0.030700000002980232,
+        0.03060000017285347,
+        0.80000001192092896
+      ],
+      "min": [
+        -0.030700000002980232,
+        -0.030799901112914085,
+        0
+      ],
+      "type": "VEC3"
+    },
+    {
+      "bufferView": 2,
+      "byteOffset": 25080,
+      "componentType": 5126,
+      "count": 418,
+      "max": [
+        0.99990254640579224,
+        0.99991166591644287,
+        1
+      ],
+      "min": [
+        -0.99991154670715332,
+        -0.99991166591644287,
+        -0.97779881954193115
+      ],
+      "type": "VEC3"
+    },
+    {
+      "bufferView": 3,
+      "byteOffset": 13376,
+      "componentType": 5126,
+      "count": 418,
+      "max": [
+        1,
+        0.99999779462814331,
+        0.21128343045711517,
+        1
+      ],
+      "min": [
+        -1,
+        -1,
+        -0.2112891674041748,
+        1
+      ],
+      "type": "VEC4"
+    },
+    {
+      "bufferView": 1,
+      "byteOffset": 6688,
+      "componentType": 5126,
+      "count": 418,
+      "max": [
+        0.93731904029846191,
+        0.9834403395652771
+      ],
+      "min": [
+        0.034324176609516144,
+        0.016809308901429176
+      ],
+      "type": "VEC2"
+    },
+    {
+      "bufferView": 0,
+      "byteOffset": 17184,
+      "componentType": 5125,
+      "count": 2148,
+      "max": [
+        417
+      ],
+      "min": [
+        0
+      ],
+      "type": "SCALAR"
+    }
+  ],
+  "asset": {
+    "extras": {
+      "author": "CGunwale (https://sketchfab.com/cgunwale)",
+      "license": "CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)",
+      "source": "https://sketchfab.com/models/2fcf23b076c140ab8d2b74fe0a02cf0e",
+      "title": "Baseball Bat – Pack 01"
+    },
+    "generator": "Sketchfab-3.19.5",
+    "version": "2.0"
+  },
+  "bufferViews": [
+    {
+      "buffer": 0,
+      "byteLength": 25776,
+      "byteOffset": 0,
+      "name": "floatBufferViews",
+      "target": 34963
+    },
+    {
+      "buffer": 0,
+      "byteLength": 10032,
+      "byteOffset": 25776,
+      "byteStride": 8,
+      "name": "floatBufferViews",
+      "target": 34962
+    },
+    {
+      "buffer": 0,
+      "byteLength": 30096,
+      "byteOffset": 35808,
+      "byteStride": 12,
+      "name": "floatBufferViews",
+      "target": 34962
+    },
+    {
+      "buffer": 0,
+      "byteLength": 20064,
+      "byteOffset": 65904,
+      "byteStride": 16,
+      "name": "floatBufferViews",
+      "target": 34962
+    }
+  ],
+  "buffers": [
+    {
+      "byteLength": 85968,
+      "uri": "scene.bin"
+    }
+  ],
+  "images": [
+    {
+      "uri": "textures/02_-_Default_baseColor.png"
+    },
+    {
+      "uri": "textures/02_-_Default_normal.png"
+    },
+    {
+      "uri": "textures/02_-_Default_metallicRoughness.png"
+    },
+    {
+      "uri": "textures/03_-_Default_baseColor.png"
+    },
+    {
+      "uri": "textures/03_-_Default_normal.png"
+    },
+    {
+      "uri": "textures/03_-_Default_metallicRoughness.png"
+    },
+    {
+      "uri": "textures/Baseball_Bat_baseColor.png"
+    },
+    {
+      "uri": "textures/Baseball_Bat_normal.png"
+    },
+    {
+      "uri": "textures/Baseball_Bat_metallicRoughness.png"
+    }
+  ],
+  "materials": [
+    {
+      "doubleSided": true,
+      "name": "02_-_Default",
+      "normalTexture": {
+        "index": 1,
+        "scale": 1,
+        "texCoord": 0
+      },
+      "pbrMetallicRoughness": {
+        "baseColorFactor": [
+          1,
+          1,
+          1,
+          1
+        ],
+        "baseColorTexture": {
+          "index": 0,
+          "texCoord": 0
+        },
+        "metallicFactor": 0,
+        "metallicRoughnessTexture": {
+          "index": 2,
+          "texCoord": 0
+        },
+        "roughnessFactor": 0.9834222561
+      }
+    },
+    {
+      "doubleSided": true,
+      "name": "03_-_Default",
+      "normalTexture": {
+        "index": 4,
+        "scale": 1,
+        "texCoord": 0
+      },
+      "pbrMetallicRoughness": {
+        "baseColorFactor": [
+          1,
+          1,
+          1,
+          1
+        ],
+        "baseColorTexture": {
+          "index": 3,
+          "texCoord": 0
+        },
+        "metallicFactor": 0,
+        "metallicRoughnessTexture": {
+          "index": 5,
+          "texCoord": 0
+        },
+        "roughnessFactor": 0.97732469509999997
+      }
+    },
+    {
+      "doubleSided": true,
+      "name": "Baseball_Bat",
+      "normalTexture": {
+        "index": 7,
+        "scale": 1,
+        "texCoord": 0
+      },
+      "pbrMetallicRoughness": {
+        "baseColorFactor": [
+          1,
+          1,
+          1,
+          1
+        ],
+        "baseColorTexture": {
+          "index": 6,
+          "texCoord": 0
+        },
+        "metallicFactor": 0,
+        "metallicRoughnessTexture": {
+          "index": 8,
+          "texCoord": 0
+        },
+        "roughnessFactor": 0.97122713409999994
+      }
+    }
+  ],
+  "meshes": [
+    {
+      "name": "Baseball_Bat007_02 - Default_0",
+      "primitives": [
+        {
+          "attributes": {
+            "NORMAL": 1,
+            "POSITION": 0,
+            "TANGENT": 2,
+            "TEXCOORD_0": 3
+          },
+          "indices": 4,
+          "material": 0,
+          "mode": 4
+        }
+      ]
+    },
+    {
+      "name": "Baseball_Bat008_03 - Default_0",
+      "primitives": [
+        {
+          "attributes": {
+            "NORMAL": 6,
+            "POSITION": 5,
+            "TANGENT": 7,
+            "TEXCOORD_0": 8
+          },
+          "indices": 9,
+          "material": 1,
+          "mode": 4
+        }
+      ]
+    },
+    {
+      "name": "Baseball_Bat006_Baseball_Bat_0",
+      "primitives": [
+        {
+          "attributes": {
+            "NORMAL": 11,
+            "POSITION": 10,
+            "TANGENT": 12,
+            "TEXCOORD_0": 13
+          },
+          "indices": 14,
+          "material": 2,
+          "mode": 4
+        }
+      ]
+    }
+  ],
+  "nodes": [
+    {
+      "children": [
+        1
+      ],
+      "name": "RootNode (gltf orientation matrix)",
+      "rotation": [
+        -0.70710678118654746,
+        -0,
+        -0,
+        0.70710678118654757
+      ]
+    },
+    {
+      "children": [
+        2
+      ],
+      "name": "RootNode (model correction matrix)"
+    },
+    {
+      "children": [
+        3
+      ],
+      "matrix": [
+        1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        -1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1
+      ],
+      "name": "642df5bafb134c82b402aa459d2c2a2a.fbx"
+    },
+    {
+      "children": [
+        4,
+        7,
+        10
+      ],
+      "name": "RootNode"
+    },
+    {
+      "children": [
+        5
+      ],
+      "matrix": [
+        3.1391647326017846e-07,
+        0.99999999999995071,
+        1.1102230246251565e-16,
+        0,
+        -1.1102230246251565e-16,
+        1.1102230246251565e-16,
+        -1,
+        0,
+        -0.99999999999995071,
+        3.1391647326017846e-07,
+        1.1102230246251565e-16,
+        0,
+        -0.0352783203125,
+        0.019714290276169777,
+        -0.029409795999526978,
+        1
+      ],
+      "name": "Baseball_Bat007"
+    },
+    {
+      "children": [
+        6
+      ],
+      "matrix": [
+        1,
+        0,
+        -0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        2.4307666990353027e-11,
+        9.995047003030777e-05,
+        -0.40000000596046448,
+        1
+      ],
+      "name": ""
+    },
+    {
+      "mesh": 0,
+      "name": "Baseball_Bat007_02 - Default_0"
+    },
+    {
+      "children": [
+        8
+      ],
+      "matrix": [
+        3.1391647326017846e-07,
+        0.99999999999995071,
+        1.1102230246251565e-16,
+        0,
+        -1.1102230246251565e-16,
+        1.1102230246251565e-16,
+        -1,
+        0,
+        -0.99999999999995071,
+        3.1391647326017846e-07,
+        1.1102230246251565e-16,
+        0,
+        0.0044767968356609344,
+        -0.063600249588489532,
+        9.995047003030777e-05,
+        1
+      ],
+      "name": "Baseball_Bat008"
+    },
+    {
+      "children": [
+        9
+      ],
+      "matrix": [
+        1,
+        0,
+        -0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        1.8869528162213101e-09,
+        9.995047003030777e-05,
+        -0.40000000596046448,
+        1
+      ],
+      "name": ""
+    },
+    {
+      "mesh": 1,
+      "name": "Baseball_Bat008_03 - Default_0"
+    },
+    {
+      "children": [
+        11
+      ],
+      "matrix": [
+        3.1391647326017846e-07,
+        0.99999999999995071,
+        1.1102230246251565e-16,
+        0,
+        -1.1102230246251565e-16,
+        1.1102230246251565e-16,
+        -1,
+        0,
+        -0.99999999999995071,
+        3.1391647326017846e-07,
+        1.1102230246251565e-16,
+        0,
+        -0.070800811052322388,
+        0.10677200555801392,
+        -0.059546634554862976,
+        1
+      ],
+      "name": "Baseball_Bat006"
+    },
+    {
+      "children": [
+        12
+      ],
+      "matrix": [
+        1,
+        0,
+        -0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        1.8869528162213101e-09,
+        9.995047003030777e-05,
+        -0.40000000596046448,
+        1
+      ],
+      "name": ""
+    },
+    {
+      "mesh": 2,
+      "name": "Baseball_Bat006_Baseball_Bat_0"
+    }
+  ],
+  "samplers": [
+    {
+      "magFilter": 9729,
+      "minFilter": 9987,
+      "wrapS": 10497,
+      "wrapT": 10497
+    }
+  ],
+  "scene": 0,
+  "scenes": [
+    {
+      "name": "OSG_Scene",
+      "nodes": [
+        0
+      ]
+    }
+  ],
+  "textures": [
+    {
+      "sampler": 0,
+      "source": 0
+    },
+    {
+      "sampler": 0,
+      "source": 1
+    },
+    {
+      "sampler": 0,
+      "source": 2
+    },
+    {
+      "sampler": 0,
+      "source": 3
+    },
+    {
+      "sampler": 0,
+      "source": 4
+    },
+    {
+      "sampler": 0,
+      "source": 5
+    },
+    {
+      "sampler": 0,
+      "source": 6
+    },
+    {
+      "sampler": 0,
+      "source": 7
+    },
+    {
+      "sampler": 0,
+      "source": 8
+    }
+  ]
+}
+
