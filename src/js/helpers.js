@@ -14,6 +14,7 @@ function setHelpers(scene, renderer) {
     const controls = new OrbitControls(camera, renderer.domElement)
     controls.object.position.set(0, 100, 200)
     controls.target = new THREE.Vector3(0, 50, 0)
+    controls.update()
 
     const gui = new GUI()
     const cameraFolder = gui.addFolder('camera')

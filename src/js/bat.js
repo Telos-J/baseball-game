@@ -1,6 +1,7 @@
 import * as THREE from 'three'
+import { gltfLoader } from './loaders'
 
-export default async function Bat(gltfLoader) {
+export default async function Bat() {
     const gltf = await gltfLoader.loadAsync('models/scene.gltf')
     const object = gltf.scene.getObjectByName('RootNode').children[1]
     object.scale.set(50, 50, 50)
@@ -12,6 +13,7 @@ export default async function Bat(gltfLoader) {
 
     const bat = new THREE.Group()
     bat.add(object)
+    bat.name = 'bat'
 
     return bat
 }

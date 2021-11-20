@@ -6,6 +6,7 @@ export default class Batter extends Bunny {
         super()
         this.rotateY(Math.PI / 2)
         this.position.set(-worldDimensions.stadiumWidth * 0.014, 0, 0)
+        this.name = 'batter'
 
         const leftArm = this.getObjectByName('leftArm')
         leftArm.rotateY(-Math.PI / 1.3)

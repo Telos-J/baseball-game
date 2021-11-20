@@ -1,9 +1,7 @@
 import * as THREE from 'three'
+import { imageLoader } from './loaders'
 
-export default async function Stadium(
-    imageLoader,
-    { worldWidth, worldHeight, stadiumWidth, stadiumHeight }
-) {
+export default async function Stadium({ worldWidth, worldHeight, stadiumWidth, stadiumHeight }) {
     const image = await imageLoader.loadAsync('img/stadium.png')
 
     const canvas = document.createElement('canvas')

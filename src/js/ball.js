@@ -1,13 +1,17 @@
 import * as THREE from 'three'
+import { gltfLoader } from './loaders'
 
-export default async function Ball(gltfLoader) {
+export default async function Ball() {
     const gltf = await gltfLoader.loadAsync('models/baseball/scene.gltf')
-    const object = gltf.scene
-    object.scale.set(0.05, 0.05, 0.05)
+    const ball = gltf.scene
+    ball.scale.set(0.05, 0.05, 0.05)
 
-    const box = new THREE.Box3().setFromObject(object)
+    const box = new THREE.Box3().setFromObject(ball)
     const boxSize = box.getSize(new THREE.Vector3())
-    object.boxSize = boxSize
+    ball.boxSize = boxSize
 
-    return object
+    ball.name = 'ball'
+    ball.move = () => {}
+
+    return ball
 }
