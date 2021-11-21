@@ -5,7 +5,7 @@ import '../icon-512.png'
 import '../css/style.scss'
 import * as THREE from 'three'
 import { setHelpers } from './helpers'
-import { loadingManager } from './loaders'
+import { onLoadDo } from './loaders'
 import { ambientLight, dirLight } from './light'
 import { worldDimensions } from './world'
 import { setupListeners } from './listeners'
@@ -59,18 +59,6 @@ const { controls } = setHelpers(scene, renderer)
 scene.add(ambientLight)
 scene.add(dirLight)
 
-let itemsLoaded = 0
-const itemsTotal = 3
-loadingManager.onLoad = () => {
-    itemsLoaded++
-    if (itemsLoaded === itemsTotal) {
-        const spinner = document.querySelector('.loader-wrap')
-        spinner.classList.add('fadeOut')
-        spinner.addEventListener('transitionend', () => {
-            spinner.classList.add('turnOff')
-            gameLoop()
-        })
-    }
-}
+onLoadDo(gameLoop)
 
 main()
