@@ -11,7 +11,19 @@ export default async function Ball() {
     ball.boxSize = boxSize
 
     ball.name = 'ball'
-    ball.move = () => {}
+    ball.speed = 10
+    ball.move = () => {
+        ball.position.z += ball.speed
+        ball.rotateY(Math.PI / 30)
+    }
+
+    ball.hit = () => {
+        console.log(ball.position.z)
+        if (ball.position.z < 20 && ball.position.z > -40) {
+            ball.speed = -20
+            console.log('hit')
+        }
+    }
 
     return ball
 }

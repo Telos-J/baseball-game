@@ -3,7 +3,7 @@ import { gltfLoader } from './loaders'
 
 export default async function Bat() {
     const gltf = await gltfLoader.loadAsync('models/scene.gltf')
-    const object = gltf.scene.getObjectByName('RootNode').children[1]
+    const object = gltf.scene.getObjectByName('RootNode').children[0]
     object.scale.set(50, 50, 50)
 
     const box = new THREE.Box3().setFromObject(object)
