@@ -1,5 +1,7 @@
+import * as THREE from 'three'
 import Bunny from './bunny'
 import { worldDimensions } from './world'
+import { setSwingBat } from './animations/swingBat'
 
 export default class Batter extends Bunny {
     constructor() {
@@ -8,12 +10,13 @@ export default class Batter extends Bunny {
         this.position.set(-worldDimensions.stadiumWidth * 0.014, 0, 0)
         this.name = 'batter'
         this.isBunting = false
+        this.isSwinging = false
 
         const leftArm = this.getObjectByName('leftArm')
         leftArm.rotateY(-Math.PI / 1.3)
 
         const rightArm = this.getObjectByName('rightArm')
-        rightArm.rotateY(Math.PI / 2.5)
+        rightArm.rotateY(Math.PI / 1.5)
     }
 
     equipBat(bat) {
@@ -22,13 +25,14 @@ export default class Batter extends Bunny {
 
         const rightHand = this.getObjectByName('rightHand')
         rightHand.add(bat)
-        bat.rotation.set(0, -Math.PI / 2, -Math.PI / 6)
+        bat.rotation.set(0, -Math.PI / 1.3, -Math.PI / 6)
         bat.name = 'bat'
+
+        setSwingBat(this)
     }
 
-    swingBat(bat) {
-        this.rotation.set(0, Math.PI / 2 + Math.PI / 4, 0)
-        bat.rotation.set(0, 0, 0)
+    swingBat() {
+        this.swingBatAction.play()
     }
 
     hit(ball) {

@@ -48,7 +48,9 @@ function startGame() {
 
 function gameLoop() {
     const ball = scene.getObjectByName('ball')
+    const batter = scene.getObjectByName('batter')
     ball.move()
+    batter.swingBatMixer.update(1 / 30)
     controls.update()
     renderer.render(scene, camera)
     requestAnimationFrame(gameLoop)

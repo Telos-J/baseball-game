@@ -6,7 +6,7 @@ function setupListeners(scene, renderer) {
         const ball = scene.getObjectByName('ball')
         const bat = scene.getObjectByName('bat')
         if (e.code === 'Space') {
-            batter.swingBat(bat)
+            batter.swingBat()
             batter.hit(ball)
         } else if (e.code === 'ArrowRight') {
             batter.position.x += 1

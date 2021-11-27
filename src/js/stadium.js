@@ -23,7 +23,7 @@ export default async function Stadium({ worldWidth, worldHeight, stadiumWidth, s
     const geometry = new THREE.PlaneGeometry(canvas.width, canvas.height)
     const material = new THREE.MeshBasicMaterial({
         transparent: true,
-        side: THREE.DoubleSide,
+        side: THREE.BackSide,
         map: texture,
     })
     const stadium = new THREE.Mesh(geometry, material)
