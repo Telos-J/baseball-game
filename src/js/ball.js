@@ -15,8 +15,8 @@ export default async function Ball() {
 
     {
         ball.name = 'ball'
-        ball.velocity = new THREE.Vector3(0, 0, 10)
-        ball.angularVelocity = new THREE.Euler(0, Math.PI / 30, 0)
+        ball.velocity = new THREE.Vector3(0, 0, 0)
+        ball.angularVelocity = new THREE.Euler(0, 0, 0)
         ball.physicsOn = false
         ball.isBunting = false
     }

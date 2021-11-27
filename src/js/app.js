@@ -35,6 +35,17 @@ async function setupGame() {
     renderer.render(scene, camera)
 }
 
+function startGame() {
+    const pitcher = scene.getObjectByName('pitcher')
+    const ball = scene.getObjectByName('ball')
+
+    setTimeout(() => {
+        pitcher.pitch(ball)
+    }, 1000)
+
+    gameLoop()
+}
+
 function gameLoop() {
     const ball = scene.getObjectByName('ball')
     ball.move()
@@ -59,6 +70,6 @@ const { controls } = setHelpers(scene, renderer)
 scene.add(ambientLight)
 scene.add(dirLight)
 
-onLoadDo(gameLoop)
+onLoadDo(startGame)
 
 main()
