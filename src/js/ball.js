@@ -18,6 +18,7 @@ export default async function Ball() {
         ball.velocity = new THREE.Vector3(0, 0, 10)
         ball.angularVelocity = new THREE.Euler(0, Math.PI / 30, 0)
         ball.physicsOn = false
+        ball.isBunting = false
     }
 
     ball.move = () => {
@@ -33,12 +34,8 @@ export default async function Ball() {
         }
     }
 
-    ball.hit = () => {
-        console.log(ball.position.z)
-        if (ball.position.z < 20 && ball.position.z > -40) {
-            ball.velocity.set(0, 10, -15)
-            ball.physicsOn = true
-        }
+    ball.inBattersBox = () => {
+        return ball.position.z < 20 && ball.position.z > -40
     }
 
     return ball
