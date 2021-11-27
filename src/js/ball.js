@@ -15,28 +15,28 @@ export default async function Ball() {
 
     {
         ball.name = 'ball'
-        ball.speed = 10
         ball.velocity = new THREE.Vector3(0, 0, 10)
+        ball.angularVelocity = new THREE.Euler(0, Math.PI / 30, 0)
         ball.physicsOn = false
     }
 
     ball.move = () => {
         if (ball.physicsOn) ball.velocity.y -= g
+
         ball.position.add(ball.velocity)
-        if (ball.position.y >= ball.boxSize.y / 2) ball.rotateY(Math.PI / 30)
+        ball.rotateY(ball.angularVelocity.y)
+
         if (ball.position.y < ball.boxSize.y / 2) {
             ball.physicsOn = false
             ball.velocity.set(0, 0, 0)
+            ball.angularVelocity.set(0, 0, 0)
         }
-        console.log(ball.position.y)
     }
 
     ball.hit = () => {
         console.log(ball.position.z)
         if (ball.position.z < 20 && ball.position.z > -40) {
-            ball.speed = -20
-            console.log('hit')
-            ball.velocity.set(0, 5, -40)
+            ball.velocity.set(0, 10, -15)
             ball.physicsOn = true
         }
     }
