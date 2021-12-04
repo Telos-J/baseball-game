@@ -7,12 +7,13 @@ import * as THREE from 'three'
 import { setHelpers } from './helpers'
 import { onLoadDo } from './loaders'
 import { ambientLight, dirLight } from './light'
-import { worldDimensions } from './world'
+import { worldDimensions, toWorldDimensions } from './world'
 import { setupListeners } from './listeners'
 import camera from './camera'
 import Ball from './ball'
 import Stadium from './stadium'
 import Pitcher from './pitcher'
+import Fielder from './fielder'
 import Batter from './batter'
 import Bat from './bat'
 
@@ -20,6 +21,13 @@ async function setupGame() {
     const stadium = await Stadium(worldDimensions)
     const batter = new Batter()
     const pitcher = new Pitcher()
+    const fielder1B = new Fielder('fielder1B', ...toWorldDimensions(518, 405))
+    const fielder2B = new Fielder('fielder2B', ...toWorldDimensions(476, 342))
+    const fielder3B = new Fielder('fielder3B', ...toWorldDimensions(275, 394))
+    const fielderSS = new Fielder('fielderSS', ...toWorldDimensions(334, 326))
+    const fielderLF = new Fielder('fielderLF', ...toWorldDimensions(201, 193))
+    const fielderCF = new Fielder('fielderCF', ...toWorldDimensions(377, 130))
+    const fielderRF = new Fielder('fielderRF', ...toWorldDimensions(574, 171))
     const ball = await Ball()
     const bat = await Bat()
 
@@ -28,6 +36,13 @@ async function setupGame() {
     scene.add(stadium)
     scene.add(pitcher)
     scene.add(batter)
+    scene.add(fielder1B)
+    scene.add(fielder2B)
+    scene.add(fielder3B)
+    scene.add(fielderSS)
+    scene.add(fielderLF)
+    scene.add(fielderCF)
+    scene.add(fielderRF)
 
     pitcher.equipBall(ball)
     batter.equipBat(bat)

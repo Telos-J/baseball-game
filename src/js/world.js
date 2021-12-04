@@ -6,4 +6,11 @@ const worldDimensions = {
     pitcher: 0,
 }
 
-export { worldDimensions }
+function toWorldDimensions(x, y) {
+    return [
+        (worldDimensions.stadiumWidth * (x - 403.07)) / 806.14,
+        (worldDimensions.stadiumHeight * (y - 590)) / 731.5,
+    ]
+}
+
+export { worldDimensions, toWorldDimensions }

@@ -5,6 +5,7 @@ export default class Bunny extends THREE.Group {
     constructor() {
         super()
         this._color = color
+        //this.scale.set(1.5, 1.5, 1.5)
 
         for (const buildPart of [Body, LeftArm, RightArm, LeftLeg, RightLeg]) {
             const part = buildPart()
