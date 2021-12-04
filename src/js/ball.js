@@ -37,10 +37,10 @@ export default async function Ball() {
         }
     }
 
-    ball.bound = ()  => {
+    ball.bound = () => {
         if (ball.position.z > worldDimensions.stadiumHeight * 0.02) {
-            ball.reset()
             ball.stop()
+            ball.reset()
         }
     }
 
