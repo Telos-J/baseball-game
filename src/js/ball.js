@@ -31,19 +31,23 @@ export default async function Ball() {
 
         if (ball.position.y < ball.boxSize.y / 2 && ball.state !== 'stop') {
             ball.stop()
+            setTimeout(() => {
+                ball.reset()
+            }, 5000)
         }
     }
 
-    ball.bound = pitcher => {
+    ball.bound = ()  => {
         if (ball.position.z > worldDimensions.stadiumHeight * 0.02) {
-            ball.reset(pitcher)
+            ball.reset()
+            ball.stop()
         }
     }
 
-    ball.reset = pitcher => {
-        ball.stop()
+    ball.reset = () => {
         ball.state = 'pitchReady'
         console.log(ball.state)
+        const pitcher = ball.pitcher
         pitcher.equipBall(ball)
         setTimeout(() => {
             pitcher.pitch(ball)
