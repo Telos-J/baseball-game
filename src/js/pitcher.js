@@ -16,6 +16,7 @@ export default class Pitcher extends Bunny {
     }
 
     equipBall(ball) {
+        ball.pitcher = this
         ball.position.set(-13 - ball.boxSize.x / 2, 23 - ball.boxSize.y / 2, this.position.z)
     }
 }

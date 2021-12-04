@@ -52,7 +52,7 @@ function gameLoop() {
     const pitcher = scene.getObjectByName('pitcher')
 
     ball.move()
-    ball.bound(pitcher)
+    ball.bound()
 
     batter.swingBatMixer.update(1 / 30)
 
