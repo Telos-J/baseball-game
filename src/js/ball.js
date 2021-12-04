@@ -1,5 +1,6 @@
 import * as THREE from 'three'
 import { gltfLoader } from './loaders'
+import { worldDimensions } from './world'
 
 export default async function Ball() {
     const gltf = await gltfLoader.loadAsync('models/baseball/scene.gltf')
@@ -18,7 +19,6 @@ export default async function Ball() {
         ball.velocity = new THREE.Vector3(0, 0, 0)
         ball.angularVelocity = new THREE.Euler(0, 0, 0)
         ball.physicsOn = false
-        ball.isBunting = false
     }
 
     ball.move = () => {
@@ -28,10 +28,24 @@ export default async function Ball() {
         ball.rotateY(ball.angularVelocity.y)
 
         if (ball.position.y < ball.boxSize.y / 2) {
-            ball.physicsOn = false
-            ball.velocity.set(0, 0, 0)
-            ball.angularVelocity.set(0, 0, 0)
+            ball.reset()
         }
+    }
+
+    ball.bound = pitcher => {
+        if (ball.position.z > worldDimensions.stadiumHeight * 0.02) {
+            ball.reset()
+            pitcher.equipBall(ball)
+            setTimeout(() => {
+                pitcher.pitch(ball)
+            }, 1000)
+        }
+    }
+
+    ball.reset = () => {
+        ball.physicsOn = false
+        ball.velocity.set(0, 0, 0)
+        ball.angularVelocity.set(0, 0, 0)
     }
 
     ball.inBattersBox = () => {

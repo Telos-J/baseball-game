@@ -29,7 +29,7 @@ async function setupGame() {
     scene.add(pitcher)
     scene.add(batter)
 
-    ball.position.set(-13 - ball.boxSize.x / 2, 23 - ball.boxSize.y / 2, pitcher.position.z)
+    pitcher.equipBall(ball)
     batter.equipBat(bat)
 
     renderer.render(scene, camera)
@@ -49,9 +49,15 @@ function startGame() {
 function gameLoop() {
     const ball = scene.getObjectByName('ball')
     const batter = scene.getObjectByName('batter')
+    const pitcher = scene.getObjectByName('pitcher')
+
     ball.move()
+    ball.bound(pitcher)
+
     batter.swingBatMixer.update(1 / 30)
+
     controls.update()
+
     renderer.render(scene, camera)
     requestAnimationFrame(gameLoop)
 }
