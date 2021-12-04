@@ -42,6 +42,8 @@ export default class Batter extends Bunny {
             if (this.isBunting) ball.velocity.set(0, 5, -15)
             else ball.velocity.set(0, 10, -30)
             ball.physicsOn = true
+            ball.state = 'hit'
+            console.log(ball.state)
         }
     }
 }
