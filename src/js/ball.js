@@ -11,8 +11,18 @@ export default async function Ball() {
     const boxSize = box.getSize(new THREE.Vector3())
     ball.boxSize = boxSize
 
-    let g = 1
-    let airResistance = 0.01
+    const g = 0.6
+    const airResistance = 0.03
+
+    Object.defineProperty(ball, 'state', {
+        get: function () {
+            return this._state
+        },
+        set: function (state) {
+            //console.log(`ball state: ${state}`)
+            this._state = state
+        },
+    })
 
     {
         ball.name = 'ball'
@@ -20,21 +30,16 @@ export default async function Ball() {
         ball.angularVelocity = new THREE.Euler(0, 0, 0)
         ball.physicsOn = false
         ball.state = 'pitchReady'
-        console.log(ball.state)
     }
 
     ball.move = () => {
-        if (ball.physicsOn) ball.velocity.y -= g
+        if (ball.physicsOn) {
+            ball.velocity.y -= g
+            ball.velocity.sub(ball.velocity.clone().multiplyScalar(airResistance))
+        }
 
         ball.position.add(ball.velocity)
         ball.rotateY(ball.angularVelocity.y)
-
-        if (ball.position.y < ball.boxSize.y / 2 && ball.state !== 'stop') {
-            ball.stop()
-            setTimeout(() => {
-                ball.reset()
-            }, 5000)
-        }
     }
 
     ball.bound = () => {
@@ -46,7 +51,6 @@ export default async function Ball() {
 
     ball.reset = () => {
         ball.state = 'pitchReady'
-        console.log(ball.state)
         const pitcher = ball.pitcher
         pitcher.equipBall(ball)
         setTimeout(() => {
@@ -59,7 +63,6 @@ export default async function Ball() {
         ball.velocity.set(0, 0, 0)
         ball.angularVelocity.set(0, 0, 0)
         ball.state = 'stop'
-        console.log(ball.state)
     }
 
     ball.inBattersBox = () => {

@@ -1,0 +1,30 @@
+import Bunny from './bunny'
+
+export default class Fielder extends Bunny {
+    constructor(name, x, z) {
+        super()
+        this.position.set(x, 0, z)
+        this.name = name
+    }
+
+    predict(ball) {
+        const position = ball.position.clone()
+        const velocity = ball.velocity.clone()
+        const g = 1
+        const airResistance = 0.05
+
+        while (position.y >= ball.boxSize.y / 2) {
+            velocity.y -= g
+            velocity.sub(velocity.clone().multiplyScalar(airResistance))
+            position.add(velocity)
+        }
+
+        return position
+    }
+
+    move(target) {
+        this.lookAt(target)
+        target.sub(this.position)
+        this.position.add(target)
+    }
+}

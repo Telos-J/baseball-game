@@ -13,7 +13,7 @@ import camera from './camera'
 import Ball from './ball'
 import Stadium from './stadium'
 import Pitcher from './pitcher'
-import Fielder from './fielder'
+import Fielder, { fielders } from './fielder'
 import Batter from './batter'
 import Bat from './bat'
 
@@ -46,8 +46,18 @@ async function setupGame() {
 
     pitcher.equipBall(ball)
     batter.equipBat(bat)
-
     renderer.render(scene, camera)
+}
+
+function resetGame() {
+    const ball = scene.getObjectByName('ball')
+    const batter = scene.getObjectByName('batter')
+    const pitcher = scene.getObjectByName('pitcher')
+
+    for (const fielder of fielders) {
+        fielder.reset()
+        ball.reset()
+    }
 }
 
 function startGame() {
@@ -64,12 +74,23 @@ function startGame() {
 function gameLoop() {
     const ball = scene.getObjectByName('ball')
     const batter = scene.getObjectByName('batter')
-    const pitcher = scene.getObjectByName('pitcher')
 
     ball.move()
     ball.bound()
 
     batter.swingBatMixer.update(1 / 30)
+
+    for (const fielder of fielders) {
+        fielder.update(ball)
+    }
+
+    if (ball.position.y < ball.boxSize.y / 2 && ball.state !== 'stop') {
+        ball.position.y = ball.boxSize.y / 2
+        ball.stop()
+        setTimeout(() => {
+            resetGame()
+        }, 5000)
+    }
 
     controls.update()
 
@@ -82,7 +103,7 @@ function main() {
     setupListeners(scene, renderer)
 }
 
-const scene = new THREE.Scene()
+let scene = new THREE.Scene()
 scene.background = new THREE.Color(0x87ceeb)
 
 const renderer = new THREE.WebGLRenderer()

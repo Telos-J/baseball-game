@@ -19,10 +19,8 @@ function setupListeners(scene, renderer) {
 
     addEventListener('keyup', e => {
         const batter = scene.getObjectByName('batter')
-        const bat = scene.getObjectByName('bat')
         if (e.code === 'Space') {
-            batter.rotation.set(0, Math.PI / 2, 0)
-            batter.equipBat(bat)
+            batter.makeReady()
         }
     })
 
