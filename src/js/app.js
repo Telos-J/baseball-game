@@ -22,7 +22,7 @@ async function setupGame() {
     const stadium = await Stadium(worldDimensions)
     const batter = new Batter()
     const pitcher = new Pitcher()
-    const fielder1B = new Fielder('fielder1B', ...toWorldDimensions(518, 405))
+    const fielder1B = new Fielder('fielder1B', 0, 0) //...toWorldDimensions (518, 405))
     const fielder2B = new Fielder('fielder2B', ...toWorldDimensions(476, 342))
     const fielder3B = new Fielder('fielder3B', ...toWorldDimensions(275, 394))
     const fielderSS = new Fielder('fielderSS', ...toWorldDimensions(334, 326))
@@ -35,7 +35,6 @@ async function setupGame() {
 
     scene.add(ball)
     scene.add(bat)
-    scene.add(glove)
     scene.add(stadium)
     scene.add(pitcher)
     scene.add(batter)

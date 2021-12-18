@@ -1,4 +1,5 @@
 import Bunny from './bunny'
+import Glove from './glove'
 
 export const fielders = []
 
@@ -10,9 +11,23 @@ export default class Fielder extends Bunny {
         this.name = name
         this.state = 'idle'
         this.prediction = null
-        fielders.push(this)
+        this.equipGlove()
     }
 
+    async equipGlove(){
+        const glove = await Glove()
+        const leftHand = this.getObjectByName('leftHand')
+        const leftArm = this.getObjectByName('leftArm')
+        leftArm.rotateY(-Math.PI / 2)
+        leftHand.add(glove)
+        glove.position.y -= 15
+        glove.position.x += 5
+        glove.position.z += 5
+        glove.rotateY(Math.PI/2)
+        glove.rotateZ(Math.PI)
+        glove.rotateX(Math.PI/4)
+
+    }
     reset() {
         this.position.copy(this.initialPosition)
         this.rotation.set(0, 0, 0)
