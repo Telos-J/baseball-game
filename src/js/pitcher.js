@@ -5,6 +5,7 @@ export default class Pitcher extends Bunny {
     constructor() {
         super()
         this.position.z = -worldDimensions.stadiumHeight * 0.19
+        this.position.x = worldDimensions.stadiumWidth * 0.005
         this.name = 'pitcher'
         this.state = 'pitchReady'
     }
