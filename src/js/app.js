@@ -21,7 +21,7 @@ async function setupGame() {
     const stadium = await Stadium(worldDimensions)
     const batter = new Batter()
     const pitcher = new Pitcher()
-    const fielder1B = new Fielder('fielder1B', ...toWorldDimensions(518, 405))
+    const fielder1B = new Fielder('fielder1B', 0, 0) //...toWorldDimensions(518, 405))
     const fielder2B = new Fielder('fielder2B', ...toWorldDimensions(476, 342))
     const fielder3B = new Fielder('fielder3B', ...toWorldDimensions(275, 394))
     const fielderSS = new Fielder('fielderSS', ...toWorldDimensions(334, 326))
@@ -63,10 +63,12 @@ function resetGame() {
 function startGame() {
     const pitcher = scene.getObjectByName('pitcher')
     const ball = scene.getObjectByName('ball')
+    const fielder1B = scene.getObjectByName('fielder1B')
 
-    setTimeout(() => {
-        pitcher.pitch(ball)
-    }, 1000)
+    //setTimeout(() => {
+    //    pitcher.pitch(ball)
+    //}, 1000)
+    fielder1B.catchBall(ball)
 
     gameLoop()
 }

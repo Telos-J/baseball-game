@@ -4,10 +4,8 @@ import Glove from './glove'
 
 export const fielders = []
 
-export default class Fielder extends Bunny
-{
-    constructor(name, x, z)
-    {
+export default class Fielder extends Bunny {
+    constructor(name, x, z) {
         super()
         this.position.set(x, 0, z)
         this.initialPosition = this.position.clone()
@@ -19,8 +17,7 @@ export default class Fielder extends Bunny
         fielders.push(this)
     }
 
-    async equipGlove()
-    {
+    async equipGlove() {
         const glove = await Glove()
         const leftHand = this.getObjectByName('leftHand')
         const leftArm = this.getObjectByName('leftArm')
@@ -30,27 +27,23 @@ export default class Fielder extends Bunny
         glove.rotation.set(-Math.PI / 2, 0, -Math.PI / 2)
     }
 
-    reset()
-    {
+    reset() {
         this.position.copy(this.initialPosition)
         this.rotation.set(0, 0, 0)
         this.prediction = null
         this.state = 'idle'
     }
 
-    shouldPredict(ball)
-    {
+    shouldPredict(ball) {
         return ball.state === 'hit' && this.state === 'idle' && !this.prediction
     }
 
-    predict(ball){
-        
+    predict(ball) {
         const position = ball.position.clone()
         const velocity = ball.velocity.clone()
         const g = 0.4
         const airResistance = 0.03
-        while (position.y >= ball.boxSize.y / 2)
-        {
+        while (position.y >= ball.boxSize.y / 2) {
             velocity.y -= g
             velocity.sub(velocity.clone().multiplyScalar(airResistance))
             position.add(velocity)
@@ -58,7 +51,6 @@ export default class Fielder extends Bunny
         position.y = ball.boxSize.y / 2
         this.prediction = position
     }
-
 
     shouldMoveToPrediction() {
         return this === closestFielder() && this.position.distanceTo(this.prediction)
@@ -75,6 +67,10 @@ export default class Fielder extends Bunny
             this.position.copy(this.prediction)
             this.state = 'caughtBall'
         } else this.position.add(prediction.normalize().multiplyScalar(this.speed))
+    }
+
+    catchBall(ball) {
+        console.log(ball)
     }
 
     update(ball) {
