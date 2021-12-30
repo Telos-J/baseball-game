@@ -88,19 +88,19 @@ function LeftArm() {
         new THREE.BoxBufferGeometry(7, 4, 4),
         new THREE.MeshLambertMaterial({ color })
     )
-    leftArmMesh.position.set(4.5, 23, 0)
+    leftArmMesh.position.set(4.5, 0, 0)
 
     const leftHand = new THREE.Mesh(
         new THREE.BoxBufferGeometry(4, 4, 4),
         new THREE.MeshLambertMaterial({ color })
     )
-    leftHand.position.set(6.5, 23, 0)
+    leftHand.position.set(6.5, 0, 0)
     leftHand.name = 'leftHand'
 
     const leftArm = new THREE.Group()
     leftArm.add(leftArmMesh)
     leftArm.add(leftHand)
-    leftArm.position.set(6, 0, 0)
+    leftArm.position.set(6, 23, 0)
     leftArm.name = 'leftArm'
 
     return leftArm
@@ -111,19 +111,19 @@ function RightArm() {
         new THREE.BoxBufferGeometry(7, 4, 4),
         new THREE.MeshLambertMaterial({ color })
     )
-    rightArmMesh.position.set(-4.5, 23, 0)
+    rightArmMesh.position.set(-4.5, 0, 0)
 
     const rightHand = new THREE.Mesh(
         new THREE.BoxBufferGeometry(4, 4, 4),
         new THREE.MeshLambertMaterial({ color })
     )
-    rightHand.position.set(-6.5, 23, 0)
+    rightHand.position.set(-6.5, 0, 0)
     rightHand.name = 'rightHand'
 
     const rightArm = new THREE.Group()
     rightArm.add(rightArmMesh)
     rightArm.add(rightHand)
-    rightArm.position.set(-6, 0, 0)
+    rightArm.position.set(-6, 23, 0)
     rightArm.name = 'rightArm'
 
     return rightArm

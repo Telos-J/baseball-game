@@ -16,13 +16,12 @@ import Pitcher from './pitcher'
 import Fielder, { fielders } from './fielder'
 import Batter from './batter'
 import Bat from './bat'
-import Glove from './glove'
 
 async function setupGame() {
     const stadium = await Stadium(worldDimensions)
     const batter = new Batter()
     const pitcher = new Pitcher()
-    const fielder1B = new Fielder('fielder1B', 0, 0) //...toWorldDimensions (518, 405))
+    const fielder1B = new Fielder('fielder1B', ...toWorldDimensions(518, 405))
     const fielder2B = new Fielder('fielder2B', ...toWorldDimensions(476, 342))
     const fielder3B = new Fielder('fielder3B', ...toWorldDimensions(275, 394))
     const fielderSS = new Fielder('fielderSS', ...toWorldDimensions(334, 326))
@@ -31,7 +30,6 @@ async function setupGame() {
     const fielderRF = new Fielder('fielderRF', ...toWorldDimensions(574, 171))
     const ball = await Ball()
     const bat = await Bat()
-    const glove = await Glove()
 
     scene.add(ball)
     scene.add(bat)
@@ -46,7 +44,6 @@ async function setupGame() {
     scene.add(fielderCF)
     scene.add(fielderRF)
 
-    //fielder.equipGlove(glove)
     pitcher.equipBall(ball)
     batter.equipBat(bat)
     renderer.render(scene, camera)
