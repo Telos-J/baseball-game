@@ -41,7 +41,7 @@ export default class Fielder extends Bunny {
     predict(ball) {
         const position = ball.position.clone()
         const velocity = ball.velocity.clone()
-        const g = 0.6
+        const g = 0.4
         const airResistance = 0.03
 
         while (position.y >= ball.boxSize.y / 2) {
