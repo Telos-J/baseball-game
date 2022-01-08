@@ -56,9 +56,8 @@ export default async function Ball() {
         }
     }
 
-    ball.reset = () =>
-    {
-        camera.setAngleBatting()
+    ball.reset = () => {
+        // camera.setAngleBatting()
         ball.state = 'pitchReady'
         const pitcher = ball.pitcher
         pitcher.equipBall(ball)

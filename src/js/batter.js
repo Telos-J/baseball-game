@@ -1,6 +1,7 @@
 import Bunny from './bunny'
 import { worldDimensions } from './world'
 import { setSwingBat } from './animations/swingBat'
+import camera from './camera'
 
 export const batters = []
 
@@ -63,5 +64,7 @@ export default class Batter extends Bunny {
         )
         ball.physicsOn = true
         ball.state = 'hit'
+
+        camera.setAngleHit()
     }
 }

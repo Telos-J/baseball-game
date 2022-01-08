@@ -1,4 +1,3 @@
-import * as THREE from 'three'
 import Bunny from './bunny'
 import Glove from './glove'
 
@@ -48,7 +47,7 @@ export default class Fielder extends Bunny {
             velocity.sub(velocity.clone().multiplyScalar(airResistance))
             position.add(velocity)
         }
-        position.y = ball.boxSize.y / 2
+        position.y = 0
         this.prediction = position
     }
 
@@ -68,18 +67,25 @@ export default class Fielder extends Bunny {
 
     shouldCatchBall(ball) {
         const ballPosition = ball.position.clone()
+        ballPosition.y = 0
         ballPosition.sub(this.position)
-        return ballPosition.length() < this.speed
+        return (
+            this.state !== 'caughtBall' &&
+            ballPosition.length() < this.speed &&
+            ball.position.y < this.boxSize.y
+        )
     }
 
     catchBall(ball) {
         const leftHand = this.getObjectByName('leftHand')
-        this.state = 'caughtBall'
         ball.stop()
+
+        this.rotation.set(0, 0, 0)
         leftHand.getWorldPosition(ball.position)
         ball.position.y -= 8
         ball.position.z += 5
         ball.state = 'caught'
+        this.state = 'caughtBall'
     }
 
     update(ball) {

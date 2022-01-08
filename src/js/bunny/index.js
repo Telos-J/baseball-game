@@ -12,6 +12,10 @@ export default class Bunny extends THREE.Group {
             const part = buildPart()
             this.add(part)
         }
+
+        const box = new THREE.Box3().setFromObject(this)
+        const boxSize = box.getSize(new THREE.Vector3())
+        this.boxSize = boxSize
     }
 
     get state() {

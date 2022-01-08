@@ -47,7 +47,6 @@ async function setupGame() {
     pitcher.equipBall(ball)
     batter.equipBat(bat)
     renderer.render(scene, camera)
-    camera.position.set(-136, 436, 360)
 }
 
 let isReset = false
@@ -67,6 +66,7 @@ function resetGame() {
     }
 
     ball.reset()
+    camera.setAngleBatting()
     isReset = false
 }
 
