@@ -44,6 +44,11 @@ export default async function Ball() {
     }
 
     ball.bound = () => {
+        if (ball.position.y < ball.boxSize.y / 2) {
+            ball.position.y = ball.boxSize.y / 2
+            ball.stop()
+        }
+
         if (ball.position.z > worldDimensions.stadiumHeight * 0.02) {
             ball.stop()
             ball.reset()

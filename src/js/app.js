@@ -49,6 +49,13 @@ async function setupGame() {
     renderer.render(scene, camera)
 }
 
+let isReset = false
+
+function shouldReset() {
+    const ball = scene.getObjectByName('ball')
+    return ball.state === 'caught' && !isReset
+}
+
 function resetGame() {
     const ball = scene.getObjectByName('ball')
     const batter = scene.getObjectByName('batter')
@@ -56,8 +63,10 @@ function resetGame() {
 
     for (const fielder of fielders) {
         fielder.reset()
-        ball.reset()
     }
+
+    ball.reset()
+    isReset = false
 }
 
 function startGame() {
@@ -66,7 +75,7 @@ function startGame() {
     const fielder1B = scene.getObjectByName('fielder1B')
 
     setTimeout(() => {
-       pitcher.pitch(ball)
+        pitcher.pitch(ball)
     }, 1000)
 
     gameLoop()
@@ -85,9 +94,8 @@ function gameLoop() {
         fielder.update(ball)
     }
 
-    if ((ball.position.y < ball.boxSize.y / 2) || (ball.state === "caught")&& ball.state !== 'stop') {
-        ball.position.y = ball.boxSize.y / 2
-        ball.stop()
+    if (shouldReset()) {
+        isReset = true
         setTimeout(() => {
             resetGame()
         }, 5000)

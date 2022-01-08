@@ -66,7 +66,11 @@ export default class Fielder extends Bunny {
         } else this.position.add(prediction.normalize().multiplyScalar(this.speed))
     }
 
-    shouldCatchBall(ball) {}
+    shouldCatchBall(ball) {
+        const ballPosition = ball.position.clone()
+        ballPosition.sub(this.position)
+        return ballPosition.length() < this.speed
+    }
 
     catchBall(ball) {
         const leftHand = this.getObjectByName('leftHand')
