@@ -1,11 +1,12 @@
 import * as THREE from 'three'
 import { gltfLoader } from './loaders'
 import { worldDimensions } from './world'
+import camera from './camera'
 
 export default async function Ball() {
     const gltf = await gltfLoader.loadAsync('models/baseball/scene.gltf')
     const ball = gltf.scene
-    ball.scale.set(0.05, 0.05, 0.05)
+    ball.scale.set(0.08, 0.08, 0.08)
 
     const box = new THREE.Box3().setFromObject(ball)
     const boxSize = box.getSize(new THREE.Vector3())
@@ -55,7 +56,9 @@ export default async function Ball() {
         }
     }
 
-    ball.reset = () => {
+    ball.reset = () =>
+    {
+        camera.setAngleBatting()
         ball.state = 'pitchReady'
         const pitcher = ball.pitcher
         pitcher.equipBall(ball)

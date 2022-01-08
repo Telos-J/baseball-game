@@ -47,6 +47,7 @@ async function setupGame() {
     pitcher.equipBall(ball)
     batter.equipBat(bat)
     renderer.render(scene, camera)
+    camera.position.set(-136, 436, 360)
 }
 
 let isReset = false
@@ -84,7 +85,6 @@ function startGame() {
 function gameLoop() {
     const ball = scene.getObjectByName('ball')
     const batter = scene.getObjectByName('batter')
-
     ball.move()
     ball.bound()
 
@@ -101,7 +101,7 @@ function gameLoop() {
         }, 5000)
     }
 
-    controls.update()
+    // controls.update()
 
     renderer.render(scene, camera)
     requestAnimationFrame(gameLoop)

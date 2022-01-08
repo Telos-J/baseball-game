@@ -77,7 +77,7 @@ export default class Fielder extends Bunny {
         this.state = 'caughtBall'
         ball.stop()
         leftHand.getWorldPosition(ball.position)
-        ball.position.y -= 7
+        ball.position.y -= 8
         ball.position.z += 5
         ball.state = 'caught'
     }
