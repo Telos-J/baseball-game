@@ -56,35 +56,32 @@ export default class Fielder extends Bunny {
         return this === closestFielder() && this.position.distanceTo(this.prediction)
     }
 
-    moveToPrediction(ball) {
+    moveToPrediction() {
         this.state = 'moveToPrediction'
         const prediction = this.prediction.clone()
         this.lookAt(prediction)
         prediction.sub(this.position)
         if (prediction.length() < this.speed) {
             this.position.copy(this.prediction)
-            this.catchBall(ball)
         } else this.position.add(prediction.normalize().multiplyScalar(this.speed))
     }
 
-    catchBall(ball)
-    {
-        const leftHand = this.getObjectByName('leftHand')
-        if (ball.position.y < 5) {
-            this.state = 'caughtBall'
-            ball.stop()
-            leftHand.getWorldPosition(ball.position)
-            ball.position.y -= 7
-            ball.position.z += 5
-            ball.state = "caught"
-            console.log(ball.position)
-        }
+    shouldCatchBall(ball) {}
 
+    catchBall(ball) {
+        const leftHand = this.getObjectByName('leftHand')
+        this.state = 'caughtBall'
+        ball.stop()
+        leftHand.getWorldPosition(ball.position)
+        ball.position.y -= 7
+        ball.position.z += 5
+        ball.state = 'caught'
     }
 
     update(ball) {
         if (this.shouldPredict(ball)) this.predict(ball)
-        if (this.shouldMoveToPrediction()) this.moveToPrediction(ball)
+        if (this.shouldMoveToPrediction()) this.moveToPrediction()
+        if (this.shouldCatchBall(ball)) this.catchBall(ball)
     }
 }
 
