@@ -18,9 +18,9 @@ export default class Pitcher extends Bunny {
     }
 
     equipBall(ball) {
-        const leftHand = this.getObjectByName('rightHand')
+        const rightHand = this.getObjectByName('rightHand')
         ball.pitcher = this
-        leftHand.getWorldPosition(ball.position)
+        rightHand.getWorldPosition(ball.position)
         ball.position.y -= ball.boxSize.y / 2
         ball.position.x -= ball.boxSize.x / 2
         this.state = 'pitchReady'

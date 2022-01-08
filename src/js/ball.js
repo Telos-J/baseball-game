@@ -19,7 +19,7 @@ export default async function Ball() {
             return this._state
         },
         set: function (state) {
-            //console.log(`ball state: ${state}`)
+            console.log(`ball state: ${state}`)
             this._state = state
         },
     })
@@ -40,6 +40,7 @@ export default async function Ball() {
 
         ball.position.add(ball.velocity)
         ball.rotateY(ball.angularVelocity.y)
+        // console.log(ball.position)
     }
 
     ball.bound = () => {
