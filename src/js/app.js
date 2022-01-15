@@ -104,6 +104,9 @@ function gameLoop() {
 
     renderer.render(scene, camera)
     requestAnimationFrame(gameLoop)
+    if (ball.state === 'hit') {
+        batter.run(1)
+    }
 }
 
 function main() {

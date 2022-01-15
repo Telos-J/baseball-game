@@ -1,7 +1,8 @@
 import Bunny from './bunny'
-import { worldDimensions } from './world'
 import { setSwingBat } from './animations/swingBat'
 import camera from './camera'
+import * as THREE from 'three'
+import { worldDimensions, toWorldDimensions } from './world'
 
 export const batters = []
 
@@ -14,6 +15,8 @@ export default class Batter extends Bunny {
         this.isBunting = false
         this.isSwinging = false
         this.state = 'batReady'
+        this.speed = 2 + 2 * Math.random() 
+        this.base = 1
 
         const leftArm = this.getObjectByName('leftArm')
         leftArm.rotateY(-Math.PI / 1.3)
@@ -64,7 +67,18 @@ export default class Batter extends Bunny {
         )
         ball.physicsOn = true
         ball.state = 'hit'
-
         camera.setAngleHit()
+    }
+
+    run(base) {
+        if (base = 1) {
+            const [x, z] = toWorldDimensions(531, 438)
+            const base1 = new THREE.Vector3(x, 0, z)
+            base1.sub(this.position)
+            if (base1.length() < this.speed) {
+                this.position.copy(base1)
+            } else this.position.add(base1.normalize().multiplyScalar(this.speed))
+
+        }
     }
 }
