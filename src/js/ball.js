@@ -44,7 +44,7 @@ export default async function Ball() {
         // console.log(ball.position)
     }
 
-    ball.bound = () => {
+    ball.bound = scene => {
         if (ball.position.y < ball.boxSize.y / 2) {
             ball.position.y = ball.boxSize.y / 2
             ball.stop()
@@ -52,18 +52,20 @@ export default async function Ball() {
 
         if (ball.position.z > worldDimensions.stadiumHeight * 0.02) {
             ball.stop()
-            ball.reset()
+            ball.reset(scene)
         }
     }
 
-    ball.reset = () => {
+    ball.reset = scene => {
+        const pitcher = ball.pitcher
         // camera.setAngleBatting()
         ball.state = 'pitchReady'
-        const pitcher = ball.pitcher
-        // pitcher.equipBall(ball)
-        // setTimeout(() => {
-        //     pitcher.pitch(ball)
-        // }, 1000)
+        ball.removeFromParent()
+        scene.add(ball)
+        pitcher.equipBall(ball)
+        setTimeout(() => {
+            pitcher.pitch(ball)
+        }, 1000)
     }
 
     ball.stop = () => {

@@ -31,7 +31,7 @@ async function setupGame() {
     const ball = await Ball()
     const bat = await Bat()
 
-    // scene.add(ball)
+    scene.add(ball)
     scene.add(bat)
     scene.add(stadium)
     scene.add(pitcher)
@@ -43,15 +43,10 @@ async function setupGame() {
     scene.add(fielderLF)
     scene.add(fielderCF)
     scene.add(fielderRF)
-    fielder1B.position.set(0, 0, 0)
 
     pitcher.equipBall(ball)
     batter.equipBat(bat)
     renderer.render(scene, camera)
-    fielder1B.catchBall(ball)
-    const axesHelper = new THREE.AxesHelper(100)
-    fielder1B.add(axesHelper)
-    fielder1B.rotateY(Math.PI/2)
 }
 
 let isReset = false
@@ -70,7 +65,7 @@ function resetGame() {
         fielder.reset()
     }
 
-    ball.reset()
+    ball.reset(scene)
     camera.setAngleBatting()
     isReset = false
 }
@@ -78,11 +73,10 @@ function resetGame() {
 function startGame() {
     const pitcher = scene.getObjectByName('pitcher')
     const ball = scene.getObjectByName('ball')
-    const fielder1B = scene.getObjectByName('fielder1B')
 
-    // setTimeout(() => {
-    //     pitcher.pitch(ball)
-    // }, 1000)
+    setTimeout(() => {
+        pitcher.pitch(ball)
+    }, 1000)
 
     gameLoop()
 }
@@ -91,7 +85,7 @@ function gameLoop() {
     const ball = scene.getObjectByName('ball')
     const batter = scene.getObjectByName('batter')
     ball.move()
-    ball.bound()
+    ball.bound(scene)
 
     batter.swingBatMixer.update(1 / 30)
 

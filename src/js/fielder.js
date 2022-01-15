@@ -77,16 +77,13 @@ export default class Fielder extends Bunny {
     }
 
     catchBall(ball) {
-        const leftHand = this.getObjectByName('leftHand')
-        ball.stop()
-
-        this.rotation.set(0, 0, 0)
-        leftHand.getWorldPosition(ball.position)
+        ball.removeFromParent()
         this.add(ball)
-        ball.position.x -= 4
-        ball.position.y -= 18
-        ball.position.z += 5
         this.state = 'caughtBall'
+        ball.stop()
+        ball.position.set(6, 12, 14)
+        ball.state = 'caught'
+        this.rotation.set(0, 0, 0)
     }
 
     update(ball) {
