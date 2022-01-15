@@ -5,11 +5,11 @@ import camera from './camera'
 import { dirLight } from './light'
 
 function setHelpers(scene, renderer) {
-    const axesHelper = new THREE.AxesHelper(100)
-    scene.add(axesHelper)
+    // const axesHelper = new THREE.AxesHelper(100)
+    // scene.add(axesHelper)
 
-    const gridHelper = new THREE.GridHelper(100, 10)
-    scene.add(gridHelper)
+    // const gridHelper = new THREE.GridHelper(100, 10)
+    // scene.add(gridHelper)
 
     const controls = new OrbitControls(camera, renderer.domElement)
     controls.minDistance = 10

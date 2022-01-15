@@ -6,7 +6,7 @@ import camera from './camera'
 export default async function Ball() {
     const gltf = await gltfLoader.loadAsync('models/baseball/scene.gltf')
     const ball = gltf.scene
-    ball.scale.set(0.08, 0.08, 0.08)
+    ball.scale.set(0.06, 0.06, 0.06)
 
     const box = new THREE.Box3().setFromObject(ball)
     const boxSize = box.getSize(new THREE.Vector3())
@@ -60,10 +60,10 @@ export default async function Ball() {
         // camera.setAngleBatting()
         ball.state = 'pitchReady'
         const pitcher = ball.pitcher
-        pitcher.equipBall(ball)
-        setTimeout(() => {
-            pitcher.pitch(ball)
-        }, 1000)
+        // pitcher.equipBall(ball)
+        // setTimeout(() => {
+        //     pitcher.pitch(ball)
+        // }, 1000)
     }
 
     ball.stop = () => {
