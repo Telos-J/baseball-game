@@ -76,13 +76,13 @@ export default class Fielder extends Bunny {
         )
     }
 
-    catchBall(ball, batter) {
+    catchBall(ball) {
         ball.removeFromParent()
         this.add(ball)
         this.state = 'caughtBall'
         ball.stop()
         ball.position.set(6, 12, 14)
-        ball.state = 'caught' 
+        ball.state = 'caught'
         this.rotation.set(0, 0, 0)
     }
 
@@ -92,8 +92,8 @@ export default class Fielder extends Bunny {
         ballPosition.sub(this.position)
         return (
             ballPosition.length() < this.speed &&
-            ball.position.y > ball.boxSize.y/2  &&
-            ball.position.y < this.boxSize.y 
+            ball.position.y > ball.boxSize.y / 2 &&
+            ball.position.y < this.boxSize.y
         )
     }
 
