@@ -12,7 +12,7 @@ export default class Fielder extends Bunny {
         this.state = 'idle'
         this.prediction = null
         this.equipGlove()
-        this.speed = 7
+        this.speed = 4
         fielders.push(this)
     }
 
@@ -76,19 +76,35 @@ export default class Fielder extends Bunny {
         )
     }
 
-    catchBall(ball) {
+    catchBall(ball, batter) {
         ball.removeFromParent()
         this.add(ball)
         this.state = 'caughtBall'
         ball.stop()
         ball.position.set(6, 12, 14)
-        ball.state = 'caught'
+        ball.state = 'caught' 
         this.rotation.set(0, 0, 0)
     }
 
-    update(ball) {
+    shouldMakeBatterOut(ball, batter) {
+        const ballPosition = ball.position.clone()
+        ballPosition.y = 0
+        ballPosition.sub(this.position)
+        return (
+            ballPosition.length() < this.speed &&
+            ball.position.y > ball.boxSize.y/2  &&
+            ball.position.y < this.boxSize.y 
+        )
+    }
+
+    makeBatterOut(batter) {
+        batter.state = 'out'
+    }
+
+    update(ball, batter) {
         if (this.shouldPredict(ball)) this.predict(ball)
         if (this.shouldMoveToPrediction()) this.moveToPrediction()
+        if (this.shouldMakeBatterOut(ball, batter)) this.makeBatterOut(batter)
         if (this.shouldCatchBall(ball)) this.catchBall(ball)
     }
 }

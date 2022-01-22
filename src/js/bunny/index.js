@@ -24,7 +24,7 @@ export default class Bunny extends THREE.Group {
 
     set state(state) {
         if (this._state === state) return
-        if (this.name.includes('fielder')) console.log(`${this.name} state: ${state}`)
+        if (this.name.includes('batter')) console.log(`${this.name} state: ${state}`)
         this._state = state
     }
 

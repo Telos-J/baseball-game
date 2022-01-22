@@ -90,7 +90,7 @@ function gameLoop() {
     batter.swingBatMixer.update(1 / 30)
 
     for (const fielder of fielders) {
-        fielder.update(ball)
+        fielder.update(ball, batter)
     }
 
     if (shouldReset()) {
@@ -104,7 +104,6 @@ function gameLoop() {
 
     renderer.render(scene, camera)
     requestAnimationFrame(gameLoop)
-    console.log(`${batter.state} 1`)
     if (batter.state === 'running' && ball.state !== 'caught') {
         batter.run(1)
     }
