@@ -15,8 +15,9 @@ export default class Batter extends Bunny {
         this.isBunting = false
         this.isSwinging = false
         this.state = 'batReady'
-        this.speed = 2 + 2 * Math.random() 
+        this.speed = 6.5 
         this.base = 1
+        
 
         const leftArm = this.getObjectByName('leftArm')
         leftArm.rotateY(-Math.PI / 1.3)
@@ -67,11 +68,14 @@ export default class Batter extends Bunny {
         )
         ball.physicsOn = true
         ball.state = 'hit'
+        this.state = 'running'
+        console.log(`${ this.state} 1`)
         camera.setAngleHit()
     }
 
     run(base) {
-        if (base = 1) {
+        if (base === 1)
+        {
             const [x, z] = toWorldDimensions(531, 438)
             const base1 = new THREE.Vector3(x, 0, z)
             base1.sub(this.position)

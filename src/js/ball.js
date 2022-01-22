@@ -12,7 +12,7 @@ export default async function Ball() {
     const boxSize = box.getSize(new THREE.Vector3())
     ball.boxSize = boxSize
 
-    const g = 0.4
+    const g = 0.6
     const airResistance = 0.03
 
     Object.defineProperty(ball, 'state', {

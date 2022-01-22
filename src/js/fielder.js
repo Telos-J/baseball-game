@@ -12,7 +12,7 @@ export default class Fielder extends Bunny {
         this.state = 'idle'
         this.prediction = null
         this.equipGlove()
-        this.speed = 3
+        this.speed = 7
         fielders.push(this)
     }
 
@@ -40,7 +40,7 @@ export default class Fielder extends Bunny {
     predict(ball) {
         const position = ball.position.clone()
         const velocity = ball.velocity.clone()
-        const g = 0.4
+        const g = 0.6
         const airResistance = 0.03
         while (position.y >= ball.boxSize.y / 2) {
             velocity.y -= g

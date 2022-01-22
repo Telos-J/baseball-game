@@ -5,6 +5,8 @@ function setupListeners(scene, renderer) {
         const batter = scene.getObjectByName('batter')
         const ball = scene.getObjectByName('ball')
         const bat = scene.getObjectByName('bat')
+        if (batter.state !== 'batReady') return
+            
         if (e.code === 'Space') {
             batter.swingBat()
             batter.hit(ball)
@@ -17,8 +19,9 @@ function setupListeners(scene, renderer) {
         }
     })
 
-    addEventListener('keyup', e => {
+    addEventListener('keyup', e => { 
         const batter = scene.getObjectByName('batter')
+        if (batter.state !== 'swing') return
         if (e.code === 'Space') {
             batter.makeReady()
         }

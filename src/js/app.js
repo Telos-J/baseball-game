@@ -104,7 +104,8 @@ function gameLoop() {
 
     renderer.render(scene, camera)
     requestAnimationFrame(gameLoop)
-    if (ball.state === 'hit') {
+    console.log(`${batter.state} 1`)
+    if (batter.state === 'running' && ball.state !== 'caught') {
         batter.run(1)
     }
 }
