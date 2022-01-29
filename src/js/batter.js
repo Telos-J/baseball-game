@@ -7,16 +7,17 @@ import { worldDimensions, toWorldDimensions } from './world'
 export const batters = []
 
 export default class Batter extends Bunny {
-    constructor() {
+    constructor(name, position) {
         super()
         this.rotateY(Math.PI / 2)
-        this.position.set(-worldDimensions.stadiumWidth * 0.014, 0, 0)
-        this.name = 'batter'
+        this.position.copy(position)
+        this.name = name
         this.isBunting = false
         this.isSwinging = false
         this.state = 'batReady'
         this.speed = 6.5
         this.base = 1
+        batters.push(this)
 
         const leftArm = this.getObjectByName('leftArm')
         leftArm.rotateY(-Math.PI / 1.3)
@@ -79,7 +80,7 @@ export default class Batter extends Bunny {
             diff.sub(this.position)
             if (diff.length() < this.speed) {
                 this.position.copy(base1)
-                this.state = 'atBase'
+                this.state = 'atBase'                
             } else this.position.add(diff.normalize().multiplyScalar(this.speed))
         } else if (this.base === 2) {
         }
