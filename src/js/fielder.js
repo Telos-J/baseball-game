@@ -4,9 +4,9 @@ import Glove from './glove'
 export const fielders = []
 
 export default class Fielder extends Bunny {
-    constructor(name, x, z) {
+    constructor(name, position) {
         super()
-        this.position.set(x, 0, z)
+        this.position.copy(position)
         this.initialPosition = this.position.clone()
         this.name = name
         this.state = 'idle'
