@@ -4,6 +4,9 @@ const worldDimensions = {
     stadiumWidth: 3000,
     stadiumHeight: 3000,
     pitcher: 0,
+    base1Position: [531, 438],
+    base2Position: [403, 301],
+    base3Position: [275, 438],
 }
 
 function toWorldDimensions(x, y) {

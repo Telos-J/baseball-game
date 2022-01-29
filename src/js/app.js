@@ -104,8 +104,8 @@ function gameLoop() {
 
     renderer.render(scene, camera)
     requestAnimationFrame(gameLoop)
-    if (batter.state === 'running' && ball.state !== 'caught') {
-        batter.run(1)
+    if (batter.state === 'running') {
+        batter.run()
     }
 }
 
