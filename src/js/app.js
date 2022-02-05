@@ -14,7 +14,7 @@ import Ball from './ball'
 import Stadium from './stadium'
 import Pitcher from './pitcher'
 import Fielder, { fielders } from './fielder'
-import Batter from './batter'
+import Batter, { batters } from './batter'
 import Bat from './bat'
 import { Vector3 } from 'three'
 
@@ -32,6 +32,7 @@ async function setupGame() {
     for (let i = 1; i < 9; i++) {
         const batter = new Batter(`batter${ i + 1 }`, toWorldDimensions(482 + (i - 1) * 15, 0, 596 - (i - 1) * 15))
         scene.add(batter)
+        batter.state = 'waiting'
     }
     const batter = new Batter('batter', new THREE.Vector3(-worldDimensions.stadiumWidth * 0.014, 0, 0))
     const ball = await Ball()
@@ -60,6 +61,7 @@ let isReset = false
 function shouldReset() {
     const ball = scene.getObjectByName('ball')
     return ball.state === 'caught' && !isReset
+    
 }
 
 function resetGame() {
@@ -72,7 +74,17 @@ function resetGame() {
     }
 
     ball.reset(scene)
-    camera.setAngleBatting()
+    // camera.setAngleBatting()
+    // if (batter.state === 'out') {
+    //     this.getObjectByName('batter1')
+    //     batter.position.set()
+    // }
+    for (const b of batters) {
+        if (b.state === 'waiting' && batter.state === 'out') {
+            const prevPosition = b.position
+            b.position.set(prevPosition.x - 15, 0, prevPosition.z + 15)
+        }
+    }
     isReset = false
 }
 
