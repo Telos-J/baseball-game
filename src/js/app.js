@@ -75,15 +75,18 @@ function resetGame() {
 
     ball.reset(scene)
     // camera.setAngleBatting()
-    // if (batter.state === 'out') {
-    //     this.getObjectByName('batter1')
-    //     batter.position.set()
-    // }
+
+    const waiting = batters.filter(batter => batter.state === 'waiting')
+
     for (const b of batters) {
         if (b.state === 'waiting' && batter.state === 'out') {
             const prevPosition = b.position
             b.position.set(prevPosition.x - 15, 0, prevPosition.z + 15)
         }
+    }
+    if (batter.state === 'out') {
+        batter.rotation.set(0, Math.PI * 1.26, 0)
+        batter.position.copy(toWorldDimensions(482 + 15*(waiting.length), 0, 596 - 15*(waiting.length)))
     }
     isReset = false
 }
