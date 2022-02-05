@@ -69,8 +69,19 @@ export default class Batter extends Bunny {
         ball.physicsOn = true
         ball.state = 'hit'
         this.state = 'running'
+        this.unequipBat()
         console.log(`${this.state} 1`)
         camera.setAngleHit()
+    }
+
+    unequipBat() {
+        const prevBat = this.getObjectByName('bat')
+        prevBat.removeFromParent()
+        console.log(prevBat)
+        const leftArm = this.getObjectByName('leftArm')
+        leftArm.rotateY(Math.PI / 1.3)
+        const rightArm = this.getObjectByName('rightArm')
+        rightArm.rotateY(-Math.PI / 1.5)
     }
 
     run() {
