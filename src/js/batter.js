@@ -9,7 +9,7 @@ export const batters = []
 export default class Batter extends Bunny {
     constructor(name, position) {
         super()
-        this.rotateY(Math.PI / 2)
+        this.rotateY(Math.PI * 1.26)
         this.position.copy(position)
         this.name = name
         this.isBunting = false
@@ -18,17 +18,11 @@ export default class Batter extends Bunny {
         this.speed = 6.5
         this.base = 1
         batters.push(this)
-
-        const leftArm = this.getObjectByName('leftArm')
-        leftArm.rotateY(-Math.PI / 1.3)
-
-        const rightArm = this.getObjectByName('rightArm')
-        rightArm.rotateY(Math.PI / 1.5)
-
-        batters.push(this)
     }
 
     equipBat(bat) {
+        this.rotation.set(0, Math.PI/2, 0)
+        
         const prevBat = this.getObjectByName('bat')
         if (prevBat) this.remove(prevBat)
 
@@ -36,6 +30,12 @@ export default class Batter extends Bunny {
         rightHand.add(bat)
         bat.rotation.set(0, -Math.PI / 1.3, -Math.PI / 6)
         bat.name = 'bat'
+
+        const leftArm = this.getObjectByName('leftArm')
+        leftArm.rotateY(-Math.PI / 1.3)
+
+        const rightArm = this.getObjectByName('rightArm')
+        rightArm.rotateY(Math.PI / 1.5)
 
         setSwingBat(this)
     }
