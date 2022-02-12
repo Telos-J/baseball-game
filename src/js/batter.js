@@ -5,7 +5,6 @@ import * as THREE from 'three'
 import { worldDimensions, toWorldDimensions } from './world'
 
 export const batters = []
-export let controlBatter
 
 export default class Batter extends Bunny {
     constructor(name, position) {
@@ -15,13 +14,14 @@ export default class Batter extends Bunny {
         this.name = name
         this.isBunting = false
         this.isSwinging = false
-        this.state = 'batReady'
+        this.state = 'waiting'
         this.speed = 6.5
         this.base = 1
         batters.push(this)
     }
 
     equipBat(bat) {
+        this.state = 'batReady'
         this.position.copy(new THREE.Vector3(-worldDimensions.stadiumWidth * 0.014, 0, 0))
         this.rotation.set(0, Math.PI/2, 0)
         

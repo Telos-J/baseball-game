@@ -41,7 +41,6 @@ export default async function Ball() {
 
         ball.position.add(ball.velocity)
         ball.rotateY(ball.angularVelocity.y)
-        // console.log(ball.position)
     }
 
     ball.bound = scene => {

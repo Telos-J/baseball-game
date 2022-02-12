@@ -14,13 +14,11 @@ import Ball from './ball'
 import Stadium from './stadium'
 import Pitcher from './pitcher'
 import Fielder, { fielders } from './fielder'
-import Batter, { batters, controlBatter } from './batter'
+import Batter, { batters } from './batter'
 import Bat from './bat'
-import { Vector3 } from 'three'
 
 async function setupGame() {
     const stadium = await Stadium(worldDimensions)
-
     const pitcher = new Pitcher()
     const fielder1B = new Fielder('fielder1B', toWorldDimensions(518, 0, 405))
     const fielder2B = new Fielder('fielder2B', toWorldDimensions(476, 0, 342))
@@ -32,11 +30,11 @@ async function setupGame() {
     for (let i = 0; i < 9; i++) {
         const batter = new Batter(`batter${ i + 1 }`, toWorldDimensions(482 + (i - 1) * 15, 0, 596 - (i - 1) * 15))
         scene.add(batter)
-        batter.state = 'waiting'
     }
-    console.log(batters)
-    controlBatter = batters[0]
+    batters[0].name = 'controlBatter'
+    const controlBatter = scene.getObjectByName('controlBatter')
     const ball = await Ball()
+    
     const bat = await Bat()
 
     scene.add(ball)
@@ -65,9 +63,11 @@ function shouldReset() {
     
 }
 
-function resetGame() {
+async function resetGame() {
+    const bat = await Bat()
     const ball = scene.getObjectByName('ball')
     const pitcher = scene.getObjectByName('pitcher')
+    const controlBatter = scene.getObjectByName('controlBatter')
 
     for (const fielder of fielders) {
         fielder.reset()
@@ -84,9 +84,16 @@ function resetGame() {
             b.position.set(prevPosition.x - 15, 0, prevPosition.z + 15)
         }
     }
+
+    controlBatter.name = 'batter'
+    waiting[0].name = 'controlBatter'
+    const nextControlBatter = scene.getObjectByName('controlBatter')
+    nextControlBatter.equipBat(bat)
+
     if (controlBatter.state === 'out') {
         controlBatter.rotation.set(0, Math.PI * 1.26, 0)
-        controlBatter.position.copy(toWorldDimensions(482 + 15*(waiting.length), 0, 596 - 15*(waiting.length)))
+        controlBatter.position.copy(toWorldDimensions(482 + 15 * (waiting.length), 0, 596 - 15 * (waiting.length)))
+        controlBatter.state = 'waiting'
     }
     isReset = false
 }
@@ -106,6 +113,7 @@ function gameLoop() {
     const ball = scene.getObjectByName('ball')
     ball.move()
     ball.bound(scene)
+    const controlBatter = scene.getObjectByName('controlBatter')
 
     controlBatter.swingBatMixer.update(1 / 30)
 
