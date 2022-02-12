@@ -1,29 +1,28 @@
 import camera from './camera'
+import { controlBatter } from './batter'
 
 function setupListeners(scene, renderer) {
     addEventListener('keydown', e => {
-        const batter = scene.getObjectByName('batter')
         const ball = scene.getObjectByName('ball')
         const bat = scene.getObjectByName('bat')
-        if (batter.state !== 'batReady') return
+        if (controlBatter.state !== 'batReady') return
             
         if (e.code === 'Space') {
-            batter.swingBat()
-            batter.hit(ball)
+            controlBatter.swingBat()
+            controlBatter.hit(ball)
         } else if (e.code === 'ArrowRight') {
-            batter.position.x += 1
-            batter.equipBat(bat)
+            controlBatter.position.x += 1
+            controlBatter.equipBat(bat)
         } else if (e.code === 'ArrowLeft') {
-            batter.position.x -= 1
-            batter.equipBat(bat)
+            controlBatter.position.x -= 1
+            controlBatter.equipBat(bat)
         }
     })
 
     addEventListener('keyup', e => { 
-        const batter = scene.getObjectByName('batter')
-        if (batter.state !== 'swing') return
+        if (controlBatter.state !== 'swing') return
         if (e.code === 'Space') {
-            batter.makeReady()
+            controlBatter.makeReady()
         }
     })
 

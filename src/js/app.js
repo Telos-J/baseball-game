@@ -14,7 +14,7 @@ import Ball from './ball'
 import Stadium from './stadium'
 import Pitcher from './pitcher'
 import Fielder, { fielders } from './fielder'
-import Batter, { batters } from './batter'
+import Batter, { batters, controlBatter } from './batter'
 import Bat from './bat'
 import { Vector3 } from 'three'
 
@@ -29,12 +29,13 @@ async function setupGame() {
     const fielderLF = new Fielder('fielderLF', toWorldDimensions(201, 0, 193))
     const fielderCF = new Fielder('fielderCF', toWorldDimensions(377, 0, 130))
     const fielderRF = new Fielder('fielderRF', toWorldDimensions(574, 0, 171))
-    for (let i = 1; i < 9; i++) {
+    for (let i = 0; i < 9; i++) {
         const batter = new Batter(`batter${ i + 1 }`, toWorldDimensions(482 + (i - 1) * 15, 0, 596 - (i - 1) * 15))
         scene.add(batter)
         batter.state = 'waiting'
     }
-    const batter = new Batter('batter', new THREE.Vector3(-worldDimensions.stadiumWidth * 0.014, 0, 0))
+    console.log(batters)
+    controlBatter = batters[0]
     const ball = await Ball()
     const bat = await Bat()
 
@@ -49,10 +50,10 @@ async function setupGame() {
     scene.add(fielderLF)
     scene.add(fielderCF)
     scene.add(fielderRF)
-    scene.add(batter)
+
 
     pitcher.equipBall(ball)
-    batter.equipBat(bat)
+    controlBatter.equipBat(bat)
     renderer.render(scene, camera)
 }
 
@@ -66,7 +67,6 @@ function shouldReset() {
 
 function resetGame() {
     const ball = scene.getObjectByName('ball')
-    const batter = scene.getObjectByName('batter')
     const pitcher = scene.getObjectByName('pitcher')
 
     for (const fielder of fielders) {
@@ -79,14 +79,14 @@ function resetGame() {
     const waiting = batters.filter(batter => batter.state === 'waiting')
 
     for (const b of batters) {
-        if (b.state === 'waiting' && batter.state === 'out') {
+        if (b.state === 'waiting' && controlBatter.state === 'out') {
             const prevPosition = b.position
             b.position.set(prevPosition.x - 15, 0, prevPosition.z + 15)
         }
     }
-    if (batter.state === 'out') {
-        batter.rotation.set(0, Math.PI * 1.26, 0)
-        batter.position.copy(toWorldDimensions(482 + 15*(waiting.length), 0, 596 - 15*(waiting.length)))
+    if (controlBatter.state === 'out') {
+        controlBatter.rotation.set(0, Math.PI * 1.26, 0)
+        controlBatter.position.copy(toWorldDimensions(482 + 15*(waiting.length), 0, 596 - 15*(waiting.length)))
     }
     isReset = false
 }
@@ -104,14 +104,13 @@ function startGame() {
 
 function gameLoop() {
     const ball = scene.getObjectByName('ball')
-    const batter = scene.getObjectByName('batter')
     ball.move()
     ball.bound(scene)
 
-    batter.swingBatMixer.update(1 / 30)
+    controlBatter.swingBatMixer.update(1 / 30)
 
     for (const fielder of fielders) {
-        fielder.update(ball, batter)
+        fielder.update(ball, controlBatter)
     }
 
     if (shouldReset()) {
@@ -125,8 +124,8 @@ function gameLoop() {
 
     renderer.render(scene, camera)
     requestAnimationFrame(gameLoop)
-    if (batter.state === 'running') {
-        batter.run()
+    if (controlBatter.state === 'running') {
+        controlBatter.run()
     }
 }
 
