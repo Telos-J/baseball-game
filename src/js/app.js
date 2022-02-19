@@ -28,13 +28,17 @@ async function setupGame() {
     const fielderCF = new Fielder('fielderCF', toWorldDimensions(377, 0, 130))
     const fielderRF = new Fielder('fielderRF', toWorldDimensions(574, 0, 171))
     for (let i = 0; i < 9; i++) {
-        const batter = new Batter(`batter${ i + 1 }`, toWorldDimensions(482 + (i - 1) * 15, 0, 596 - (i - 1) * 15))
+        const batter = new Batter(
+            `batter${i + 1}`,
+            toWorldDimensions(482 + (i - 1) * 15, 0, 596 - (i - 1) * 15)
+        )
+        batter.color = 0xffffff * Math.random()
         scene.add(batter)
     }
     batters[0].name = 'controlBatter'
     const controlBatter = scene.getObjectByName('controlBatter')
     const ball = await Ball()
-    
+
     const bat = await Bat()
 
     scene.add(ball)
@@ -49,7 +53,6 @@ async function setupGame() {
     scene.add(fielderCF)
     scene.add(fielderRF)
 
-
     pitcher.equipBall(ball)
     controlBatter.equipBat(bat)
     renderer.render(scene, camera)
@@ -60,7 +63,6 @@ let isReset = false
 function shouldReset() {
     const ball = scene.getObjectByName('ball')
     return ball.state === 'caught' && !isReset
-    
 }
 
 async function resetGame() {
@@ -92,7 +94,9 @@ async function resetGame() {
 
     if (controlBatter.state === 'out') {
         controlBatter.rotation.set(0, Math.PI * 1.26, 0)
-        controlBatter.position.copy(toWorldDimensions(482 + 15 * (waiting.length), 0, 596 - 15 * (waiting.length)))
+        controlBatter.position.copy(
+            toWorldDimensions(482 + 15 * waiting.length, 0, 596 - 15 * waiting.length)
+        )
         controlBatter.state = 'waiting'
     }
     isReset = false

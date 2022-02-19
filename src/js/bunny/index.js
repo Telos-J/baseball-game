@@ -30,7 +30,17 @@ export default class Bunny extends THREE.Group {
 
     set color(color) {
         this._color = color
-        colorPart(this, color)
+
+        for (const part of this.children) part.material?.color.setHex(color)
+
+        const leftArm = this.getObjectByName('leftArm')
+        for (const part of leftArm.children) part.material.color.setHex(color)
+
+        const rightArm = this.getObjectByName('rightArm')
+        for (const part of rightArm.children) part.material.color.setHex(color)
+
+        const body = this.getObjectByName('body')
+        for (const part of body.children) part.material?.color.setHex(color)
     }
 
     get color() {
