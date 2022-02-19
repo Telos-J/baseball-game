@@ -12,10 +12,8 @@ function setupListeners(scene, renderer) {
             controlBatter.hit(ball)
         } else if (e.code === 'ArrowRight') {
             controlBatter.position.x += 1
-            controlBatter.equipBat(bat)
         } else if (e.code === 'ArrowLeft') {
             controlBatter.position.x -= 1
-            controlBatter.equipBat(bat)
         }
     })
 

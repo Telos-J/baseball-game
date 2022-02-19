@@ -32,10 +32,11 @@ async function setupGame() {
             `batter${i + 1}`,
             toWorldDimensions(482 + (i - 1) * 15, 0, 596 - (i - 1) * 15)
         )
-        batter.color = 0xffffff * Math.random()
+        //batter.color = 0xffffff * Math.random()
         scene.add(batter)
     }
     batters[0].name = 'controlBatter'
+    batters[2].color = 0xff0000
     const controlBatter = scene.getObjectByName('controlBatter')
     const ball = await Ball()
 
@@ -78,7 +79,9 @@ async function resetGame() {
     ball.reset(scene)
     // camera.setAngleBatting()
 
-    const waiting = batters.filter(batter => batter.state === 'waiting')
+    const waiting = batters.filter(batter => batter.state === 'waiting').sort((batter1, batter2) => {
+        return batter1.position.x - batter2.position.x
+    })
 
     for (const b of batters) {
         if (b.state === 'waiting' && controlBatter.state === 'out') {
@@ -88,9 +91,11 @@ async function resetGame() {
     }
 
     controlBatter.name = 'batter'
+
     waiting[0].name = 'controlBatter'
     const nextControlBatter = scene.getObjectByName('controlBatter')
     nextControlBatter.equipBat(bat)
+    console.log(waiting)
 
     if (controlBatter.state === 'out') {
         controlBatter.rotation.set(0, Math.PI * 1.26, 0)
@@ -100,7 +105,7 @@ async function resetGame() {
         controlBatter.state = 'waiting'
     }
     isReset = false
-}
+}  
 
 function startGame() {
     const pitcher = scene.getObjectByName('pitcher')
