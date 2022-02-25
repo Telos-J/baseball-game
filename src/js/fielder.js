@@ -99,6 +99,7 @@ export default class Fielder extends Bunny {
 
     makeBatterOut(batter) {
         batter.state = 'out'
+        batter.base = 1
     }
 
     update(ball, batter) {

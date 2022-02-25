@@ -6,8 +6,9 @@ const worldDimensions = {
     stadiumWidth: 3000,
     stadiumHeight: 3000,
     base1Position: [531, 0, 438],
-    base2Position: [403, 0, 301],
+    base2Position: [403, 0, 315],
     base3Position: [275, 0, 438],
+    base4Position: [403, 0, 590],
 }
 
 function toWorldDimensions(x, y, z) {

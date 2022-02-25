@@ -138,8 +138,9 @@ function gameLoop() {
 
     renderer.render(scene, camera)
     requestAnimationFrame(gameLoop)
-    if (controlBatter.state === 'running') {
-        controlBatter.run()
+
+    for (const batter of batters) {
+        batter.update()
     }
 }
 
