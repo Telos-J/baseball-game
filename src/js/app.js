@@ -78,7 +78,7 @@ async function resetGame() {
     ball.reset(scene)
     // camera.setAngleBatting()
 
-    const waiting = batters.filter(batter => batter.state === 'waiting').sort((batter1, batter2) => {
+    let waiting = batters.filter(batter => batter.state === 'waiting').sort((batter1, batter2) => {
         return batter1.position.x - batter2.position.x
     })
 
@@ -94,14 +94,21 @@ async function resetGame() {
     const nextControlBatter = scene.getObjectByName('controlBatter')
     nextControlBatter.equipBat(bat)
     
-    if (controlBatter.state === 'out') {
-        controlBatter.rotation.set(0, Math.PI * 1.26, 0)
-        controlBatter.position.copy(
-            toWorldDimensions(482 + 15 * (waiting.length - 1), 0, 596 - 15 * (waiting.length - 1))
-        )
-        controlBatter.state = 'waiting'
+    for (const batter of batters) {
+        if (batter.state === 'out' || batter.state === 'in') {
+            
+            batter.rotation.set(0, Math.PI * 1.26, 0)
+            batter.position.copy(
+                toWorldDimensions(482 + 15 * (waiting.length - 1), 0, 596 - 15 * (waiting.length - 1))
+            )
+            console.log(waiting.length)
+            waiting = batters.filter(batter => batter.state === 'waiting').sort((batter1, batter2) => {
+                return batter1.position.x - batter2.position.x
+            })
+            batter.state = 'waiting'
+        }
+        isReset = false
     }
-    isReset = false
 }  
 
 function startGame() {

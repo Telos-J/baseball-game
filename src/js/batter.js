@@ -99,6 +99,10 @@ export default class Batter extends Bunny {
             this.state = 'atBase'
             this.base += 1
         } else this.position.add(diff.normalize().multiplyScalar(this.speed))
+        
+        if (this.base === 5) {
+            this.state = 'in'
+        }
     }
 
     update() {
