@@ -1,9 +1,9 @@
 import Bunny from './bunny'
-import { setSwingBat } from './animations/swingBat'
+import {setSwingBat} from './animations/swingBat'
 import camera from './camera'
 import * as THREE from 'three'
-import { worldDimensions, toWorldDimensions } from './world'
-import { TextureGCSystem } from 'pixi.js'
+import {worldDimensions, toWorldDimensions} from './world'
+import {TextureGCSystem} from 'pixi.js'
 
 export const batters = []
 
@@ -24,8 +24,8 @@ export default class Batter extends Bunny {
     equipBat(bat) {
         this.state = 'batReady'
         this.position.copy(new THREE.Vector3(-worldDimensions.stadiumWidth * 0.014, 0, 0))
-        this.rotation.set(0, Math.PI/2, 0)
-        
+        this.rotation.set(0, Math.PI / 2, 0)
+
         const prevBat = this.getObjectByName('bat')
         if (prevBat) this.remove(prevBat)
 
@@ -91,45 +91,14 @@ export default class Batter extends Bunny {
     }
 
     run() {
-        if (this.base === 1) {
-            const base1 = toWorldDimensions(...worldDimensions.base1Position)
-            const diff = base1.clone()
-            diff.sub(this.position)
-            if (diff.length() < this.speed) {
-                this.position.copy(base1)
-                this.state = 'atBase'
-                this.base += 1
-            } else this.position.add(diff.normalize().multiplyScalar(this.speed))
-        } else if (this.base === 2) {
-            const base2 = toWorldDimensions(...worldDimensions.base2Position)
-            const diff = base2.clone()
-            diff.sub(this.position)
-            if (diff.length() < this.speed) {
-                this.position.copy(base2)
-                this.state = 'atBase'
-                this.base += 1
-            } else this.position.add(diff.normalize().multiplyScalar(this.speed))
-        } else if (this.base === 3) {
-            const base3 = toWorldDimensions(...worldDimensions.base3Position)
-            const diff = base3.clone()
-            diff.sub(this.position)
-            if (diff.length() < this.speed) {
-                this.position.copy(base3)
-                this.state = 'atBase'
-                this.base += 1
-                console.log(this.base)
-            } else this.position.add(diff.normalize().multiplyScalar(this.speed))
-        } else if (this.base === 4) {
-            const base4 = toWorldDimensions(...worldDimensions.base4Position)
-            const diff = base4.clone()
-            diff.sub(this.position)
-            if (diff.length() < this.speed) {
-                this.position.copy(base4)
-                this.state = 'atBase'
-                this.base += 1
-                this.state = 'waiting'
-            } else this.position.add(diff.normalize().multiplyScalar(this.speed))
-        } 
+        const base = toWorldDimensions(...worldDimensions[`base${this.base}Position`])
+        const diff = base.clone()
+        diff.sub(this.position)
+        if (diff.length() < this.speed) {
+            this.position.copy(base)
+            this.state = 'atBase'
+            this.base += 1
+        } else this.position.add(diff.normalize().multiplyScalar(this.speed))
     }
 
     update() {
