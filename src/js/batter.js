@@ -57,12 +57,12 @@ export default class Batter extends Bunny {
         this.swingBatAction.play()
     }
 
-    hit(ball) {
+    hit(ball, homerun) {
         if (!ball.inBattersBox()) return
 
         //if (this.isBunting) ball.velocity.set(0, 5, -15)
-        const speed = 30 + Math.random() * 70
-        const theta = Math.random() * ((Math.PI * 2) / 3) - Math.PI / 3
+        const speed = homerun ? 100 : 70//30 + Math.random() * 70
+        const theta = homerun ? Math.PI / 3 : Math.PI / 6  //Math.random() * ((Math.PI * 2) / 3) - Math.PI / 3
         const phi = Math.PI / 6
         ball.velocity.set(
             speed * Math.sin(phi) * Math.sin(theta),
@@ -99,7 +99,7 @@ export default class Batter extends Bunny {
             this.state = 'atBase'
             this.base += 1
         } else this.position.add(diff.normalize().multiplyScalar(this.speed))
-        
+
         if (this.base === 5) {
             this.state = 'in'
         }

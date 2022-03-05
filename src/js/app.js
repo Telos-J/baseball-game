@@ -4,17 +4,17 @@ import '../icon-192.png'
 import '../icon-512.png'
 import '../css/style.scss'
 import * as THREE from 'three'
-import { setHelpers } from './helpers'
-import { onLoadDo } from './loaders'
-import { ambientLight, dirLight } from './light'
-import { worldDimensions, toWorldDimensions } from './world'
-import { setupListeners } from './listeners'
+import {setHelpers} from './helpers'
+import {onLoadDo} from './loaders'
+import {ambientLight, dirLight} from './light'
+import {worldDimensions, toWorldDimensions} from './world'
+import {setupListeners} from './listeners'
 import camera from './camera'
 import Ball from './ball'
 import Stadium from './stadium'
 import Pitcher from './pitcher'
-import Fielder, { fielders } from './fielder'
-import Batter, { batters } from './batter'
+import Fielder, {fielders} from './fielder'
+import Batter, {batters} from './batter'
 import Bat from './bat'
 
 async function setupGame() {
@@ -93,23 +93,25 @@ async function resetGame() {
     waiting[0].name = 'controlBatter'
     const nextControlBatter = scene.getObjectByName('controlBatter')
     nextControlBatter.equipBat(bat)
-    
+
+    waiting = batters.filter(batter => batter.state === 'waiting').sort((batter1, batter2) => {
+        return batter1.position.x - batter2.position.x
+    })
+
     for (const batter of batters) {
         if (batter.state === 'out' || batter.state === 'in') {
-            
             batter.rotation.set(0, Math.PI * 1.26, 0)
             batter.position.copy(
-                toWorldDimensions(482 + 15 * (waiting.length - 1), 0, 596 - 15 * (waiting.length - 1))
+                toWorldDimensions(482 + 15 * (waiting.length), 0, 596 - 15 * (waiting.length))
             )
-            console.log(waiting.length)
+            batter.state = 'waiting'
             waiting = batters.filter(batter => batter.state === 'waiting').sort((batter1, batter2) => {
                 return batter1.position.x - batter2.position.x
             })
-            batter.state = 'waiting'
         }
         isReset = false
     }
-}  
+}
 
 function startGame() {
     const pitcher = scene.getObjectByName('pitcher')
@@ -163,7 +165,7 @@ const renderer = new THREE.WebGLRenderer()
 renderer.setSize(window.innerWidth, window.innerHeight)
 document.body.appendChild(renderer.domElement)
 
-const { controls } = setHelpers(scene, renderer)
+const {controls} = setHelpers(scene, renderer)
 scene.add(ambientLight)
 scene.add(dirLight)
 
