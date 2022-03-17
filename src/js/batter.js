@@ -97,8 +97,12 @@ export default class Batter extends Bunny {
         if (diff.length() < this.speed) {
             this.position.copy(base)
             this.state = 'atBase'
+            worldDimensions.baseOccupied[this.base - 1] = true
             this.base += 1
-        } else this.position.add(diff.normalize().multiplyScalar(this.speed))
+        } else {
+            this.position.add(diff.normalize().multiplyScalar(this.speed))
+            worldDimensions.baseOccupied[this.base - 2] = false
+        }
 
         if (this.base === 5) {
             this.state = 'in'
