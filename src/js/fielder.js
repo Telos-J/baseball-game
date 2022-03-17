@@ -1,5 +1,6 @@
 import Bunny from './bunny'
 import Glove from './glove'
+import {worldDimensions, toWorldDimensions} from './world'
 
 export const fielders = []
 
@@ -52,7 +53,7 @@ export default class Fielder extends Bunny {
     }
 
     shouldMoveToPrediction() {
-        return this === closestFielder() && this.position.distanceTo(this.prediction)
+        return this === closestFielder(this.prediction, fielders) && this.position.distanceTo(this.prediction)
     }
 
     moveToPrediction() {
@@ -102,10 +103,14 @@ export default class Fielder extends Bunny {
         batter.base = 1
     }
 
-    shouldMoveToPriorityBase() {
+    shouldMoveToPriorityBase(ball) {
+        const noPredictionFielders = fielders.filter(fielder => fielder !== closestFielder(this.prediction, fielders))
+        const priorityBase = toWorldDimensions(...worldDimensions[`base1Position`])
+        return this === closestFielder(priorityBase, noPredictionFielders) && ball.state === 'hit'  
     }
 
     moveToPriorityBase() {
+        console.log(`${this.name} is moving...`)
     }
 
     update(ball, batter) {
@@ -113,18 +118,19 @@ export default class Fielder extends Bunny {
         if (this.shouldMoveToPrediction()) this.moveToPrediction()
         if (this.shouldMakeBatterOut(ball, batter)) this.makeBatterOut(batter)
         if (this.shouldCatchBall(ball)) this.catchBall(ball)
-        if (this.shouldMoveToPriorityBase()) this.moveToPriorityBase()
+        if (this.shouldMoveToPriorityBase(ball)) this.moveToPriorityBase()
     }
 }
 
-export function closestFielder() {
-    for (const fielder of fielders) if (!fielder.prediction) return
-
+export function closestFielder(position, fielders) {
+    for (const fielder of fielders) if (!position) return
     const sortedFielders = fielders.sort(
         (fielder1, fielder2) =>
-            fielder1.position.distanceTo(fielder1.prediction) -
-            fielder2.position.distanceTo(fielder2.prediction)
+            fielder1.position.distanceTo(position) -
+            fielder2.position.distanceTo(position)
     )
+
+
 
     return sortedFielders[0]
 }
