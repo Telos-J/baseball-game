@@ -102,11 +102,18 @@ export default class Fielder extends Bunny {
         batter.base = 1
     }
 
+    shouldMoveToPriorityBase() {
+    }
+
+    moveToPriorityBase() {
+    }
+
     update(ball, batter) {
         if (this.shouldPredict(ball)) this.predict(ball)
         if (this.shouldMoveToPrediction()) this.moveToPrediction()
         if (this.shouldMakeBatterOut(ball, batter)) this.makeBatterOut(batter)
         if (this.shouldCatchBall(ball)) this.catchBall(ball)
+        if (this.shouldMoveToPriorityBase()) this.moveToPriorityBase()
     }
 }
 
