@@ -12,6 +12,7 @@ export default class Fielder extends Bunny {
         this.name = name
         this.state = 'idle'
         this.prediction = null
+        this.priorityBase = null
         this.equipGlove()
         this.speed = 5
         fielders.push(this)
@@ -57,7 +58,6 @@ export default class Fielder extends Bunny {
     }
 
     moveToPrediction() {
-        this.state = 'moveToPrediction'
         const prediction = this.prediction.clone()
         this.lookAt(prediction)
         prediction.sub(this.position)
@@ -105,12 +105,17 @@ export default class Fielder extends Bunny {
 
     shouldMoveToPriorityBase(ball) {
         const noPredictionFielders = fielders.filter(fielder => fielder !== closestFielder(this.prediction, fielders))
-        const priorityBase = toWorldDimensions(...worldDimensions[`base1Position`])
-        return this === closestFielder(priorityBase, noPredictionFielders) && ball.state === 'hit'  
+        this.priorityBase = toWorldDimensions(...worldDimensions[`base1Position`])
+        return this === closestFielder(this.priorityBase, noPredictionFielders) && ball.state === 'hit'
     }
 
     moveToPriorityBase() {
-        console.log(`${this.name} is moving...`)
+        const priorityBase = this.priorityBase.clone()
+        this.lookAt(priorityBase)
+        priorityBase.sub(this.position)
+        if (priorityBase.length() < this.speed) {
+            this.position.copy(this.priorityBase)
+        } else this.position.add(priorityBase.normalize().multiplyScalar(this.speed))
     }
 
     update(ball, batter) {
