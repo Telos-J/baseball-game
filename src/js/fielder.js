@@ -106,6 +106,7 @@ export default class Fielder extends Bunny {
     shouldMoveToPriorityBase(ball) {
         const noPredictionFielders = fielders.filter(fielder => fielder !== closestFielder(this.prediction, fielders))
         this.priorityBase = toWorldDimensions(...worldDimensions[`base1Position`])
+        console.log(worldDimensions.baseOccupied)
         return this === closestFielder(this.priorityBase, noPredictionFielders) && ball.state === 'hit'
     }
 
