@@ -3,7 +3,6 @@ import {setSwingBat} from './animations/swingBat'
 import camera from './camera'
 import * as THREE from 'three'
 import {worldDimensions, toWorldDimensions} from './world'
-import {TextureGCSystem} from 'pixi.js'
 
 export const batters = []
 
@@ -99,7 +98,7 @@ export default class Batter extends Bunny {
             this.state = 'atBase'
             this.base++
         } else {
-            this.position.add(diff.normalize().multiplyScalar(this.speed))            
+            this.position.add(diff.normalize().multiplyScalar(this.speed))
         }
 
         if (this.base === 5) {

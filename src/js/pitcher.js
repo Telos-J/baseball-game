@@ -1,5 +1,5 @@
 import Bunny from './bunny'
-import { worldDimensions } from './world'
+import {worldDimensions} from './world'
 
 export default class Pitcher extends Bunny {
     constructor() {
@@ -11,7 +11,7 @@ export default class Pitcher extends Bunny {
     }
 
     pitch(ball) {
-        ball.velocity.set(0, 0, 27)
+        ball.velocity.set(0, 0, 10)
         ball.angularVelocity.set(0, Math.PI / 30, 0)
         ball.state = 'pitching'
         this.state = 'pitched'

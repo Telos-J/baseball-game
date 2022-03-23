@@ -16,10 +16,12 @@ import Pitcher from './pitcher'
 import Fielder, {fielders} from './fielder'
 import Batter, {batters} from './batter'
 import Bat from './bat'
+import Catcher from './catcher'
 
 async function setupGame() {
     const stadium = await Stadium(worldDimensions)
     const pitcher = new Pitcher()
+    const catcher = new Catcher()
     const fielder1B = new Fielder('fielder1B', toWorldDimensions(518, 0, 405))
     const fielder2B = new Fielder('fielder2B', toWorldDimensions(476, 0, 342))
     const fielder3B = new Fielder('fielder3B', toWorldDimensions(275, 0, 394))
@@ -45,6 +47,7 @@ async function setupGame() {
     scene.add(bat)
     scene.add(stadium)
     scene.add(pitcher)
+    scene.add(catcher)
     scene.add(fielder1B)
     scene.add(fielder2B)
     scene.add(fielder3B)
@@ -69,7 +72,10 @@ async function resetGame() {
     const bat = await Bat()
     const ball = scene.getObjectByName('ball')
     const pitcher = scene.getObjectByName('pitcher')
+    const catcher = scene.getObjectByName('catcher')
     const controlBatter = scene.getObjectByName('controlBatter')
+
+    catcher.reset()
 
     for (const fielder of fielders) {
         fielder.reset()
@@ -137,8 +143,11 @@ function gameLoop() {
     ball.move()
     ball.bound(scene)
     const controlBatter = scene.getObjectByName('controlBatter')
+    const catcher = scene.getObjectByName('catcher')
 
     controlBatter.swingBatMixer.update(1 / 30)
+
+    catcher.update(ball)
 
     for (const fielder of fielders) {
         fielder.update(ball, controlBatter)

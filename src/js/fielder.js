@@ -122,7 +122,6 @@ export default class Fielder extends Bunny {
         } else if (isBaseSituation([true, true, true])) {
             this.priorityBase = toWorldDimensions(...worldDimensions[`base4Position`])
         }
-        console.log(worldDimensions.baseOccupied)
         return this === closestFielder(this.priorityBase, noPredictionFielders) && ball.state === 'hit'
     }
 
