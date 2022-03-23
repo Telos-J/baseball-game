@@ -9,7 +9,7 @@ const worldDimensions = {
     base2Position: [403, 0, 315],
     base3Position: [275, 0, 438],
     base4Position: [403, 0, 590],
-    baseOccupied: [false, false, false, false]
+    baseOccupied: [false, false, false]
 }
 
 function toWorldDimensions(x, y, z) {

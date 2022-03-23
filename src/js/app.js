@@ -111,6 +111,14 @@ async function resetGame() {
         }
         isReset = false
     }
+
+    worldDimensions.baseOccupied = [false, false, false]
+
+    for (const batter of batters) {
+        if (batter.state !== 'waiting' && batter.base !== 1) {
+            worldDimensions.baseOccupied[batter.base - 2] = true
+        }
+    }
 }
 
 function startGame() {
