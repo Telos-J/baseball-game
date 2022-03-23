@@ -20,4 +20,11 @@ function toWorldDimensions(x, y, z) {
     )
 }
 
-export { worldDimensions, toWorldDimensions }
+function isBaseSituation(baseSituation) {
+    return baseSituation[0] === worldDimensions.baseOccupied[0]
+        && baseSituation[1] === worldDimensions.baseOccupied[1]
+        && baseSituation[2] === worldDimensions.baseOccupied[2]
+}
+
+
+export { worldDimensions, toWorldDimensions, isBaseSituation }

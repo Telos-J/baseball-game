@@ -16,7 +16,7 @@ export default class Batter extends Bunny {
         this.isBunting = false
         this.isSwinging = false
         this.state = 'waiting'
-        this.speed = 6.5
+        this.speed = 5
         this.base = 1
         batters.push(this)
     }

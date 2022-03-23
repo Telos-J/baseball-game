@@ -1,6 +1,6 @@
 import Bunny from './bunny'
 import Glove from './glove'
-import {worldDimensions, toWorldDimensions} from './world'
+import {worldDimensions, toWorldDimensions, isBaseSituation} from './world'
 
 export const fielders = []
 
@@ -105,10 +105,35 @@ export default class Fielder extends Bunny {
 
     shouldMoveToPriorityBase(ball) {
         const noPredictionFielders = fielders.filter(fielder => fielder !== closestFielder(this.prediction, fielders))
-        this.priorityBase = toWorldDimensions(...worldDimensions[`base1Position`])
+        if (isBaseSituation([false, false, false])) {
+            this.priorityBase = toWorldDimensions(...worldDimensions[`base1Position`])
+        } else if (isBaseSituation([true, false, false])) {
+            this.priorityBase = toWorldDimensions(...worldDimensions[`base2Position`])
+        } else if (isBaseSituation([false, true, false])) {
+            this.priorityBase = toWorldDimensions(...worldDimensions[`base1Position`])
+        } else if (isBaseSituation([false, false, true])) {
+            this.priorityBase = toWorldDimensions(...worldDimensions[`base4Position`])
+        } else if (isBaseSituation([true, true, false])) {
+            this.priorityBase = toWorldDimensions(...worldDimensions[`base3Position`])
+        } else if (isBaseSituation([false, true, true])) {
+            this.priorityBase = toWorldDimensions(...worldDimensions[`base4Position`])
+        } else if (isBaseSituation([true, false, true])) {
+            this.priorityBase = toWorldDimensions(...worldDimensions[`base4Position`])
+        } else if (isBaseSituation([true, true, true])) {
+            this.priorityBase = toWorldDimensions(...worldDimensions[`base4Position`])
+        }
         console.log(worldDimensions.baseOccupied)
         return this === closestFielder(this.priorityBase, noPredictionFielders) && ball.state === 'hit'
     }
+
+    //0, 0, 0: 1st Base, 1st Base, 1st Base
+    //1, 0, 0: 2nd base -> 1st base, 2nd base -> 1st base, 1st base 
+    //0, 1, 0: 1st base, 1st base, 1st base
+    //0, 0, 1: home base -> 1st base, home base -> 1st base, 1st base
+    //1, 1, 0: 3rd base -> 2nd Base, 2nd Base -> 1st Base, 1st Base
+    //0, 1, 1: home base -> 1st base, home base -> 1st base, 1st base
+    //1, 0, 1: home base -> 2nd base, 2nd Base -> 1st Base, 1st Base
+    //1, 1, 1: home base -> 1st base, 2nd base -> 1st base, closest base to fielder with ball
 
     moveToPriorityBase() {
         const priorityBase = this.priorityBase.clone()
