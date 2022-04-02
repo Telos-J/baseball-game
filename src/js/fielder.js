@@ -85,6 +85,7 @@ export default class Fielder extends Bunny {
         ball.stop()
         ball.position.set(6, 12, 14)
         ball.state = 'caught'
+        this.throwToPriorityBase(ball)
     }
 
     shouldMakeBatterOut(ball, batter) {
@@ -141,6 +142,10 @@ export default class Fielder extends Bunny {
         if (priorityBase.length() < this.speed) {
             this.position.copy(this.priorityBase)
         } else this.position.add(priorityBase.normalize().multiplyScalar(this.speed))
+    }
+
+    throwToPriorityBase(ball) {
+        console.log('throw')
     }
 
     update(ball, batter) {
