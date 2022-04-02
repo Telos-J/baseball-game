@@ -63,6 +63,7 @@ export default class Fielder extends Bunny {
         prediction.sub(this.position)
         if (prediction.length() < this.speed) {
             this.position.copy(this.prediction)
+            this.rotation.set(0, 0, 0)
         } else this.position.add(prediction.normalize().multiplyScalar(this.speed))
     }
 
@@ -84,7 +85,6 @@ export default class Fielder extends Bunny {
         ball.stop()
         ball.position.set(6, 12, 14)
         ball.state = 'caught'
-        this.rotation.set(0, 0, 0)
     }
 
     shouldMakeBatterOut(ball, batter) {
@@ -112,15 +112,15 @@ export default class Fielder extends Bunny {
         } else if (isBaseSituation([false, true, false])) {
             this.priorityBase = toWorldDimensions(...worldDimensions[`base1Position`])
         } else if (isBaseSituation([false, false, true])) {
-            this.priorityBase = toWorldDimensions(...worldDimensions[`base4Position`])
+            return
         } else if (isBaseSituation([true, true, false])) {
             this.priorityBase = toWorldDimensions(...worldDimensions[`base3Position`])
         } else if (isBaseSituation([false, true, true])) {
-            this.priorityBase = toWorldDimensions(...worldDimensions[`base4Position`])
+            return
         } else if (isBaseSituation([true, false, true])) {
-            this.priorityBase = toWorldDimensions(...worldDimensions[`base4Position`])
+            return
         } else if (isBaseSituation([true, true, true])) {
-            this.priorityBase = toWorldDimensions(...worldDimensions[`base4Position`])
+            return
         }
         return this === closestFielder(this.priorityBase, noPredictionFielders) && ball.state === 'hit'
     }

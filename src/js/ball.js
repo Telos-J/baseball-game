@@ -1,6 +1,6 @@
 import * as THREE from 'three'
-import { gltfLoader } from './loaders'
-import { worldDimensions } from './world'
+import {gltfLoader} from './loaders'
+import {worldDimensions} from './world'
 import camera from './camera'
 
 export default async function Ball() {
@@ -49,7 +49,7 @@ export default async function Ball() {
             ball.stop()
         }
 
-        if (ball.position.z > worldDimensions.stadiumHeight * 0.02) {
+        if (ball.position.z > worldDimensions.stadiumHeight * 0.015) {
             ball.stop()
             ball.reset(scene)
         }

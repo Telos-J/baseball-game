@@ -34,7 +34,7 @@ async function setupGame() {
             `batter${i + 1}`,
             toWorldDimensions(482 + (i - 1) * 15, 0, 596 - (i - 1) * 15)
         )
-        batter.color = 0xffffff * Math.random()
+        batter.color = 0x828282
         scene.add(batter)
     }
     batters[0].name = 'controlBatter'

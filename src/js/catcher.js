@@ -40,7 +40,6 @@ export default class Catcher extends Bunny {
 
     moveToPriorityBase() {
         const priorityBase = this.priorityBase.clone()
-        this.lookAt(priorityBase)
         priorityBase.sub(this.position)
         if (priorityBase.length() < this.speed) {
             this.position.copy(this.priorityBase)
