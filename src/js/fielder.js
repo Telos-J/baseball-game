@@ -145,12 +145,19 @@ export default class Fielder extends Bunny {
     }
 
     throwToPriorityBase(ball) {
-        const scene = this.parent
         ball.removeFromParent()
+        const scene = this.parent
         scene.add(ball)
         ball.position.copy(this.position)
         ball.position.y = ball.boxSize.y / 2
-        ball.velocity.set(0, 0, 20)
+        const speed = 20
+        const theta = Math.atan2(this.priorityBase.z - this.position.z, this.priorityBase.x - this.position.x) + Math.PI/2
+        ball.velocity.set(
+            speed * Math.sin(theta),
+            0,
+            -speed * Math.cos(theta)
+        )
+        
     }
 
     update(ball, batter) {

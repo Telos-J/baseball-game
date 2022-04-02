@@ -13,7 +13,7 @@ function setHelpers(scene, renderer) {
 
     const controls = new OrbitControls(camera, renderer.domElement)
     controls.minDistance = 10
-    controls.maxDistance = 1000
+    controls.maxDistance = 10000
     controls.object.position.set(0, 100, 200)
     controls.target = new THREE.Vector3(0, 50, 0)
     controls.update()
