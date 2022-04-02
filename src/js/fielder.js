@@ -145,7 +145,9 @@ export default class Fielder extends Bunny {
     }
 
     throwToPriorityBase(ball) {
-        console.log('throw')
+        
+        ball.velocity.set(0, 0, 10)
+        console.log ('yeet')
     }
 
     update(ball, batter) {
