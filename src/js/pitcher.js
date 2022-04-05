@@ -11,7 +11,8 @@ export default class Pitcher extends Bunny {
     }
 
     pitch(ball) {
-        ball.velocity.set(0, 0, 10)
+        let speed = 10 * Math.random() + 15
+        ball.velocity.set(0, 0, speed)
         ball.angularVelocity.set(0, Math.PI / 30, 0)
         ball.state = 'pitching'
         this.state = 'pitched'
