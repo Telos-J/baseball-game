@@ -46,7 +46,29 @@ export default class Catcher extends Bunny {
         } else this.position.add(priorityBase.normalize().multiplyScalar(this.speed))
     }
 
+    shouldCatchBall(ball) {
+        const ballPosition = ball.position.clone()
+        ballPosition.y = 0
+        ballPosition.sub(this.position)
+        return (
+            this.state !== 'caughtBall' &&
+            ballPosition.length() < ball.velocity.length() &&
+            ball.position.y < this.boxSize.y
+        )
+    }
+
+    catchBall(ball) {
+        console.log('catchBall')
+        ball.removeFromParent()
+        this.add(ball)
+        this.state = 'caughtBall'
+        ball.stop()
+        ball.position.set(6, 12, 14)
+        ball.state = 'caught'
+    }
+
     update(ball) {
         if (this.shouldMoveToPriorityBase(ball)) this.moveToPriorityBase()
+        if (this.shouldCatchBall(ball)) this.catchBall(ball)
     }
 }

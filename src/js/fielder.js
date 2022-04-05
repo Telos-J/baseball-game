@@ -73,19 +73,19 @@ export default class Fielder extends Bunny {
         ballPosition.sub(this.position)
         return (
             this.state !== 'caughtBall' &&
-            ballPosition.length() < this.speed &&
+            ballPosition.length() < this.speed * 2 &&
             ball.position.y < this.boxSize.y
         )
     }
 
     catchBall(ball) {
+        console.log('catchBall')
         ball.removeFromParent()
         this.add(ball)
         this.state = 'caughtBall'
         ball.stop()
         ball.position.set(6, 12, 14)
         ball.state = 'caught'
-        this.throwToPriorityBase(ball)
     }
 
     shouldMakeBatterOut(ball, batter) {
@@ -113,17 +113,19 @@ export default class Fielder extends Bunny {
         } else if (isBaseSituation([false, true, false])) {
             this.priorityBase = toWorldDimensions(...worldDimensions[`base1Position`])
         } else if (isBaseSituation([false, false, true])) {
-            return
+            this.priorityBase = toWorldDimensions(...worldDimensions[`base4Position`])
         } else if (isBaseSituation([true, true, false])) {
             this.priorityBase = toWorldDimensions(...worldDimensions[`base3Position`])
         } else if (isBaseSituation([false, true, true])) {
-            return
+            this.priorityBase = toWorldDimensions(...worldDimensions[`base4Position`])
         } else if (isBaseSituation([true, false, true])) {
-            return
+            this.priorityBase = toWorldDimensions(...worldDimensions[`base4Position`])
         } else if (isBaseSituation([true, true, true])) {
-            return
+            this.priorityBase = toWorldDimensions(...worldDimensions[`base4Position`])
         }
-        return this === closestFielder(this.priorityBase, noPredictionFielders) && ball.state === 'hit'
+        return this === closestFielder(this.priorityBase, noPredictionFielders)
+            && this.priorityBase !== toWorldDimensions(...worldDimensions[`base4Position`])
+            && ball.state === 'hit'
     }
 
     //0, 0, 0: 1st Base, 1st Base, 1st Base
@@ -144,20 +146,25 @@ export default class Fielder extends Bunny {
         } else this.position.add(priorityBase.normalize().multiplyScalar(this.speed))
     }
 
+    shouldThrowToPriortyBase() {
+        return (this.state === 'caughtBall')
+    }
+
     throwToPriorityBase(ball) {
+        this.state = 'idle'
         ball.removeFromParent()
         const scene = this.parent
         scene.add(ball)
         ball.position.copy(this.position)
-        ball.position.y = ball.boxSize.y / 2
+        ball.position.y = this.boxSize.y / 2
         const speed = 20
-        const theta = Math.atan2(this.priorityBase.z - this.position.z, this.priorityBase.x - this.position.x) + Math.PI/2
+        const theta = Math.atan2(this.priorityBase.z - this.position.z, this.priorityBase.x - this.position.x) + Math.PI / 2
         ball.velocity.set(
             speed * Math.sin(theta),
             0,
             -speed * Math.cos(theta)
         )
-        
+
     }
 
     update(ball, batter) {
@@ -166,6 +173,7 @@ export default class Fielder extends Bunny {
         if (this.shouldMakeBatterOut(ball, batter)) this.makeBatterOut(batter)
         if (this.shouldCatchBall(ball)) this.catchBall(ball)
         if (this.shouldMoveToPriorityBase(ball)) this.moveToPriorityBase()
+        if (this.shouldThrowToPriortyBase()) this.throwToPriorityBase(ball)
     }
 }
 
