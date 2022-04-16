@@ -50,15 +50,16 @@ export default async function Ball() {
         }
 
         if (ball.position.z > worldDimensions.stadiumHeight * 0.015) {
-            ball.stop()
             ball.reset(scene)
         }
     }
 
     ball.reset = scene => {
+        if (ball.state === 'pitchReady') return
         const pitcher = ball.pitcher
-        // camera.setAngleBatting()
+        //camera.setAngleBatting()
         ball.state = 'pitchReady'
+        ball.stop()
         ball.removeFromParent()
         scene.add(ball)
         pitcher.equipBall(ball)
