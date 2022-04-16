@@ -150,7 +150,7 @@ function gameLoop() {
     catcher.update(ball)
 
     for (const fielder of fielders) {
-        fielder.update(ball, controlBatter)
+        fielder.update(ball, controlBatter, batters)
     }
 
     if (shouldReset()) {
