@@ -102,7 +102,13 @@ export default class Fielder extends Bunny {
     }
 
     thrownOut(ball, batter) {
-        return false
+        return (
+            this.priorityBase &&
+            batter.priorityBase.equals(this.priorityBase) &&
+            batter.state === 'running' &&
+            ball.state === 'caught' &&
+            this.state === 'caughtBall'
+        )
     }
 
     shouldMakeBatterOut(ball, batter) {

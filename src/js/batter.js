@@ -17,6 +17,7 @@ export default class Batter extends Bunny {
         this.state = 'waiting'
         this.speed = 5
         this.base = 1
+        this.priorityBase = toWorldDimensions(...worldDimensions[`base${this.base}Position`])
         batters.push(this)
     }
 
@@ -90,11 +91,11 @@ export default class Batter extends Bunny {
     }
 
     run() {
-        const base = toWorldDimensions(...worldDimensions[`base${this.base}Position`])
-        const diff = base.clone()
+        this.priorityBase = toWorldDimensions(...worldDimensions[`base${this.base}Position`])
+        const diff = this.priorityBase.clone()
         diff.sub(this.position)
         if (diff.length() < this.speed) {
-            this.position.copy(base)
+            this.position.copy(this.priorityBase)
             this.state = 'atBase'
             this.base++
         } else {
