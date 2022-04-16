@@ -95,32 +95,24 @@ export default class Fielder extends Bunny {
         ballPosition.sub(this.position)
         return (
             (ball.state === 'hit' &&
-            ballPosition.length() < this.speed &&
-            ball.position.y > ball.boxSize.y / 2 &&
-            ball.position.y < this.boxSize.y)
+                ballPosition.length() < this.speed &&
+                ball.position.y > ball.boxSize.y / 2 &&
+                ball.position.y < this.boxSize.y)
         )
     }
 
-// 1. Batter has to be running
-    
-    thrownOut(ball, batters) {
-        return (
-            false
-        )
+    thrownOut(ball, batter) {
+        return false
     }
 
-    shouldMakeBatterOut(ball, batter, batters) {
-        return (
-            this.isFlyBall(ball)
-            ||
-            this.thrownOut(ball, batters)
-        )
+    shouldMakeBatterOut(ball, batter) {
+        return (batter.name === 'controlBatter' && this.isFlyBall(ball)) || this.thrownOut(ball, batter)
+
     }
 
     makeBatterOut(batter) {
         batter.state = 'out'
         batter.base = 1
-        console.log('out')
     }
 
     shouldSetPriorityBase(ball) {
@@ -194,10 +186,11 @@ export default class Fielder extends Bunny {
 
     }
 
-    update(ball, batter,  batters) {
+    update(ball, batters) {
         if (this.shouldPredict(ball)) this.predict(ball)
         if (this.shouldMoveToPrediction()) this.moveToPrediction()
-        if (this.shouldMakeBatterOut(ball, batter, batters)) this.makeBatterOut(batter)
+        for (const batter of batters)
+            if (this.shouldMakeBatterOut(ball, batter)) this.makeBatterOut(batter)
         if (this.shouldCatchBall(ball)) this.catchBall(ball)
         if (this.shouldSetPriorityBase(ball)) this.setPriorityBase()
         if (this.shouldMoveToPriorityBase(ball)) this.moveToPriorityBase()
