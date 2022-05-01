@@ -52,15 +52,15 @@
       transform: rotate(45deg);
 
       &#base1 {
-        transform: translate(80%, 0%) rotate(45deg);
+        transform: translate(80%, 30%) rotate(45deg);
       }
 
       &#base2 {
-        transform: translate(0%, -80%) rotate(45deg);
+        transform: translate(0%, -50%) rotate(45deg);
       }
 
       &#base3 {
-        transform: translate(-80%, 0%) rotate(45deg);
+        transform: translate(-80%, 30%) rotate(45deg);
       }
 
       &.checked {
@@ -71,5 +71,26 @@
   .score-container {
     width: 30%;
     height: 100%;
+    .score-text {
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      color: white;
+      font-family: sans-serif;
+      height: 40%;
+      width: 100%;
+      text-align: center;
+      font-size: 1.5rem;
+      padding: 0.3rem;
+    }
+    .score-num {
+      color: white;
+      font-family: sans-serif;
+      height: 60%;
+      width: 100%;
+      text-align: center;
+      font-size: 4rem;
+      line-height: 4rem;
+    }
   }
 }
