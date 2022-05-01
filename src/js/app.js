@@ -104,6 +104,21 @@ async function resetGame() {
         return batter1.position.x - batter2.position.x
     })
 
+    let outs = 0
+    const outDots = document.querySelectorAll('.out-dot')
+    for (const outDot of outDots) {
+        if (outDot.classList.contains('checked')) outs++
+    }
+
+    const newOuts = batters.filter(batter => batter.state === 'out').length
+    outs += newOuts
+    if (outs > 3) outs = 3
+
+    outDots.forEach((outDot, i) => {
+        if (i < outs) outDot.classList.add('checked')
+        else outDot.classList.remove('checked')
+    })
+
     for (const batter of batters) {
         if (batter.state === 'out' || batter.state === 'in') {
             batter.rotation.set(0, Math.PI * 1.26, 0)
@@ -125,6 +140,15 @@ async function resetGame() {
             worldDimensions.baseOccupied[batter.base - 2] = true
         }
     }
+
+    worldDimensions.baseOccupied.forEach((isOccupied, i) => {
+        const base = document.querySelector(`#base${i + 1}`)
+        if (isOccupied) {
+            base.classList.add('checked')
+        } else {
+            base.classList.remove('checked')
+        }
+    })
 }
 
 function startGame() {
