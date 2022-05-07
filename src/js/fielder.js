@@ -14,7 +14,7 @@ export default class Fielder extends Bunny {
         this.prediction = null
         this.priorityBase = null
         this.equipGlove()
-        this.speed = 5
+        this.speed = 2
         fielders.push(this)
     }
 

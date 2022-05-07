@@ -119,6 +119,14 @@ async function resetGame() {
         else outDot.classList.remove('checked')
     })
 
+    const scoreNum = document.querySelector('.score-num')
+
+    for (const batter of batters) {
+        if (batter.state === 'in') {
+            scoreNum.innerHTML = parseInt(scoreNum.innerHTML) + 1
+        }
+    }
+
     for (const batter of batters) {
         if (batter.state === 'out' || batter.state === 'in') {
             batter.rotation.set(0, Math.PI * 1.26, 0)
