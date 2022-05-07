@@ -48,10 +48,6 @@ export default async function Ball() {
             ball.position.y = ball.boxSize.y / 2
             ball.stop()
         }
-
-        if (ball.position.z > worldDimensions.stadiumHeight * 0.015) {
-            ball.reset(scene)
-        }
     }
 
     ball.reset = scene => {
@@ -76,7 +72,9 @@ export default async function Ball() {
     }
 
     ball.inBattersBox = () => {
-        return ball.position.z < 20 && ball.position.z > -40
+        return ball.state === 'pitching' &&
+            ball.position.z < worldDimensions.stadiumHeight * 0.006 &&
+            ball.position.z > -worldDimensions.stadiumHeight * 0.013
     }
 
     return ball

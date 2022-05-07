@@ -75,8 +75,6 @@ async function resetGame() {
     const catcher = scene.getObjectByName('catcher')
     const controlBatter = scene.getObjectByName('controlBatter')
 
-    catcher.reset()
-
     for (const fielder of fielders) {
         fielder.reset()
     }
@@ -88,22 +86,30 @@ async function resetGame() {
         return batter1.position.x - batter2.position.x
     })
 
-    for (const w of waiting) {
-        const prevPosition = w.position
-        const offset = toWorldDimensions(418.07, 0, 605)
-        w.position.set(prevPosition.x - offset.x, 0, prevPosition.z + offset.z)
+    // determine strike, if not switch controlBatter
+    if (controlBatter.state !== 'atBase' && controlBatter.state !== 'running' && catcher.state === 'caughtBall') {
+        console.log('strike')
+    } else {
+        for (const w of waiting) {
+            const prevPosition = w.position
+            const offset = toWorldDimensions(418.07, 0, 605)
+            w.position.set(prevPosition.x - offset.x, 0, prevPosition.z + offset.z)
+        }
+
+        controlBatter.name = 'batter'
+
+        waiting[0].name = 'controlBatter'
+        const nextControlBatter = scene.getObjectByName('controlBatter')
+        nextControlBatter.equipBat(bat)
     }
 
-    controlBatter.name = 'batter'
-
-    waiting[0].name = 'controlBatter'
-    const nextControlBatter = scene.getObjectByName('controlBatter')
-    nextControlBatter.equipBat(bat)
+    catcher.reset()
 
     waiting = batters.filter(batter => batter.state === 'waiting').sort((batter1, batter2) => {
         return batter1.position.x - batter2.position.x
     })
 
+    // set outs on scoreboard
     let outs = 0
     const outDots = document.querySelectorAll('.out-dot')
     for (const outDot of outDots) {
@@ -119,6 +125,7 @@ async function resetGame() {
         else outDot.classList.remove('checked')
     })
 
+    // set runs on scoreboard
     const scoreNum = document.querySelector('.score-num')
 
     for (const batter of batters) {
@@ -127,6 +134,7 @@ async function resetGame() {
         }
     }
 
+    // move in or out batters to waiting
     for (const batter of batters) {
         if (batter.state === 'out' || batter.state === 'in') {
             batter.rotation.set(0, Math.PI * 1.26, 0)
@@ -141,6 +149,7 @@ async function resetGame() {
         isReset = false
     }
 
+    // update baseOccupied property of worldDimensions
     worldDimensions.baseOccupied = [false, false, false]
 
     for (const batter of batters) {
@@ -149,6 +158,7 @@ async function resetGame() {
         }
     }
 
+    // set bases on scoreboard
     worldDimensions.baseOccupied.forEach((isOccupied, i) => {
         const base = document.querySelector(`#base${i + 1}`)
         if (isOccupied) {
