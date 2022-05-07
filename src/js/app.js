@@ -86,9 +86,25 @@ async function resetGame() {
         return batter1.position.x - batter2.position.x
     })
 
-    // determine strike, if not switch controlBatter
+        // determine strike, if not switch controlBatter
+        //set strikes on scoreboard
+        let strikes = 0
     if (controlBatter.state !== 'atBase' && controlBatter.state !== 'running' && catcher.state === 'caughtBall') {
         console.log('strike')
+        const strikeDots = document.querySelectorAll('.strike-dot')
+        for (const strikeDot of strikeDots) {
+            if (strikeDot.classList.contains('checked')) strikes++
+        }
+
+        strikes++
+
+        if (strikes > 3) {
+            strikes = 3
+        }
+        strikeDots.forEach((strikeDot, i) => {
+            if (i < strikes) strikeDot.classList.add('checked')
+            else strikeDot.classList.remove('checked')
+        })
     } else {
         for (const w of waiting) {
             const prevPosition = w.position
