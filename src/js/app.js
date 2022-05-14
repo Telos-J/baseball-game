@@ -113,6 +113,15 @@ async function resetGame() {
         return batter1.position.x - batter2.position.x
     })
 
+     // set runs on scoreboard
+     const scoreNum = document.querySelector('.score-num')
+
+     for (const batter of batters) {
+         if (batter.state === 'in') {
+             scoreNum.innerHTML = parseInt(scoreNum.innerHTML) + 1
+         }
+     }
+    
     // set outs on scoreboard
     let outs = 0
     const outDots = document.querySelectorAll('.out-dot')
@@ -122,20 +131,14 @@ async function resetGame() {
 
     const newOuts = batters.filter(batter => batter.state === 'out').length
     outs += newOuts
-    if (outs > 3) outs = 3
 
     outDots.forEach((outDot, i) => {
         if (i < outs) outDot.classList.add('checked')
         else outDot.classList.remove('checked')
     })
 
-    // set runs on scoreboard
-    const scoreNum = document.querySelector('.score-num')
-
-    for (const batter of batters) {
-        if (batter.state === 'in') {
-            scoreNum.innerHTML = parseInt(scoreNum.innerHTML) + 1
-        }
+    if (outs >= 3) {
+        window.alert(`Congratulations! You got out! Your final score is ${scoreNum.innerHTML}`)
     }
 
     // move in or out batters to waiting
