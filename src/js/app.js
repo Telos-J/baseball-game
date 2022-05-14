@@ -98,9 +98,18 @@ async function resetGame() {
 
         strikes++
 
-        if (strikes > 3) {
-            strikes = 3
+        if (strikes >= 3) {
+            strikes = 0
+            controlBatter.state = "out"
+            controlBatter.name = "batter"
+            waiting[0].name = 'controlBatter'
+            const nextControlBatter = scene.getObjectByName('controlBatter')
+            nextControlBatter.equipBat(bat)
+            for (const strikeDot of strikeDots) {
+                strikeDot.classList.remove('checked')
+            }
         }
+
         strikeDots.forEach((strikeDot, i) => {
             if (i < strikes) strikeDot.classList.add('checked')
             else strikeDot.classList.remove('checked')
