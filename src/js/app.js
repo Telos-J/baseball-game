@@ -86,12 +86,12 @@ async function resetGame() {
         return batter1.position.x - batter2.position.x
     })
 
-        // determine strike, if not switch controlBatter
-        //set strikes on scoreboard
-        let strikes = 0
+    // determine strike, if not switch controlBatter
+    //set strikes on scoreboard
+    let strikes = 0
+    const strikeDots = document.querySelectorAll('.strike-dot')
     if (controlBatter.state !== 'atBase' && controlBatter.state !== 'running' && catcher.state === 'caughtBall') {
         console.log('strike')
-        const strikeDots = document.querySelectorAll('.strike-dot')
         for (const strikeDot of strikeDots) {
             if (strikeDot.classList.contains('checked')) strikes++
         }
@@ -110,6 +110,9 @@ async function resetGame() {
             const prevPosition = w.position
             const offset = toWorldDimensions(418.07, 0, 605)
             w.position.set(prevPosition.x - offset.x, 0, prevPosition.z + offset.z)
+            for (const strikeDot of strikeDots) {
+                strikeDot.classList.remove('checked')
+            }
         }
 
         controlBatter.name = 'batter'
@@ -176,7 +179,7 @@ async function resetGame() {
 
     // set bases on scoreboard
     worldDimensions.baseOccupied.forEach((isOccupied, i) => {
-        const base = document.querySelector(`#base${i + 1}`)
+        const base = document.querySelector(`#base${ i + 1 }`)
         if (isOccupied) {
             base.classList.add('checked')
         } else {
@@ -185,7 +188,7 @@ async function resetGame() {
     })
 }
 
-function startGame() {
+    function startGame() {
     const pitcher = scene.getObjectByName('pitcher')
     const ball = scene.getObjectByName('ball')
 
