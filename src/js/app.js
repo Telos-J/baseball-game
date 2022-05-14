@@ -34,7 +34,7 @@ async function setupGame() {
             `batter${i + 1}`,
             toWorldDimensions(482 + (i - 1) * 15, 0, 596 - (i - 1) * 15)
         )
-        batter.color = 0x828282
+        batter.color = Math.random() * 0xffffff//0x828282
         scene.add(batter)
     }
     batters[0].name = 'controlBatter'
@@ -101,20 +101,15 @@ async function resetGame() {
         if (strikes >= 3) {
             strikes = 0
             controlBatter.state = "out"
-            controlBatter.name = "batter"
-            waiting[0].name = 'controlBatter'
-            const nextControlBatter = scene.getObjectByName('controlBatter')
-            nextControlBatter.equipBat(bat)
-            for (const strikeDot of strikeDots) {
-                strikeDot.classList.remove('checked')
-            }
         }
 
         strikeDots.forEach((strikeDot, i) => {
             if (i < strikes) strikeDot.classList.add('checked')
             else strikeDot.classList.remove('checked')
         })
-    } else {
+    }
+
+    if (!(controlBatter.state !== 'atBase' && controlBatter.state !== 'running' && catcher.state === 'caughtBall') || controlBatter.state === 'out') {
         for (const w of waiting) {
             const prevPosition = w.position
             const offset = toWorldDimensions(418.07, 0, 605)
@@ -125,6 +120,7 @@ async function resetGame() {
         }
 
         controlBatter.name = 'batter'
+        controlBatter.unequipBat()
 
         waiting[0].name = 'controlBatter'
         const nextControlBatter = scene.getObjectByName('controlBatter')
@@ -188,7 +184,7 @@ async function resetGame() {
 
     // set bases on scoreboard
     worldDimensions.baseOccupied.forEach((isOccupied, i) => {
-        const base = document.querySelector(`#base${ i + 1 }`)
+        const base = document.querySelector(`#base${i + 1}`)
         if (isOccupied) {
             base.classList.add('checked')
         } else {
@@ -197,7 +193,7 @@ async function resetGame() {
     })
 }
 
-    function startGame() {
+function startGame() {
     const pitcher = scene.getObjectByName('pitcher')
     const ball = scene.getObjectByName('ball')
 

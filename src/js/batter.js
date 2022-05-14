@@ -83,6 +83,7 @@ export default class Batter extends Bunny {
 
     unequipBat() {
         const prevBat = this.getObjectByName('bat')
+        if (!prevBat) return
         prevBat.removeFromParent()
         const leftArm = this.getObjectByName('leftArm')
         leftArm.rotateY(Math.PI / 1.3)
