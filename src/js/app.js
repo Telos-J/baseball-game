@@ -88,27 +88,7 @@ async function resetGame() {
 
     // determine strike, if not switch controlBatter
     //set strikes on scoreboard
-    let strikes = 0
     const strikeDots = document.querySelectorAll('.strike-dot')
-    if (controlBatter.state !== 'atBase' && controlBatter.state !== 'running' && catcher.state === 'caughtBall') {
-        console.log('strike')
-        for (const strikeDot of strikeDots) {
-            if (strikeDot.classList.contains('checked')) strikes++
-        }
-
-        strikes++
-
-        if (strikes >= 3) {
-            strikes = 0
-            controlBatter.state = "out"
-        }
-
-        strikeDots.forEach((strikeDot, i) => {
-            if (i < strikes) strikeDot.classList.add('checked')
-            else strikeDot.classList.remove('checked')
-        })
-    }
-
     if (!(controlBatter.state !== 'atBase' && controlBatter.state !== 'running' && catcher.state === 'caughtBall') || controlBatter.state === 'out') {
         for (const w of waiting) {
             const prevPosition = w.position
@@ -213,7 +193,7 @@ function gameLoop() {
 
     controlBatter.swingBatMixer.update(1 / 30)
 
-    catcher.update(ball)
+    catcher.update(ball, controlBatter)
 
     for (const fielder of fielders) {
         fielder.update(ball, batters)

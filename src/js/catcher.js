@@ -57,7 +57,7 @@ export default class Catcher extends Bunny {
         )
     }
 
-    catchBall(ball) {
+    catchBall(ball, controlBatter) {
         console.log('catchBall')
         ball.removeFromParent()
         this.add(ball)
@@ -65,10 +65,31 @@ export default class Catcher extends Bunny {
         ball.stop()
         ball.position.set(6, 12, 14)
         ball.state = 'caught'
+
+        let strikes = 0
+
+        const strikeDots = document.querySelectorAll('.strike-dot')
+        if (controlBatter.state !== 'atBase' && controlBatter.state !== 'running' && this.state === 'caughtBall') {
+            for (const strikeDot of strikeDots) {
+                if (strikeDot.classList.contains('checked')) strikes++
+            }
+
+            strikes++
+
+            if (strikes >= 3) {
+                strikes = 3
+                controlBatter.state = "out"
+            }
+
+            strikeDots.forEach((strikeDot, i) => {
+                if (i < strikes) strikeDot.classList.add('checked')
+                else strikeDot.classList.remove('checked')
+            })
+        }
     }
 
-    update(ball) {
+    update(ball, controlBatter) {
         if (this.shouldMoveToPriorityBase(ball)) this.moveToPriorityBase()
-        if (this.shouldCatchBall(ball)) this.catchBall(ball)
+        if (this.shouldCatchBall(ball)) this.catchBall(ball, controlBatter)
     }
 }
