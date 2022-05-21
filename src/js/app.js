@@ -138,7 +138,12 @@ async function resetGame() {
     })
 
     if (outs >= 3) {
-        window.alert(`Congratulations! You got out! Your final score is ${scoreNum.innerHTML}`)
+        setTimeout(() => {
+            window.alert(`Congratulations! You got out! Your final score is ${ scoreNum.innerHTML }`)
+            for (const outDot of outDots) {
+                outDot.classList.remove('checked')
+            }
+        }, 100)
     }
 
     // move in or out batters to waiting
