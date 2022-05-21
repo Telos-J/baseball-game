@@ -122,7 +122,7 @@ export default class Fielder extends Bunny {
     }
 
     shouldSetPriorityBase(ball) {
-        return !this.priorityBase && ball.state === 'hit'
+        return !this.priorityBase && ball.state === 'hit' 
     }
 
     setPriorityBase() {
@@ -171,8 +171,13 @@ export default class Fielder extends Bunny {
     }
 
     shouldThrowToPriortyBase() {
+        if (this.state !== 'caughtBall') return 
         const noPredictionFielders = fielders.filter(fielder => fielder !== closestFielder(this.prediction, fielders))
-        return (this.state === 'caughtBall' && this !== closestFielder(this.priorityBase, noPredictionFielders))
+        const closestBunny = closestFielder(this.priorityBase, noPredictionFielders)
+        const priorityBase = closestBunny.priorityBase.clone()
+        priorityBase.sub(closestBunny.position)
+        const closestFielderIsClose = priorityBase.length() < closestBunny.speed * 5
+        return (this !== closestBunny && closestFielderIsClose)
     }
 
     throwToPriorityBase(ball) {
@@ -189,7 +194,6 @@ export default class Fielder extends Bunny {
             0,
             -speed * Math.cos(theta)
         )
-
     }
 
     update(ball, batters) {
