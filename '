@@ -74,7 +74,7 @@ export default class Fielder extends Bunny {
         ballPosition.sub(this.position)
         return (
             this.state !== 'caughtBall' &&
-            ballPosition.length() < this.speed * 3 &&
+            ballPosition.length() < this.speed * 2 &&
             ball.position.y < this.boxSize.y
         )
     }
@@ -149,7 +149,7 @@ export default class Fielder extends Bunny {
         const noPredictionFielders = fielders.filter(fielder => fielder !== closestFielder(this.prediction, fielders))
         return this === closestFielder(this.priorityBase, noPredictionFielders)
             && !this.priorityBase.equals(toWorldDimensions(...worldDimensions[`base4Position`]))
-            && (ball.state === 'hit' || ball.state === 'stop' || ball.state === 'caught')
+            && (ball.state === 'hit' || ball.state === 'stop')
     }
 
     //0, 0, 0: 1st Base, 1st Base, 1st Base
@@ -176,7 +176,7 @@ export default class Fielder extends Bunny {
         const closestBunny = closestFielder(this.priorityBase, noPredictionFielders)
         const priorityBase = closestBunny.priorityBase.clone()
         priorityBase.sub(closestBunny.position)
-        const closestFielderIsClose = priorityBase.length() === 0
+        const closestFielderIsClose = priorityBase.length() < closestBunny.speed * 5
         return (this !== closestBunny && closestFielderIsClose)
     }
 

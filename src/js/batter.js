@@ -58,11 +58,11 @@ export default class Batter extends Bunny {
     }
 
     hit(ball, homerun) {
-        // if (!ball.inBattersBox()) return
+        if (!ball.inBattersBox()) return
 
         //if (this.isBunting) ball.velocity.set(0, 5, -15)
-        const speed = 30 + Math.random() * 70 //homerun ? 100 : 70//
-        const theta = Math.random() * ((Math.PI * 2) / 3) - Math.PI / 3//  homerun ? Math.PI / 3 : Math.PI / 6  
+        const speed = 50//30 + Math.random() * 70 //homerun ? 100 : 70//
+        const theta = 0.8 * ((Math.PI * 2) / 3) - Math.PI / 3//  homerun ? Math.PI / 3 : Math.PI / 6  
         const phi = Math.PI / 3
         ball.velocity.set(
             speed * Math.sin(phi) * Math.sin(theta),
