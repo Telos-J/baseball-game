@@ -140,9 +140,7 @@ async function resetGame() {
     if (outs >= 3) {
         setTimeout(() => {
             window.alert(`Congratulations! You got out! Your final score is ${ scoreNum.innerHTML }`)
-            for (const outDot of outDots) {
-                outDot.classList.remove('checked')
-            }
+            location.reload
         }, 100)
     }
 
