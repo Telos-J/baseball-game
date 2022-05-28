@@ -140,9 +140,7 @@ async function resetGame() {
     if (outs >= 3) {
         setTimeout(() => {
             window.alert(`Congratulations! You got out! Your final score is ${ scoreNum.innerHTML }`)
-            location.reload
-            let strikes = 0
-            let outs = 0
+            location.reload()
         }, 100)
     }
 
