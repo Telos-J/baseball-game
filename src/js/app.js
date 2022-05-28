@@ -141,6 +141,8 @@ async function resetGame() {
         setTimeout(() => {
             window.alert(`Congratulations! You got out! Your final score is ${ scoreNum.innerHTML }`)
             location.reload
+            let strikes = 0
+            let outs = 0
         }, 100)
     }
 
