@@ -238,7 +238,7 @@ class Bunny extends PIXI.Sprite {
         this.rangeGraphic = new PIXI.Graphics()
         this.rangeGraphic.beginFill(0xffffff)
         this.rangeGraphic.arc(0, 9, this.range, 0, Math.PI * 2)
-        this.addChild(this.rangeGraphic)
+        //this.addChild(this.rangeGraphic)
         this.rangeGraphic.alpha = 0.2
         this.texture = loader.resources.bunny.texture
         game.addChild(this)
