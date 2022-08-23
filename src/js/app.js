@@ -80,7 +80,7 @@ async function resetGame() {
     }
 
     ball.reset(scene)
-    camera.setAngleBatting()
+    // camera.setAngleBatting()
 
     let waiting = batters.filter(batter => batter.state === 'waiting').sort((batter1, batter2) => {
         return batter1.position.x - batter2.position.x
