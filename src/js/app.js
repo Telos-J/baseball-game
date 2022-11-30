@@ -116,7 +116,7 @@ async function resetGame() {
      // set runs on scoreboard
      const scoreNum = document.querySelector('.score-num')
 
-     for (const batter of batters) {
+     for (const batter of batters) 
          if (batter.state === 'in') {
              scoreNum.innerHTML = parseInt(scoreNum.innerHTML) + 1
          }
