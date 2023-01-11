@@ -68,7 +68,7 @@ function shouldReset() {
     return ball.state === 'caught' && !isReset
 }
 
-async function resetGame(isReset) {
+async function resetGame() {
     const bat = await Bat()
     const ball = scene.getObjectByName('ball')
     const pitcher = scene.getObjectByName('pitcher')
@@ -80,7 +80,7 @@ async function resetGame(isReset) {
     }
 
     ball.reset(scene)
-    camera.setAngleBatting()
+    // camera.setAngleBatting()
 
     let waiting = batters.filter(batter => batter.state === 'waiting').sort((batter1, batter2) => {
         return batter1.position.x - batter2.position.x
@@ -209,8 +209,7 @@ function gameLoop() {
         isReset = true
         setTimeout(() => {
             resetGame()
-        }, 2000)
-        console.log("BA")
+        }, 5000)
     }
 
     // controls.update()
