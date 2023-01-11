@@ -51,9 +51,10 @@ export default async function Ball() {
     }
 
     ball.reset = scene => {
+        console.log("Working")
         if (ball.state === 'pitchReady') return
         const pitcher = ball.pitcher
-        //camera.setAngleBatting()
+        camera.setAngleBatting()
         ball.state = 'pitchReady'
         ball.stop()
         ball.removeFromParent()
@@ -74,7 +75,7 @@ export default async function Ball() {
     ball.inBattersBox = () => {
         return ball.state === 'pitching' &&
             ball.position.z < worldDimensions.stadiumHeight * 0.006 &&
-            ball.position.z > -worldDimensions.stadiumHeight * 0.013
+            ball.position.z > -worldDimensions.stadiumHeight * 0.020
     }
 
     return ball
