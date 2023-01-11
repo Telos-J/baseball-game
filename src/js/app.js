@@ -177,8 +177,8 @@ async function resetGame() {
             base.classList.remove('checked')
         }
     })
-}
 
+    
 function startGame() {
     const pitcher = scene.getObjectByName('pitcher')
     const ball = scene.getObjectByName('ball')
